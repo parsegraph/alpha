@@ -24,7 +24,7 @@ coverage:
 .PHONY: coverage
 
 prettier:
-	npx prettier --write src test demo
+	npx prettier --write src test demo www
 .PHONY: prettier
 
 lint:

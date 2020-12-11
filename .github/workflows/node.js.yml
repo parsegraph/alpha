@@ -24,7 +24,7 @@ jobs:
     - run: make
     - run: |
         mkdir parsegraph-alpha
-        cp -r -t parsegraph-alpha package.json package-lock.json README.md demo/ LICENSE dist/
+        cp -r -t parsegraph-alpha package.json package-lock.json README.md demo/ www/ LICENSE dist/
         tar cvzf parsegraph-alpha.tar.gz parsegraph-alpha/
     - uses: actions/upload-artifact@v2
       with:
