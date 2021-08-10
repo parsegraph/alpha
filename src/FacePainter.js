@@ -1,3 +1,6 @@
+import { compileShader } from "parsegraph-shader";
+import { createPagingBuffer } from "parsegraph-pagingbuffer";
+
 const alpha_FacePainter_VertexShader =
   'uniform mat4 u_world;\n' +
   '\n' +
@@ -58,7 +61,7 @@ export default class FacePainter {
     }
 
     // Prepare attribute buffers.
-    this.faceBuffer = parsegraph_createPagingBuffer(this.gl, this.faceProgram);
+    this.faceBuffer = createPagingBuffer(this.gl, this.faceProgram);
     this.a_position = this.faceBuffer.defineAttrib('a_position', 3);
     this.a_color = this.faceBuffer.defineAttrib('a_color', 4);
 

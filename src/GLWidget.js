@@ -8,7 +8,7 @@ import AlphaCamera from './Cam';
 import AlphaCluster from "./Cluster";
 import CubeMan from "./CubeMan";
 import { AlphaInput } from "./Input";
-import { AlphaVector, AlphaQuaternion, alphaQuaternionFromAxisAndAngle, alphaRandom } from "./Maths";
+import { AlphaVector, AlphaQuaternion, QuaternionFromAxisAndAngle, alphaRandom } from "./Maths";
 import Physical from "./Physical";
 import {elapsed} from 'parsegraph-timing';
 
@@ -138,7 +138,7 @@ export default class AlphaGLWidget extends Component {
   // first circle about the x-axis
   let rot = 0;
   for (let i = 0; i < 24; ++i) {
-    const q = alphaQuaternionFromAxisAndAngle(1, 0, 0, (rot * Math.PI) / 180);
+    const q = QuaternionFromAxisAndAngle(1, 0, 0, (rot * Math.PI) / 180);
     rot += 15;
     const p = q.RotatedVector(0, 0, -radius);
     this.sphereCluster.AddBlock(stone, p, 0);
@@ -146,7 +146,7 @@ export default class AlphaGLWidget extends Component {
 
   rot = 0;
   for (let i = 0; i < 24; ++i) {
-    const q = alphaQuaternionFromAxisAndAngle(0, 1, 0, (rot * Math.PI) / 180);
+    const q = QuaternionFromAxisAndAngle(0, 1, 0, (rot * Math.PI) / 180);
     rot += 15;
 
     const p = q.RotatedVector(0, 0, -radius);
@@ -325,5 +325,6 @@ render(width, height, avoidIfPossible) {
   this.sphereCluster.Draw(
       this.spherePhysical.GetViewMatrix().Multiplied(projection),
   );
+  return false;
 };
 };

@@ -4,7 +4,7 @@
 // --------------------------------------------
 // --------------------------------------------
 
-import { alpha_TRIANGLES, createBlock } from './BlockStuff';
+import { alpha_QUADS, alpha_TRIANGLES, createBlock } from './BlockStuff';
 import { AlphaVector } from './Maths';
 import FacePainter from './FacePainter';
 

@@ -12,7 +12,7 @@
 // TODO: acceleration
 
 import TestSuite from 'parsegraph-testsuite';
-import { AlphaQuaternion, AlphaRMatrix4, AlphaVector } from './Maths';
+import { AlphaQuaternion, AlphaRMatrix4, AlphaVector, QuaternionFromAxisAndAngle } from './Maths';
 
 // -----------------------------------
 // ------------ USAGE ----------------
