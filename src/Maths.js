@@ -1,6 +1,7 @@
+import { makePerspective } from 'parsegraph-matrix';
+
 const TestSuite = require('parsegraph-testsuite').default;
 const fuzzyEquals  = require('parsegraph-fuzzyequals').default;
-import {makePerspective} from '../gl';
 /* eslint-disable require-jsdoc, prefer-spread, new-cap */
 // Maths VERSION: 1.8.130828
 
@@ -72,7 +73,7 @@ AlphaVector.prototype.restore = function(json) {
 const alphaVectorTests = new TestSuite('AlphaVector');
 
 alphaVectorTests.addTest('AlphaVector.<constructor>', function() {
-  const v = new alphaVector(1, 2, 3);
+  const v = new AlphaVector(1, 2, 3);
   if (v[0] != 1 || v[1] != 2 || v[2] != 3) {
     return 'Constructor must accept arguments.';
   }
@@ -94,7 +95,7 @@ AlphaVector.prototype.Add = function(...args) {
 alphaVectorTests.addTest('AlphaVector.Add', function() {
   const a = new AlphaVector(3, 4, 0);
 
-  a.Add(new alphaVector(1, 2, 3));
+  a.Add(new AlphaVector(1, 2, 3));
   if (!a.Equals(4, 6, 3)) {
     return 'Add must add component-wise';
   }
@@ -364,17 +365,17 @@ alphaQuaternionTests.addTest(
     function() {
       const m = new alphaRMatrix4();
       const rotq = Math.PI / 2;
-      m.Rotate(alphaQuaternionFromAxisAndAngle(0, 1, 1, rotq));
-      m.Rotate(alphaQuaternionFromAxisAndAngle(1, 0, 0, rotq));
-      m.Rotate(alphaQuaternionFromAxisAndAngle(1, 0, 1, rotq));
+      m.Rotate(QuaternionFromAxisAndAngle(0, 1, 1, rotq));
+      m.Rotate(QuaternionFromAxisAndAngle(1, 0, 0, rotq));
+      m.Rotate(QuaternionFromAxisAndAngle(1, 0, 1, rotq));
       m.Transform(10, 0, 0);
     // TODO What is the expected value?
     // console.log(v.toString());
     },
 );
 
-alphaQuaternionTests.addTest('alphaQuaternionFromAxisAndAngle', function() {
-  const quat = alphaQuaternionFromAxisAndAngle(1, 0, 0, Math.PI / 2);
+alphaQuaternionTests.addTest('QuaternionFromAxisAndAngle', function() {
+  const quat = QuaternionFromAxisAndAngle(1, 0, 0, Math.PI / 2);
   if (
     !fuzzyEquals(quat[0], 0.7071, 10e-2) ||
     !fuzzyEquals(quat[1], 0, 10e-2) ||
@@ -539,17 +540,17 @@ AlphaQuaternion.prototype.ToAxisAndAngle = function() {
     y = x / s;
     z = x / s;
   }
-  return [new alphaVector(x, y, z), angle];
+  return [new AlphaVector(x, y, z), angle];
 };
 
-export function alphaQuaternionFromAxisAndAngle(...args) {
+export function QuaternionFromAxisAndAngle(...args) {
   const quat = new AlphaQuaternion(0, 0, 0, 1);
   return quat.FromAxisAndAngle.apply(quat, args);
 }
 
 AlphaQuaternion.prototype.FromAxisAndAngle = function(...args) {
   let angle;
-  const axis = new alphaVector();
+  const axis = new AlphaVector();
   if (args.length == 2) {
     // passed as ({vector}, angle)
     // creates or copies the vector or Vector
@@ -620,7 +621,7 @@ AlphaQuaternion.prototype.InnerProduct = AlphaQuaternion.prototype.DotProduct;
     let x;
     let y;
     let z;
-    const vec = new alphaVector();
+    const vec = new AlphaVector();
     if (args.length > 1) {
       x = args[0];
       y = args[1];
@@ -971,7 +972,7 @@ AlphaRMatrix4.prototype.Transform = function(...args) {
     // console.log("X", this[0] * x + this[1] * y + this[2] * z + this[3]);
     // console.log("Y", this[4] * x + this[5] * y + this[6] * z + this[7]);
     // console.log("Z", this[8] * x + this[9] * y + this[10] * z + this[11]);
-    return new alphaVector(
+    return new AlphaVector(
         this[0] * x + this[1] * y + this[2] * z + this[3],
         this[4] * x + this[5] * y + this[6] * z + this[7],
         this[8] * x + this[9] * y + this[10] * z + this[11],
@@ -1005,7 +1006,7 @@ alphaRMatrix4Tests.addTest(
     'AlphaRMatrix4.Transform with rotation',
     function() {
       const m = new AlphaRMatrix4();
-      let rot = AlphaQuaternionFromAxisAndAngle(0, 0, 1, Math.PI / 2);
+      let rot = QuaternionFromAxisAndAngle(0, 0, 1, Math.PI / 2);
       m.FromQuaternion(rot);
 
       let value = m.Transform(1, 0, 0);
@@ -1013,7 +1014,7 @@ alphaRMatrix4Tests.addTest(
         return value.toString();
       }
 
-      rot = AlphaQuaternionFromAxisAndAngle(0, 0, 1, Math.PI);
+      rot = QuaternionFromAxisAndAngle(0, 0, 1, Math.PI);
       m.FromQuaternion(rot);
       value = m.Transform(1, 0, 0);
       if (!value.Equals(-1, 0, 0)) {
@@ -1021,7 +1022,7 @@ alphaRMatrix4Tests.addTest(
       }
 
       const m2 = new AlphaRMatrix4();
-      rot = AlphaQuaternionFromAxisAndAngle(0, 0, 1, Math.PI);
+      rot = QuaternionFromAxisAndAngle(0, 0, 1, Math.PI);
       m2.FromQuaternion(rot);
       m.Multiply(m2);
       value = m.Transform(1, 0, 0);
@@ -1152,7 +1153,7 @@ alphaRMatrix4Tests.addTest('AlphaRMatrix4.Rotate', function() {
 
 let alphaRMatrix4Scratch = null;
 
-export function AlphagetScratchMatrix() {
+export function AlphaGetScratchMatrix() {
   if (!alphaRMatrix4Scratch) {
     alphaRMatrix4Scratch = new AlphaRMatrix4();
   } else {
@@ -1183,7 +1184,7 @@ AlphaRMatrix4.prototype.Rotate = function(...args) {
   }
 
   // Create the matrix.
-  const r = alphaGetScratchMatrix();
+  const r = AlphaGetScratchMatrix();
   const x2 = x * x;
   const y2 = y * y;
   const z2 = z * z;
@@ -1381,10 +1382,10 @@ AlphaRMatrix4.prototype.FromVectorAroundQuaternion = function(vector, quat) {
   this.FromQuaternion(quat);
 
   // set our critical rows and columns
-  const r4 = new alphaQuaternion(vector[0], vector[1], vector[2], 1);
-  const c1 = new alphaQuaternion(this[0], this[4], this[8]);
-  const c2 = new alphaQuaternion(this[1], this[5], this[9]);
-  const c3 = new alphaQuaternion(this[2], this[6], this[10]);
+  const r4 = new AlphaQuaternion(vector[0], vector[1], vector[2], 1);
+  const c1 = new AlphaQuaternion(this[0], this[4], this[8]);
+  const c2 = new AlphaQuaternion(this[1], this[5], this[9]);
+  const c3 = new AlphaQuaternion(this[2], this[6], this[10]);
 
   this[12] = r4.DotProduct(c1);
   this[13] = r4.DotProduct(c2);
@@ -1408,10 +1409,10 @@ AlphaRMatrix4.prototype.FromVectorAroundQuaternionAtVector = function(
   this.FromQuaternionAtVector(offset, rotation);
 
   // set our critical rows and columns
-  const r4 = new alphaQuaternion(position[0], position[1], position[2], 1);
-  const c1 = new alphaQuaternion(this[0], this[4], this[8], this[12]);
-  const c2 = new alphaQuaternion(this[1], this[5], this[9], this[13]);
-  const c3 = new alphaQuaternion(this[2], this[6], this[10], this[14]);
+  const r4 = new AlphaQuaternion(position[0], position[1], position[2], 1);
+  const c1 = new AlphaQuaternion(this[0], this[4], this[8], this[12]);
+  const c2 = new AlphaQuaternion(this[1], this[5], this[9], this[13]);
+  const c3 = new AlphaQuaternion(this[2], this[6], this[10], this[14]);
 
   this[12] = r4.DotProduct(c1);
   this[13] = r4.DotProduct(c2);
@@ -1717,7 +1718,7 @@ alphaRMatrix4Tests.addTest(
       );
       m.Transpose();
 
-      const v = new alphaVector(1, 2, 3);
+      const v = new AlphaVector(1, 2, 3);
       const rv = m.Transform(v);
 
       // TODO Skipped.
