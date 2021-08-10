@@ -12,6 +12,7 @@
 // TODO: acceleration
 
 import TestSuite from 'parsegraph-testsuite';
+import { AlphaQuaternion, AlphaRMatrix4, AlphaVector } from './Maths';
 
 // -----------------------------------
 // ------------ USAGE ----------------
@@ -57,21 +58,21 @@ import TestSuite from 'parsegraph-testsuite';
 // XXX: for some reason I have to inverse quaterions for physical
 // not for the camera. I do not understand why.
 
-PHYSICAL_TRANSLATE_ROTATE_SCALE = 1;
-PHYSICAL_SCALE_ROTATE_TRANSLATE = 2;
-PHYSICAL_ROTATE_TRANSLATE_SCALE = 3;
+const PHYSICAL_TRANSLATE_ROTATE_SCALE = 1;
+const PHYSICAL_SCALE_ROTATE_TRANSLATE = 2;
+const PHYSICAL_ROTATE_TRANSLATE_SCALE = 3;
 
 export default function Physical(parent) {
   this.modelMode = PHYSICAL_TRANSLATE_ROTATE_SCALE;
-  this.orientation = new Quaternion();
-  this.position = new Vector();
-  this.modelMatrix = new RMatrix4();
-  this.viewMatrix = new RMatrix4();
+  this.orientation = new AlphaQuaternion();
+  this.position = new AlphaVector();
+  this.modelMatrix = new AlphaRMatrix4();
+  this.viewMatrix = new AlphaRMatrix4();
   this.modelDirty = false; // whether or not the matrix needs to be updated;
-  this.velocity = new Vector();
-  this.rotationSpeed = new Vector(1, 1, 1);
-  this.speed = new Vector(5, 5, 5);
-  this.scale = new Vector(1, 1, 1);
+  this.velocity = new AlphaVector();
+  this.rotationSpeed = new AlphaVector(1, 1, 1);
+  this.speed = new AlphaVector(5, 5, 5);
+  this.scale = new AlphaVector(1, 1, 1);
   this.SetParent(parent);
 }
 
@@ -83,7 +84,7 @@ Physical.prototype.toJSON = function() {
 };
 
 // Register the test suite.
-alphaPhysicalTests = new TestSuite('Physical');
+const alphaPhysicalTests = new TestSuite('Physical');
 
 alphaPhysicalTests.addTest('Physical', function(resultDom) {
   const surface = new GLWidget();
@@ -205,7 +206,7 @@ Physical.prototype.SetPosition = function(...args) {
   if (Number.isNaN(this.position[0])) {
     throw new Error('Position became NaN.');
   }
-  this.position.Set.apply(this.position, ...args);
+  this.position.Set.call(this.position, ...args);
   this.modelDirty = true;
 };
 
@@ -220,7 +221,7 @@ Physical.prototype.ChangePosition = function(...args) {
   if (Number.isNaN(this.position[0])) {
     throw new Error('Position became NaN!');
   }
-  this.position.Add.apply(this.position, ...args);
+  this.position.Add.call(this.position, ...args);
   this.modelDirty = true;
 };
 
@@ -293,7 +294,7 @@ Physical.prototype.WarpDown = function(distance) {
 
 // speed is in units per second
 Physical.prototype.SetSpeeds = function(...args) {
-  this.speed.Set.apply(this.speed, ...args);
+  this.speed.Set.call(this.speed, ...args);
 };
 
 Physical.prototype.GetSpeeds = function() {
@@ -305,7 +306,7 @@ Physical.prototype.SetSpeed = function(speed) {
 };
 
 Physical.prototype.SetVelocity = function(...args) {
-  this.velocity.Set.apply(this.velocity, ...args);
+  this.velocity.Set.call(this.velocity, ...args);
 };
 
 Physical.prototype.GetVelocity = function() {
@@ -313,7 +314,7 @@ Physical.prototype.GetVelocity = function() {
 };
 
 Physical.prototype.AddVelocity = function(...args) {
-  this.velocity.Add.apply(this.velocity, ...args);
+  this.velocity.Add.call(this.velocity, ...args);
   this.modelDirty = true;
 };
 

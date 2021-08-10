@@ -8,5 +8,5 @@ export default function start() {
     document.body.appendChild(window.container());
     belt.addWindow(window);
     const widget = new AlphaGLWidget(belt, window);
-    window.addComponent(widget.component());
+    window.addComponent(widget);
 }

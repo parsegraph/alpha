@@ -2,6 +2,15 @@
 // improperly relative to the projection matrix.
 
 import { Color, Component } from "parsegraph-window";
+import { standardBlockTypes } from "./BlockIDs";
+import { AlphaBlockTypes } from "./BlockStuff";
+import AlphaCamera from './Cam';
+import AlphaCluster from "./Cluster";
+import CubeMan from "./CubeMan";
+import { AlphaInput } from "./Input";
+import { AlphaVector, AlphaQuaternion, alphaQuaternionFromAxisAndAngle, alphaRandom } from "./Maths";
+import Physical from "./Physical";
+import {elapsed} from 'parsegraph-timing';
 
 // TODO Mouse input appears to be... strangely interpreted.
 /* eslint-disable require-jsdoc, new-cap */
@@ -12,7 +21,6 @@ export default class AlphaGLWidget extends Component {
     super();
     this._belt = belt;
     this._window = window;
-    this._component = new Component(this, 'alphaGLWidget');
 
     this._backgroundColor = new Color(0, 47 / 255, 57 / 255);
 
@@ -37,8 +45,8 @@ export default class AlphaGLWidget extends Component {
     this._done = false;
 
     this.BlockTypes = new AlphaBlockTypes();
-    alphastandardBlockTypes(this.BlockTypes);
-    alphaCubeMan(this.BlockTypes);
+    standardBlockTypes(this.BlockTypes);
+    CubeMan(this.BlockTypes);
 
     const cubeman = this.BlockTypes.Get('blank', 'cubeman');
 
@@ -71,9 +79,9 @@ export default class AlphaGLWidget extends Component {
     const MAX_TYPE = 23;
     for (let i = -WORLD_SIZE; i <= WORLD_SIZE; ++i) {
       for (let j = 1; j <= WORLD_SIZE * 2; ++j) {
-        const r = alpha_random(0, MAX_TYPE);
+        const r = alphaRandom(0, MAX_TYPE);
         this.worldCluster.AddBlock(
-            [grass, stone][alpha_random(0, 1)],
+            [grass, stone][alphaRandom(0, 1)],
             i,
             -1,
             -j,
@@ -149,16 +157,16 @@ export default class AlphaGLWidget extends Component {
   this.swarm = [];
   for (let i = 0; i < 10; ++i) {
     this.swarm.push(new Physical(this.camera));
-    let x = alpha_random(1, 30);
-    let y = alpha_random(1, 30);
-    let z = alpha_random(1, 30);
+    let x = alphaRandom(1, 30);
+    let y = alphaRandom(1, 30);
+    let z = alphaRandom(1, 30);
     this.swarm[i].SetPosition(spot.Added(x, y, z));
 
-    x = alpha_random(-100, 100) / 100;
-    y = alpha_random(-100, 100) / 100;
-    z = alpha_random(-100, 100) / 100;
-    const w = alpha_random(-100, 100) / 100;
-    const q = new alpha_Quaternion(x, y, z, w);
+    x = alphaRandom(-100, 100) / 100;
+    y = alphaRandom(-100, 100) / 100;
+    z = alphaRandom(-100, 100) / 100;
+    const w = alphaRandom(-100, 100) / 100;
+    const q = new AlphaQuaternion(x, y, z, w);
     q.Normalize();
     this.swarm[i].SetOrientation(q);
   }
@@ -166,13 +174,9 @@ export default class AlphaGLWidget extends Component {
   this.time = 0;
 } // AlphaGLWidget
 
-component() {
-  return this._component;
-};
-
 paint() {
   if (!this.paintingDirty) {
-    return;
+    return false;
   }
   this.evPlatformCluster.CalculateVertices();
   this.testCluster.CalculateVertices();
@@ -182,11 +186,12 @@ paint() {
   this.platformCluster.CalculateVertices();
   this.sphereCluster.CalculateVertices();
   this.paintingDirty = false;
+  return true;
 };
 
 handleEvent(eventType, eventData) {
   if (eventType === 'tick') {
-    this.Tick(parsegraph_elapsed(this._start));
+    this.Tick(elapsed(this._start));
     this._start = new Date();
     return true;
   } else if (eventType === 'wheel') {
