@@ -22,7 +22,7 @@
 // returns the number of degrees the wheel has scrolled recently
 
 // add this to your code to make a command only work once per button push
-/* eslint-disable require-jsdoc, new-cap */
+/* eslint-disable require-jsdoc, new-cap, prefer-const */
 /*
         if elapsed == 0 then
                 done = false;
@@ -80,7 +80,7 @@ AlphaInput.prototype.onMousedown = function(event) {
   let button;
   let x;
   let y;
-  button = alpha_GetButtonName(event.button);
+  button = alphaGetButtonName(event.button);
   x = event.x;
   y = event.y;
   this[button] = 1;
@@ -97,7 +97,7 @@ AlphaInput.prototype.onMouseup = function(event) {
   let button;
   let x;
   let y;
-  button = alpha_GetButtonName(event.button);
+  button = alphaGetButtonName(event.button);
   x = event.clientX;
   y = event.clientY;
   this[button] = null;

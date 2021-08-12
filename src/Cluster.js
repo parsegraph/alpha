@@ -4,6 +4,7 @@
 // --------------------------------------------
 // --------------------------------------------
 
+/* eslint-disable camelcase, new-cap */
 import { alpha_QUADS, alpha_TRIANGLES, createBlock } from './BlockStuff';
 import { AlphaVector } from './Maths';
 import FacePainter from './FacePainter';
@@ -63,11 +64,11 @@ export default class AlphaCluster {
    */
   AddBlocks() {
     if (arguments.length > 1) {
-      for (var i = 0; i < arguments.length; ++i) {
+      for (let i = 0; i < arguments.length; ++i) {
         this.AddBlock(arguments[i]);
       }
     } else {
-      for (var i = 0; i < arguments[0].length; ++i) {
+      for (let i = 0; i < arguments[0].length; ++i) {
         this.AddBlock(arguments[0][i]);
       }
     }
@@ -118,7 +119,7 @@ export default class AlphaCluster {
         // every face has its own drawType;
         if (face.drawType == alpha_TRIANGLES) {
           // Process every vertex of the face.
-          for (var j = 0; j < face.length; ++j) {
+          for (let j = 0; j < face.length; ++j) {
             let vertex = face[j];
             if (!vertex) {
               throw new Error('Face must not contain any null vertices');
@@ -148,7 +149,7 @@ export default class AlphaCluster {
           }
         } else if (face.drawType == alpha_QUADS) {
           // Process every vertex of the face.
-          for (var j = 0; j < face.length; j += 4) {
+          for (let j = 0; j < face.length; j += 4) {
             const v1 = face[j];
             // if(!v1) {
             // throw new Error("Face must not contain any null vertices (v1)");

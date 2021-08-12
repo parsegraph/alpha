@@ -1,4 +1,4 @@
-/* eslint-disable require-jsdoc, max-len, new-cap */
+/* eslint-disable require-jsdoc, max-len, new-cap, prefer-const */
 // Physical version 1.4.130828
 // physical is an orientation and a position
 // as well as rotation and movement
@@ -180,7 +180,7 @@ Physical.prototype.Turn = function(angle) {
     return;
   }
 
-  const q = new Quaternion();
+  const q = new AlphaQuaternion();
   q.FromAxisAndAngle(0, 1, 0, angle);
   this.SetOrientation(q.Multiply(this.GetOrientation()));
 };

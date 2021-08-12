@@ -189,6 +189,10 @@ paint() {
   return true;
 };
 
+hasEventHandler() {
+  return true;
+}
+
 handleEvent(eventType, eventData) {
   if (eventType === 'tick') {
     this.Tick(elapsed(this._start));

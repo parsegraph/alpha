@@ -21,6 +21,8 @@ they exist to make it easier to piece things together
 hopefully
 */
 
+/* eslint-disable new-cap, camelcase */
+
 const TestSuite = require('parsegraph-testsuite').default;
 
 // --------------------------------------------
@@ -103,19 +105,19 @@ export class AlphaColor {
 
   Equals() {
     if (arguments.length > 1) {
-      for (var i = 0; i < this.length; ++i) {
+      for (let i = 0; i < this.length; ++i) {
         if (this[i] != arguments[i]) {
           return false;
         }
       }
     } else if (typeof arguments[0] === 'number') {
-      for (var i = 0; i < this.length; ++i) {
+      for (let i = 0; i < this.length; ++i) {
         if (this[i] != arguments[0]) {
           return false;
         }
       }
     } else {
-      for (var i = 0; i < this.length; ++i) {
+      for (let i = 0; i < this.length; ++i) {
         if (this[i] != arguments[0][i]) {
           return false;
         }
@@ -209,23 +211,23 @@ export class AlphaSkin {
     if (arguments.length > 1) {
       // Passed colors directly.
       this.length = arguments.length;
-      for (var i = 0; i < arguments.length; ++i) {
-        var color = arguments[i];
+      for (let i = 0; i < arguments.length; ++i) {
+        let color = arguments[i];
         this[i] = [];
-        for (var j = 0; j < color.length; ++j) {
+        for (let j = 0; j < color.length; ++j) {
           this[i].push(new AlphaColor(color[j]));
-          var c = color[j];
+          let c = color[j];
         }
       }
     } else if (arguments.length > 0) {
       // Passed a single array of colors.
       this.length = arguments[0].length;
-      for (var i = 0; i < arguments[0].length; ++i) {
-        var color = arguments[0][i];
+      for (let i = 0; i < arguments[0].length; ++i) {
+        let color = arguments[0][i];
         this[i] = [];
-        for (var j = 0; j < color.length; ++j) {
+        for (let j = 0; j < color.length; ++j) {
           this[i].push(new AlphaColor(color[j]));
-          var c = color[j];
+          let c = color[j];
         }
       }
     } else {
@@ -331,12 +333,12 @@ export class AlphaFace {
 
     if (arguments.length > 2) {
       this.length = arguments.length - 1;
-      for (var i = 1; i < arguments.length; ++i) {
+      for (let i = 1; i < arguments.length; ++i) {
         this[i - 1] = arguments[i];
       }
     } else {
       this.length = arguments[1].length;
-      for (var i = 0; i < arguments[1].length; ++i) {
+      for (let i = 0; i < arguments[1].length; ++i) {
         this[i] = arguments[1][i];
       }
     }
@@ -371,7 +373,7 @@ export class AlphaFace {
 // tha when all drawn will make some sort of ...
 // SHAPE -- SURPISE!
 // initialize it with a list of faces;
-// var CUBE = new alpha_Shape(
+// let CUBE = new alpha_Shape(
 // cubeTop,
 // cubeBottom,
 // cubeLeft,
@@ -394,7 +396,7 @@ export class AlphaShape {
 // --------------------------------------------
 // --------------------------------------------
 // Blocktype is where you combine a Shape(pos vec) with A Skin(color vec)
-// var stone = new alpha_BlockType("stone", "cube", Stone, graySkin)
+// let stone = new alpha_BlockType("stone", "cube", Stone, graySkin)
 // BlockType automatically loads created BlockTypes into the BlockIDs table
 // it is some sort of hybrid object / masterlist
 export class AlphaBlockTypes {

@@ -1,3 +1,5 @@
+/* eslint-disable new-cap, camelcase */
+
 import { AlphaColor, AlphaFace, AlphaShape, AlphaSkin, alpha_QUADS } from "./BlockStuff";
 import { AlphaVector } from "./Maths";
 

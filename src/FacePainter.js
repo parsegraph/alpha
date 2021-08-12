@@ -1,6 +1,8 @@
 import { compileShader } from "parsegraph-shader";
 import { createPagingBuffer } from "parsegraph-pagingbuffer";
 
+/* eslint-disable valid-jsdoc, camelcase, new-cap  */
+
 const alpha_FacePainter_VertexShader =
   'uniform mat4 u_world;\n' +
   '\n' +
