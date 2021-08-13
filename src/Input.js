@@ -22,7 +22,6 @@
 // returns the number of degrees the wheel has scrolled recently
 
 // add this to your code to make a command only work once per button push
-/* eslint-disable require-jsdoc, new-cap, prefer-const */
 /*
         if elapsed == 0 then
                 done = false;
@@ -246,40 +245,40 @@ AlphaInput.prototype.Update = function(elapsed) {
   // console.log("LeftMouse: " + this.Get("LeftMouseButton"));
   // console.log("TurnLeft: " + this.MouseLeft() * elapsed);
   this.camera
-      .GetParent()
+      .getParent()
       .TurnLeft(this.Get('LeftMouseButton') * this.MouseLeft() * elapsed);
   this.camera
-      .GetParent()
+      .getParent()
       .TurnRight(this.Get('LeftMouseButton') * this.MouseRight() * elapsed);
   this.camera
-      .GetParent()
+      .getParent()
       .PitchUp(-this.Get('LeftMouseButton') * this.MouseUp() * elapsed);
   this.camera
-      .GetParent()
+      .getParent()
       .PitchDown(this.Get('LeftMouseButton') * this.MouseDown() * elapsed);
   this.camera.MoveForward(this.MouseWheelDegreesUp() * elapsed);
   this.camera.MoveBackward(this.MouseWheelDegreesDown() * elapsed);
-  // this.camera.ZoomIn(this.Get("y"), elapsed);
+  // this.camera.zoomIn(this.Get("y"), elapsed);
   // this.camera.ZoomOut(this.Get("h"), elapsed);
 
-  this.camera.GetParent().MoveForward(100 * this.Get('t') * elapsed);
-  this.camera.GetParent().MoveBackward(100 * this.Get('g') * elapsed);
-  this.camera.GetParent().MoveLeft(100 * this.Get('f') * elapsed);
-  this.camera.GetParent().MoveRight(100 * this.Get('h') * elapsed);
+  this.camera.getParent().MoveForward(100 * this.Get('t') * elapsed);
+  this.camera.getParent().MoveBackward(100 * this.Get('g') * elapsed);
+  this.camera.getParent().MoveLeft(100 * this.Get('f') * elapsed);
+  this.camera.getParent().MoveRight(100 * this.Get('h') * elapsed);
 
-  this.camera.GetParent().MoveForward(this.Get('w') * elapsed);
-  this.camera.GetParent().MoveBackward(this.Get('s') * elapsed);
-  this.camera.GetParent().MoveLeft(this.Get('a') * elapsed);
-  this.camera.GetParent().MoveRight(this.Get('d') * elapsed);
-  this.camera.GetParent().MoveUp(this.Get(' ') * elapsed);
-  this.camera.GetParent().MoveDown(this.Get('Shift') * elapsed);
+  this.camera.getParent().MoveForward(this.Get('w') * elapsed);
+  this.camera.getParent().MoveBackward(this.Get('s') * elapsed);
+  this.camera.getParent().MoveLeft(this.Get('a') * elapsed);
+  this.camera.getParent().MoveRight(this.Get('d') * elapsed);
+  this.camera.getParent().MoveUp(this.Get(' ') * elapsed);
+  this.camera.getParent().MoveDown(this.Get('Shift') * elapsed);
 
-  this.camera.GetParent().YawLeft(this.Get('j') * elapsed);
-  this.camera.GetParent().YawRight(this.Get('l') * elapsed);
-  this.camera.GetParent().PitchUp(this.Get('k') * elapsed);
-  this.camera.GetParent().PitchDown(this.Get('i') * elapsed);
-  this.camera.GetParent().RollLeft(this.Get('u') * elapsed);
-  this.camera.GetParent().RollRight(this.Get('o') * elapsed);
+  this.camera.getParent().YawLeft(this.Get('j') * elapsed);
+  this.camera.getParent().YawRight(this.Get('l') * elapsed);
+  this.camera.getParent().PitchUp(this.Get('k') * elapsed);
+  this.camera.getParent().PitchDown(this.Get('i') * elapsed);
+  this.camera.getParent().RollLeft(this.Get('u') * elapsed);
+  this.camera.getParent().RollRight(this.Get('o') * elapsed);
 
   if (this.Get('RightMouseButton') > 0) {
     if (!this._done) {

@@ -4,8 +4,7 @@
 // --------------------------------------------
 // --------------------------------------------
 
-/* eslint-disable camelcase, new-cap */
-import { alpha_QUADS, alpha_TRIANGLES, createBlock } from './BlockStuff';
+import { alphaQUADS, alphaTRIANGLES, createBlock } from './BlockStuff';
 import { AlphaVector } from './Maths';
 import FacePainter from './FacePainter';
 
@@ -117,7 +116,7 @@ export default class AlphaCluster {
         }
 
         // every face has its own drawType;
-        if (face.drawType == alpha_TRIANGLES) {
+        if (face.drawType == alphaTRIANGLES) {
           // Process every vertex of the face.
           for (let j = 0; j < face.length; ++j) {
             let vertex = face[j];
@@ -132,10 +131,10 @@ export default class AlphaCluster {
 
             // rotate it; if it's not the default
             if (block.orientation > 0) {
-              vertex = quat.RotatedVector(vertex);
+              vertex = quat.rotatedVector(vertex);
             }
             // now translate it
-            vertex = vertex.Added(new AlphaVector(block[0], block[1], block[2]));
+            vertex = vertex.dded(new AlphaVector(block[0], block[1], block[2]));
 
             // vector and cluster use the same indexes
             this.facePainter.Triangle(
@@ -147,7 +146,7 @@ export default class AlphaCluster {
                 color[2],
             );
           }
-        } else if (face.drawType == alpha_QUADS) {
+        } else if (face.drawType == alphaQUADS) {
           // Process every vertex of the face.
           for (let j = 0; j < face.length; j += 4) {
             const v1 = face[j];
@@ -192,27 +191,27 @@ export default class AlphaCluster {
               quat.RotatedVectorEach(rv3, v3[0], v3[1], v3[2]);
               quat.RotatedVectorEach(rv4, v4[0], v4[1], v4[2]);
             } else {
-              rv1.Set(v1);
-              rv2.Set(v2);
-              rv3.Set(v3);
-              rv4.Set(v4);
+              rv1.set(v1);
+              rv2.set(v2);
+              rv3.set(v3);
+              rv4.set(v4);
             }
             // now translate it
             // if(typeof block[0] !== "number" || typeof block[1] !== "number" || typeof block[2] !== "number") {
             // console.log(block);
             // throw new Error("Block must contain numeric components.");
             // }
-            rv1.Add(block[0], block[1], block[2]);
-            rv2.Add(block[0], block[1], block[2]);
-            rv3.Add(block[0], block[1], block[2]);
-            rv4.Add(block[0], block[1], block[2]);
+            rv1.add(block[0], block[1], block[2]);
+            rv2.add(block[0], block[1], block[2]);
+            rv3.add(block[0], block[1], block[2]);
+            rv4.add(block[0], block[1], block[2]);
 
             // Translate quads to triangles
             this.facePainter.Quad(rv1, rv2, rv3, rv4, c1, c2, c3, c4);
           }
         } else {
           throw new Error(
-              'Face must have a valid drawType property to read of either alpha_QUADS or alpha_TRIANGLES. (Given ' +
+              'Face must have a valid drawType property to read of either alphaQUADS or alphaTRIANGLES. (Given ' +
               face.drawType +
               ')',
           );

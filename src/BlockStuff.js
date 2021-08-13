@@ -21,8 +21,6 @@ they exist to make it easier to piece things together
 hopefully
 */
 
-/* eslint-disable new-cap, camelcase */
-
 const TestSuite = require('parsegraph-testsuite').default;
 
 // --------------------------------------------
@@ -44,7 +42,7 @@ export class AlphaColor {
     this.length = 3;
 
     if (arguments.length > 0) {
-      this.Set.apply(this, arguments);
+      this.set.apply(this, arguments);
     }
   }
 
@@ -60,7 +58,7 @@ export class AlphaColor {
     );
   };
 
-  Set() {
+  set() {
     let r;
     let g;
     let b;
@@ -103,7 +101,7 @@ export class AlphaColor {
     this[2] = b;
   };
 
-  Equals() {
+  equals() {
     if (arguments.length > 1) {
       for (let i = 0; i < this.length; ++i) {
         if (this[i] != arguments[i]) {
@@ -147,43 +145,43 @@ alpha_Color_Tests.addTest('alpha_Color.<constructor>', function(resultDom) {
   }
 });
 
-alpha_Color_Tests.addTest('alpha_Color.Set', function() {
+alpha_Color_Tests.addTest('alpha_Color.set', function() {
   const v = new AlphaColor(1);
-  v.Set(0.2);
-  if (!v.Equals(new AlphaColor(0.2, 0.2, 0.2))) {
+  v.set(0.2);
+  if (!v.equals(new AlphaColor(0.2, 0.2, 0.2))) {
     console.log(v);
-    return 'Set must allow single arguments.';
+    return 'set must allow single arguments.';
   }
 
-  v.Set(0.2, 0.3, 0.4);
-  if (!v.Equals(new AlphaColor(0.2, 0.3, 0.4))) {
+  v.set(0.2, 0.3, 0.4);
+  if (!v.equals(new AlphaColor(0.2, 0.3, 0.4))) {
     console.log(v);
-    return 'Set must allow multiple arguments.';
+    return 'set must allow multiple arguments.';
   }
 
-  v.Set(new AlphaColor(0.2, 0.3, 0.4));
-  if (!v.Equals(new AlphaColor(0.2, 0.3, 0.4))) {
+  v.set(new AlphaColor(0.2, 0.3, 0.4));
+  if (!v.equals(new AlphaColor(0.2, 0.3, 0.4))) {
     console.log(v);
-    return 'Set must allow alpha_Colors as arguments.';
+    return 'set must allow alpha_Colors as arguments.';
   }
 });
 
 alpha_Color_Tests.addTest('alpha_Color.Equals', function() {
   const v = new AlphaColor(1);
-  v.Set(0.2);
-  if (!v.Equals(0.2)) {
+  v.set(0.2);
+  if (!v.equals(0.2)) {
     console.log(v);
     return 'Equals must accept a single numeric argument.';
   }
 
-  v.Set(0.2, 0.3, 0.4);
-  if (!v.Equals(0.2, 0.3, 0.4)) {
+  v.set(0.2, 0.3, 0.4);
+  if (!v.equals(0.2, 0.3, 0.4)) {
     console.log(v);
     return 'Equals must accept mulitple arguments.';
   }
 
-  v.Set(new AlphaColor(0.2, 0.3, 0.4));
-  if (!v.Equals(new AlphaColor(0.2, 0.3, 0.4))) {
+  v.set(new AlphaColor(0.2, 0.3, 0.4));
+  if (!v.equals(new AlphaColor(0.2, 0.3, 0.4))) {
     console.log(v);
     return 'Equals accepts single alpha_Color arguments.';
   }
@@ -271,10 +269,10 @@ AlphaSkinTests.addTest('alpha_Skin.forEach', function(resultDom) {
     switch (i) {
       case 0:
         if (
-          !color[0].Equals(green) ||
-          !color[1].Equals(green) ||
-          !color[2].Equals(green) ||
-          !color[3].Equals(green)
+          !color[0].equals(green) ||
+          !color[1].equals(green) ||
+          !color[2].equals(green) ||
+          !color[3].equals(green)
         ) {
           console.log(color);
           throw new Error('Face 0 does not match');
@@ -282,10 +280,10 @@ AlphaSkinTests.addTest('alpha_Skin.forEach', function(resultDom) {
         break;
       case 1:
         if (
-          !color[0].Equals(brown) ||
-          !color[1].Equals(brown) ||
-          !color[2].Equals(brown) ||
-          !color[3].Equals(brown)
+          !color[0].equals(brown) ||
+          !color[1].equals(brown) ||
+          !color[2].equals(brown) ||
+          !color[3].equals(brown)
         ) {
           console.log(color);
           throw new Error('Face 1 does not match');
@@ -293,10 +291,10 @@ AlphaSkinTests.addTest('alpha_Skin.forEach', function(resultDom) {
         break;
       case 2:
         if (
-          !color[0].Equals(brown) ||
-          !color[1].Equals(brown) ||
-          !color[2].Equals(brown) ||
-          !color[3].Equals(brown)
+          !color[0].equals(brown) ||
+          !color[1].equals(brown) ||
+          !color[2].equals(brown) ||
+          !color[3].equals(brown)
         ) {
           console.log(color);
           throw new Error('Face 2 does not match');
@@ -310,8 +308,8 @@ AlphaSkinTests.addTest('alpha_Skin.forEach', function(resultDom) {
   }
 });
 
-export const alpha_TRIANGLES = 0;
-export const alpha_QUADS = 1;
+export const alphaTRIANGLES = 0;
+export const alphaQUADS = 1;
 
 // --------------------------------------------
 // --------------------------------------------
@@ -321,7 +319,7 @@ export const alpha_QUADS = 1;
 // face is a simple grouping of vertices
 // designed to be rendered by 1 call of GL_QUADS
 // or its ilk
-// local cubeTop = new AlphaFace(alpha_QUADS, vector, vector, vector, vector);
+// local cubeTop = new AlphaFace(alphaQUADS, vector, vector, vector, vector);
 //
 // Face does not copy the vectors.
 // because its a temporary construction
@@ -513,7 +511,7 @@ export class AlphaBlock {
     }
   }
 
-  Equals(other) {
+  equals(other) {
     const fuzziness = 1e-10;
     for (let i = 0; i < this.length; ++i) {
       if (Math.abs(this[n] - other[n]) > fuzziness) {

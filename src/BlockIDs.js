@@ -1,7 +1,6 @@
 // Version 1.3
 
-/* eslint-disable camelcase, new-cap */
-import { AlphaColor, AlphaFace, AlphaShape, AlphaSkin, alpha_QUADS, alpha_TRIANGLES } from "./BlockStuff";
+import { AlphaColor, AlphaFace, AlphaShape, AlphaSkin, alphaQUADS, alphaTRIANGLES } from "./BlockStuff";
 import { AlphaVector } from "./Maths";
 
 // vertices!
@@ -21,7 +20,7 @@ export function buildCubeStructure() {
 export function buildSlabStructure() {
   const slabStructure = buildCubeStructure();
   for (let i = 0; i <= 3; ++i) {
-    slabStructure[i].Add(0, -0.5, 0);
+    slabStructure[i].add(0, -0.5, 0);
   }
   return slabStructure;
 }
@@ -32,7 +31,7 @@ export function standardBlockTypes(BlockTypes) {
   }
 
   // skins
-  const white = new AlphaColor(1, 1, 1);
+  // const white = new AlphaColor(1, 1, 1);
   const dbrown = new AlphaColor('#3b2921');
   const lbrown = new AlphaColor('#604b42');
   const ggreen = new AlphaColor('#0b9615');
@@ -98,12 +97,12 @@ export function standardBlockTypes(BlockTypes) {
 
   // cube faces;
   let v = buildCubeStructure();
-  let Top = new AlphaFace(alpha_QUADS, v[2], v[3], v[0], v[1]);
-  let Front = new AlphaFace(alpha_QUADS, v[3], v[2], v[7], v[6]);
-  let Left = new AlphaFace(alpha_QUADS, v[0], v[3], v[6], v[5]);
-  let Back = new AlphaFace(alpha_QUADS, v[1], v[0], v[5], v[4]);
-  let Right = new AlphaFace(alpha_QUADS, v[2], v[1], v[4], v[7]);
-  let Bottom = new AlphaFace(alpha_QUADS, v[6], v[7], v[4], v[5]);
+  let Top = new AlphaFace(alphaQUADS, v[2], v[3], v[0], v[1]);
+  let Front = new AlphaFace(alphaQUADS, v[3], v[2], v[7], v[6]);
+  let Left = new AlphaFace(alphaQUADS, v[0], v[3], v[6], v[5]);
+  let Back = new AlphaFace(alphaQUADS, v[1], v[0], v[5], v[4]);
+  let Right = new AlphaFace(alphaQUADS, v[2], v[1], v[4], v[7]);
+  let Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   // turn the faces into shapes
 
@@ -120,16 +119,16 @@ export function standardBlockTypes(BlockTypes) {
   let slopeStructure = buildCubeStructure();
   v = slopeStructure;
   for (let i = 0; i <= 1; ++i) {
-    v[i].Add(0, -1, 0);
+    v[i].add(0, -1, 0);
   }
 
   // this causes left and right to become triangles
-  Top = new AlphaFace(alpha_QUADS, v[2], v[3], v[0], v[1]);
-  Front = new AlphaFace(alpha_QUADS, v[3], v[2], v[7], v[6]);
-  Left = new AlphaFace(alpha_TRIANGLES, v[3], v[6], v[5]);
-  Back = new AlphaFace(alpha_QUADS, v[1], v[0], v[5], v[4]);
-  Right = new AlphaFace(alpha_TRIANGLES, v[2], v[1], v[7]);
-  Bottom = new AlphaFace(alpha_QUADS, v[6], v[7], v[4], v[5]);
+  Top = new AlphaFace(alphaQUADS, v[2], v[3], v[0], v[1]);
+  Front = new AlphaFace(alphaQUADS, v[3], v[2], v[7], v[6]);
+  Left = new AlphaFace(alphaTRIANGLES, v[3], v[6], v[5]);
+  Back = new AlphaFace(alphaQUADS, v[1], v[0], v[5], v[4]);
+  Right = new AlphaFace(alphaTRIANGLES, v[2], v[1], v[7]);
+  Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   const SLOPE = new AlphaShape(Top, Front, Left, Back, Right, Bottom);
   BlockTypes.Load('stone', 'slope', stone, SLOPE);
@@ -150,14 +149,14 @@ export function standardBlockTypes(BlockTypes) {
   let bcslopeStructure = buildCubeStructure();
   v = bcslopeStructure;
   for (let i = 0; i <= 2; ++i) {
-    v[i].Add(0, -1, 0);
+    v[i].add(0, -1, 0);
   }
 
   // now top, right
-  Top = new AlphaFace(alpha_TRIANGLES, v[3], v[0], v[2]);
-  Front = new AlphaFace(alpha_QUADS, v[3], v[2], v[7], v[6]);
-  Left = new AlphaFace(alpha_TRIANGLES, v[3], v[6], v[5]);
-  Bottom = new AlphaFace(alpha_TRIANGLES, v[6], v[7], v[5]);
+  Top = new AlphaFace(alphaTRIANGLES, v[3], v[0], v[2]);
+  Front = new AlphaFace(alphaQUADS, v[3], v[2], v[7], v[6]);
+  Left = new AlphaFace(alphaTRIANGLES, v[3], v[6], v[5]);
+  Bottom = new AlphaFace(alphaTRIANGLES, v[6], v[7], v[5]);
 
   const CORNER_SLOPE = new AlphaShape(Top, Front, Left, Bottom);
   BlockTypes.Load('stone', 'corner_slope', stone, CORNER_SLOPE);
@@ -165,15 +164,15 @@ export function standardBlockTypes(BlockTypes) {
   let ibcslopeStructure = buildCubeStructure();
   v = ibcslopeStructure;
   // 3 top, 1 bottom;
-  v[1].Add(0, -1, 0);
+  v[1].add(0, -1, 0);
 
-  Top = new AlphaFace(alpha_TRIANGLES, v[2], v[3], v[0]);
-  let Slope = new AlphaFace(alpha_TRIANGLES, v[2], v[0], v[1]);
-  Front = new AlphaFace(alpha_QUADS, v[3], v[2], v[7], v[6]);
-  Left = new AlphaFace(alpha_QUADS, v[0], v[3], v[6], v[5]);
-  Back = new AlphaFace(alpha_TRIANGLES, v[0], v[5], v[4]);
-  Right = new AlphaFace(alpha_TRIANGLES, v[2], v[4], v[7]);
-  Bottom = new AlphaFace(alpha_QUADS, v[6], v[7], v[4], v[5]);
+  Top = new AlphaFace(alphaTRIANGLES, v[2], v[3], v[0]);
+  let Slope = new AlphaFace(alphaTRIANGLES, v[2], v[0], v[1]);
+  Front = new AlphaFace(alphaQUADS, v[3], v[2], v[7], v[6]);
+  Left = new AlphaFace(alphaQUADS, v[0], v[3], v[6], v[5]);
+  Back = new AlphaFace(alphaTRIANGLES, v[0], v[5], v[4]);
+  Right = new AlphaFace(alphaTRIANGLES, v[2], v[4], v[7]);
+  Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   const INVERTED_CORNER_SLOPE = new AlphaShape(
       Top,
@@ -195,15 +194,15 @@ export function standardBlockTypes(BlockTypes) {
   let pcorner = buildCubeStructure();
   v = pcorner;
   for (let i = 0; i <= 2; ++i) {
-    v[i].Add(0, -1, 0);
+    v[i].add(0, -1, 0);
   }
 
   // now top, right
-  let TopLeft = new AlphaFace(alpha_TRIANGLES, v[3], v[0], v[1]);
-  let TopRight = new AlphaFace(alpha_TRIANGLES, v[2], v[3], v[1]);
-  Front = new AlphaFace(alpha_QUADS, v[3], v[2], v[7], v[6]);
-  Left = new AlphaFace(alpha_TRIANGLES, v[3], v[6], v[5]);
-  Bottom = new AlphaFace(alpha_QUADS, v[6], v[7], v[4], v[5]);
+  let TopLeft = new AlphaFace(alphaTRIANGLES, v[3], v[0], v[1]);
+  let TopRight = new AlphaFace(alphaTRIANGLES, v[2], v[3], v[1]);
+  Front = new AlphaFace(alphaQUADS, v[3], v[2], v[7], v[6]);
+  Left = new AlphaFace(alphaTRIANGLES, v[3], v[6], v[5]);
+  Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
   const PYRAMID_CORNER = new AlphaShape(
       TopLeft,
       TopRight,
@@ -216,16 +215,16 @@ export function standardBlockTypes(BlockTypes) {
   // inverted pyramid corner ( 3 top, 1 bottom )
   let ipcorner = buildCubeStructure();
   v = ipcorner;
-  v[1].Add(0, -1, 0);
+  v[1].add(0, -1, 0);
 
   // now top, right
-  TopLeft = new AlphaFace(alpha_TRIANGLES, v[3], v[0], v[1]);
-  TopRight = new AlphaFace(alpha_TRIANGLES, v[2], v[3], v[1]);
-  Front = new AlphaFace(alpha_QUADS, v[3], v[2], v[7], v[6]);
-  Left = new AlphaFace(alpha_QUADS, v[0], v[3], v[6], v[5]);
-  Back = new AlphaFace(alpha_TRIANGLES, v[0], v[5], v[4]);
-  Right = new AlphaFace(alpha_TRIANGLES, v[2], v[4], v[7]);
-  Bottom = new AlphaFace(alpha_QUADS, v[6], v[7], v[4], v[5]);
+  TopLeft = new AlphaFace(alphaTRIANGLES, v[3], v[0], v[1]);
+  TopRight = new AlphaFace(alphaTRIANGLES, v[2], v[3], v[1]);
+  Front = new AlphaFace(alphaQUADS, v[3], v[2], v[7], v[6]);
+  Left = new AlphaFace(alphaQUADS, v[0], v[3], v[6], v[5]);
+  Back = new AlphaFace(alphaTRIANGLES, v[0], v[5], v[4]);
+  Right = new AlphaFace(alphaTRIANGLES, v[2], v[4], v[7]);
+  Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   const INVERTED_PYRAMID_CORNER = new AlphaShape(
       TopLeft,
@@ -244,12 +243,12 @@ export function standardBlockTypes(BlockTypes) {
   );
 
   v = buildSlabStructure();
-  Top = new AlphaFace(alpha_QUADS, v[2], v[3], v[0], v[1]);
-  Front = new AlphaFace(alpha_QUADS, v[3], v[2], v[7], v[6]);
-  Left = new AlphaFace(alpha_QUADS, v[0], v[3], v[6], v[5]);
-  Back = new AlphaFace(alpha_QUADS, v[1], v[0], v[5], v[4]);
-  Right = new AlphaFace(alpha_QUADS, v[2], v[1], v[4], v[7]);
-  Bottom = new AlphaFace(alpha_QUADS, v[6], v[7], v[4], v[5]);
+  Top = new AlphaFace(alphaQUADS, v[2], v[3], v[0], v[1]);
+  Front = new AlphaFace(alphaQUADS, v[3], v[2], v[7], v[6]);
+  Left = new AlphaFace(alphaQUADS, v[0], v[3], v[6], v[5]);
+  Back = new AlphaFace(alphaQUADS, v[1], v[0], v[5], v[4]);
+  Right = new AlphaFace(alphaQUADS, v[2], v[1], v[4], v[7]);
+  Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
   const SLAB = new AlphaShape(Top, Front, Left, Back, Right, Bottom);
 
   BlockTypes.Load('stone', 'slab', stone, SLAB);
@@ -258,15 +257,15 @@ export function standardBlockTypes(BlockTypes) {
   slopeStructure = buildCubeStructure();
   v = slopeStructure;
   for (let i = 0; i <= 1; ++i) {
-    v[i].Add(0, -0.5, 0);
+    v[i].add(0, -0.5, 0);
   }
   // this causes left and right to become triangles
-  Top = new AlphaFace(alpha_QUADS, v[2], v[3], v[0], v[1]);
-  Front = new AlphaFace(alpha_QUADS, v[3], v[2], v[7], v[6]);
-  Left = new AlphaFace(alpha_TRIANGLES, v[3], v[6], v[5]);
-  Back = new AlphaFace(alpha_QUADS, v[1], v[0], v[5], v[4]);
-  Right = new AlphaFace(alpha_TRIANGLES, v[2], v[1], v[7]);
-  Bottom = new AlphaFace(alpha_QUADS, v[6], v[7], v[4], v[5]);
+  Top = new AlphaFace(alphaQUADS, v[2], v[3], v[0], v[1]);
+  Front = new AlphaFace(alphaQUADS, v[3], v[2], v[7], v[6]);
+  Left = new AlphaFace(alphaTRIANGLES, v[3], v[6], v[5]);
+  Back = new AlphaFace(alphaQUADS, v[1], v[0], v[5], v[4]);
+  Right = new AlphaFace(alphaTRIANGLES, v[2], v[1], v[7]);
+  Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   const SLAB_SLOPE = new AlphaShape(Top, Front, Left, Back, Right, Bottom);
   BlockTypes.Load('stone', 'slab_slope', stone, SLAB_SLOPE);
@@ -274,13 +273,13 @@ export function standardBlockTypes(BlockTypes) {
   bcslopeStructure = buildCubeStructure();
   v = bcslopeStructure;
   for (let i = 0; i <= 2; ++i) {
-    v[i].Add(0, -0.5, 0);
+    v[i].add(0, -0.5, 0);
   }
   // now top, right
-  Top = new AlphaFace(alpha_TRIANGLES, v[3], v[0], v[2]);
-  Front = new AlphaFace(alpha_QUADS, v[3], v[2], v[7], v[6]);
-  Left = new AlphaFace(alpha_TRIANGLES, v[3], v[6], v[5]);
-  Bottom = new AlphaFace(alpha_TRIANGLES, v[6], v[7], v[5]);
+  Top = new AlphaFace(alphaTRIANGLES, v[3], v[0], v[2]);
+  Front = new AlphaFace(alphaQUADS, v[3], v[2], v[7], v[6]);
+  Left = new AlphaFace(alphaTRIANGLES, v[3], v[6], v[5]);
+  Bottom = new AlphaFace(alphaTRIANGLES, v[6], v[7], v[5]);
 
   const SLAB_CORNER = new AlphaShape(Top, Front, Left, Bottom);
   BlockTypes.Load('stone', 'slab_corner', stone, SLAB_CORNER);
@@ -288,14 +287,14 @@ export function standardBlockTypes(BlockTypes) {
   ibcslopeStructure = buildCubeStructure();
   v = ibcslopeStructure;
   // 3 top, 1 bottom;
-  v[1].Add(0, -0.5, 0);
-  Top = new AlphaFace(alpha_TRIANGLES, v[2], v[3], v[0]);
-  Slope = new AlphaFace(alpha_TRIANGLES, v[2], v[0], v[1]);
-  Front = new AlphaFace(alpha_QUADS, v[3], v[2], v[7], v[6]);
-  Left = new AlphaFace(alpha_QUADS, v[0], v[3], v[6], v[5]);
-  Back = new AlphaFace(alpha_TRIANGLES, v[0], v[5], v[4]);
-  Right = new AlphaFace(alpha_TRIANGLES, v[2], v[4], v[7]);
-  Bottom = new AlphaFace(alpha_QUADS, v[6], v[7], v[4], v[5]);
+  v[1].add(0, -0.5, 0);
+  Top = new AlphaFace(alphaTRIANGLES, v[2], v[3], v[0]);
+  Slope = new AlphaFace(alphaTRIANGLES, v[2], v[0], v[1]);
+  Front = new AlphaFace(alphaQUADS, v[3], v[2], v[7], v[6]);
+  Left = new AlphaFace(alphaQUADS, v[0], v[3], v[6], v[5]);
+  Back = new AlphaFace(alphaTRIANGLES, v[0], v[5], v[4]);
+  Right = new AlphaFace(alphaTRIANGLES, v[2], v[4], v[7]);
+  Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   const SLAB_INVERTED_CORNER = new AlphaShape(
       Top,
@@ -312,14 +311,14 @@ export function standardBlockTypes(BlockTypes) {
   pcorner = buildCubeStructure();
   v = pcorner;
   for (let i = 0; i <= 2; ++i) {
-    v[i].Add(0, -0.5, 0);
+    v[i].add(0, -0.5, 0);
   }
   // now top, right
-  TopLeft = new AlphaFace(alpha_TRIANGLES, v[3], v[0], v[1]);
-  TopRight = new AlphaFace(alpha_TRIANGLES, v[2], v[3], v[1]);
-  Front = new AlphaFace(alpha_QUADS, v[3], v[2], v[7], v[6]);
-  Left = new AlphaFace(alpha_TRIANGLES, v[3], v[6], v[5]);
-  Bottom = new AlphaFace(alpha_QUADS, v[6], v[7], v[4], v[5]);
+  TopLeft = new AlphaFace(alphaTRIANGLES, v[3], v[0], v[1]);
+  TopRight = new AlphaFace(alphaTRIANGLES, v[2], v[3], v[1]);
+  Front = new AlphaFace(alphaQUADS, v[3], v[2], v[7], v[6]);
+  Left = new AlphaFace(alphaTRIANGLES, v[3], v[6], v[5]);
+  Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
   const SLAB_PYRAMID_CORNER = new AlphaShape(
       TopLeft,
       TopRight,
@@ -332,15 +331,15 @@ export function standardBlockTypes(BlockTypes) {
   // inverted pyramid corner ( 3 top, 1 bottom )
   ipcorner = buildSlabStructure();
   v = ipcorner;
-  v[2].Add(0, -0.5, 0);
+  v[2].add(0, -0.5, 0);
   // now top, right
-  TopLeft = new AlphaFace(alpha_TRIANGLES, v[3], v[0], v[1]);
-  TopRight = new AlphaFace(alpha_TRIANGLES, v[2], v[3], v[1]);
-  Front = new AlphaFace(alpha_QUADS, v[3], v[2], v[7], v[6]);
-  Left = new AlphaFace(alpha_QUADS, v[0], v[3], v[6], v[5]);
-  Back = new AlphaFace(alpha_TRIANGLES, v[0], v[5], v[4]);
-  Right = new AlphaFace(alpha_TRIANGLES, v[2], v[4], v[7]);
-  Bottom = new AlphaFace(alpha_QUADS, v[6], v[7], v[4], v[5]);
+  TopLeft = new AlphaFace(alphaTRIANGLES, v[3], v[0], v[1]);
+  TopRight = new AlphaFace(alphaTRIANGLES, v[2], v[3], v[1]);
+  Front = new AlphaFace(alphaQUADS, v[3], v[2], v[7], v[6]);
+  Left = new AlphaFace(alphaQUADS, v[0], v[3], v[6], v[5]);
+  Back = new AlphaFace(alphaTRIANGLES, v[0], v[5], v[4]);
+  Right = new AlphaFace(alphaTRIANGLES, v[2], v[4], v[7]);
+  Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   const SLAB_INVERTED_PYRAMID_CORNER = new AlphaShape(
       TopLeft,
@@ -361,16 +360,16 @@ export function standardBlockTypes(BlockTypes) {
   // a slope lowers vertices 1 and 2 to 6 and 5;
   v = buildCubeStructure();
   for (let i = 0; i <= 1; ++i) {
-    v[i].Add(0, -0.5, 0);
+    v[i].add(0, -0.5, 0);
   }
   // this causes left and right to become triangles
-  Top = new AlphaFace(alpha_QUADS, v[2], v[3], v[0], v[1]);
-  Front = new AlphaFace(alpha_QUADS, v[3], v[2], v[7], v[6]);
-  Front = new AlphaFace(alpha_QUADS, v[3], v[2], v[7], v[6]);
-  Left = new AlphaFace(alpha_QUADS, v[0], v[3], v[6], v[5]);
-  Back = new AlphaFace(alpha_QUADS, v[1], v[0], v[5], v[4]);
-  Right = new AlphaFace(alpha_QUADS, v[2], v[1], v[4], v[7]);
-  Bottom = new AlphaFace(alpha_QUADS, v[6], v[7], v[4], v[5]);
+  Top = new AlphaFace(alphaQUADS, v[2], v[3], v[0], v[1]);
+  Front = new AlphaFace(alphaQUADS, v[3], v[2], v[7], v[6]);
+  Front = new AlphaFace(alphaQUADS, v[3], v[2], v[7], v[6]);
+  Left = new AlphaFace(alphaQUADS, v[0], v[3], v[6], v[5]);
+  Back = new AlphaFace(alphaQUADS, v[1], v[0], v[5], v[4]);
+  Right = new AlphaFace(alphaQUADS, v[2], v[1], v[4], v[7]);
+  Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   const SHALLOW_SLOPE = new AlphaShape(Top, Front, Left, Back, Right, Bottom);
   BlockTypes.Load('stone', 'shallow_slope', stone, SHALLOW_SLOPE);
@@ -391,16 +390,16 @@ export function standardBlockTypes(BlockTypes) {
   bcslopeStructure = buildCubeStructure();
   v = bcslopeStructure;
   for (let i = 0; i <= 2; ++i) {
-    v[i].Add(0, -0.5, 0);
+    v[i].add(0, -0.5, 0);
   }
   // now top, right
-  Top = new AlphaFace(alpha_TRIANGLES, v[2], v[3], v[0]);
-  Slope = new AlphaFace(alpha_TRIANGLES, v[2], v[0], v[1]);
-  Front = new AlphaFace(alpha_QUADS, v[3], v[2], v[7], v[6]);
-  Left = new AlphaFace(alpha_QUADS, v[0], v[3], v[6], v[5]);
-  Back = new AlphaFace(alpha_QUADS, v[1], v[2], v[5], v[4]);
-  Right = new AlphaFace(alpha_QUADS, v[2], v[1], v[4], v[7]);
-  Bottom = new AlphaFace(alpha_QUADS, v[6], v[7], v[4], v[5]);
+  Top = new AlphaFace(alphaTRIANGLES, v[2], v[3], v[0]);
+  Slope = new AlphaFace(alphaTRIANGLES, v[2], v[0], v[1]);
+  Front = new AlphaFace(alphaQUADS, v[3], v[2], v[7], v[6]);
+  Left = new AlphaFace(alphaQUADS, v[0], v[3], v[6], v[5]);
+  Back = new AlphaFace(alphaQUADS, v[1], v[2], v[5], v[4]);
+  Right = new AlphaFace(alphaQUADS, v[2], v[1], v[4], v[7]);
+  Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   const SHALLOW_CORNER = new AlphaShape(
       Top,
@@ -415,14 +414,14 @@ export function standardBlockTypes(BlockTypes) {
 
   v = buildCubeStructure();
   // 3 top, 1 bottom;
-  v[2].Add(0, -0.5, 0);
-  Top = new AlphaFace(alpha_TRIANGLES, v[2], v[3], v[0]);
-  Slope = new AlphaFace(alpha_TRIANGLES, v[2], v[0], v[1]);
-  Front = new AlphaFace(alpha_QUADS, v[3], v[2], v[7], v[6]);
-  Left = new AlphaFace(alpha_QUADS, v[0], v[3], v[6], v[5]);
-  Back = new AlphaFace(alpha_QUADS, v[1], v[0], v[5], v[4]);
-  Right = new AlphaFace(alpha_QUADS, v[2], v[1], v[4], v[7]);
-  Bottom = new AlphaFace(alpha_QUADS, v[6], v[7], v[4], v[5]);
+  v[2].add(0, -0.5, 0);
+  Top = new AlphaFace(alphaTRIANGLES, v[2], v[3], v[0]);
+  Slope = new AlphaFace(alphaTRIANGLES, v[2], v[0], v[1]);
+  Front = new AlphaFace(alphaQUADS, v[3], v[2], v[7], v[6]);
+  Left = new AlphaFace(alphaQUADS, v[0], v[3], v[6], v[5]);
+  Back = new AlphaFace(alphaQUADS, v[1], v[0], v[5], v[4]);
+  Right = new AlphaFace(alphaQUADS, v[2], v[1], v[4], v[7]);
+  Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   const SHALLOW_INVERTED_CORNER = new AlphaShape(
       Top,
@@ -444,16 +443,16 @@ export function standardBlockTypes(BlockTypes) {
   pcorner = buildCubeStructure();
   v = pcorner;
   for (let i = 0; i <= 2; ++i) {
-    v[i].Add(0, -0.5, 0);
+    v[i].add(0, -0.5, 0);
   }
   // now top, right
-  TopLeft = new AlphaFace(alpha_TRIANGLES, v[3], v[0], v[1]);
-  TopRight = new AlphaFace(alpha_TRIANGLES, v[2], v[3], v[1]);
-  Front = new AlphaFace(alpha_QUADS, v[3], v[2], v[7], v[6]);
-  Left = new AlphaFace(alpha_QUADS, v[0], v[3], v[6], v[5]);
-  Back = new AlphaFace(alpha_QUADS, v[1], v[0], v[5], v[4]);
-  Right = new AlphaFace(alpha_QUADS, v[2], v[1], v[4], v[7]);
-  Bottom = new AlphaFace(alpha_QUADS, v[6], v[7], v[4], v[5]);
+  TopLeft = new AlphaFace(alphaTRIANGLES, v[3], v[0], v[1]);
+  TopRight = new AlphaFace(alphaTRIANGLES, v[2], v[3], v[1]);
+  Front = new AlphaFace(alphaQUADS, v[3], v[2], v[7], v[6]);
+  Left = new AlphaFace(alphaQUADS, v[0], v[3], v[6], v[5]);
+  Back = new AlphaFace(alphaQUADS, v[1], v[0], v[5], v[4]);
+  Right = new AlphaFace(alphaQUADS, v[2], v[1], v[4], v[7]);
+  Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
   const SHALLOW_PYRAMID_CORNER = new AlphaShape(
       TopLeft,
       TopRight,
@@ -473,15 +472,15 @@ export function standardBlockTypes(BlockTypes) {
   // inverted pyramid corner ( 3 top, 1 bottom )
   ipcorner = buildCubeStructure();
   v = ipcorner;
-  v[1].Add(0, -0.5, 0);
+  v[1].add(0, -0.5, 0);
   // now top, right
-  TopLeft = new AlphaFace(alpha_TRIANGLES, v[3], v[0], v[1]);
-  TopRight = new AlphaFace(alpha_TRIANGLES, v[2], v[3], v[1]);
-  Front = new AlphaFace(alpha_QUADS, v[3], v[2], v[7], v[6]);
-  Left = new AlphaFace(alpha_QUADS, v[0], v[3], v[6], v[5]);
-  Back = new AlphaFace(alpha_QUADS, v[1], v[0], v[5], v[4]);
-  Right = new AlphaFace(alpha_QUADS, v[2], v[1], v[4], v[7]);
-  Bottom = new AlphaFace(alpha_QUADS, v[6], v[7], v[4], v[5]);
+  TopLeft = new AlphaFace(alphaTRIANGLES, v[3], v[0], v[1]);
+  TopRight = new AlphaFace(alphaTRIANGLES, v[2], v[3], v[1]);
+  Front = new AlphaFace(alphaQUADS, v[3], v[2], v[7], v[6]);
+  Left = new AlphaFace(alphaQUADS, v[0], v[3], v[6], v[5]);
+  Back = new AlphaFace(alphaQUADS, v[1], v[0], v[5], v[4]);
+  Right = new AlphaFace(alphaQUADS, v[2], v[1], v[4], v[7]);
+  Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   const SHALLOW_INVERTED_PYRAMID_CORNER = new AlphaShape(
       TopLeft,
@@ -501,30 +500,30 @@ export function standardBlockTypes(BlockTypes) {
 
   // an angled slab is a half slab cut in a right triangle
   v = buildSlabStructure();
-  v[1].Add(0, 0, -1);
-  v[4].Add(0, 0, -1);
-  Top = new AlphaFace(alpha_TRIANGLES, v[2], v[3], v[0]);
-  Front = new AlphaFace(alpha_QUADS, v[3], v[2], v[7], v[6]);
-  Left = new AlphaFace(alpha_QUADS, v[0], v[3], v[6], v[5]);
-  Back = new AlphaFace(alpha_QUADS, v[1], v[0], v[5], v[4]);
-  Bottom = new AlphaFace(alpha_TRIANGLES, v[6], v[7], v[5]);
+  v[1].add(0, 0, -1);
+  v[4].add(0, 0, -1);
+  Top = new AlphaFace(alphaTRIANGLES, v[2], v[3], v[0]);
+  Front = new AlphaFace(alphaQUADS, v[3], v[2], v[7], v[6]);
+  Left = new AlphaFace(alphaQUADS, v[0], v[3], v[6], v[5]);
+  Back = new AlphaFace(alphaQUADS, v[1], v[0], v[5], v[4]);
+  Bottom = new AlphaFace(alphaTRIANGLES, v[6], v[7], v[5]);
   const ANGLED_SLAB = new AlphaShape(Top, Front, Left, Back, Bottom);
 
   BlockTypes.Load('stone', 'angled_slab', stone, ANGLED_SLAB);
 
   // half-slab
   v = buildSlabStructure();
-  v[0].Add(0, 0, -0.5);
-  v[1].Add(0, 0, -0.5);
-  v[4].Add(0, 0, -0.5);
-  v[5].Add(0, 0, -0.5);
+  v[0].add(0, 0, -0.5);
+  v[1].add(0, 0, -0.5);
+  v[4].add(0, 0, -0.5);
+  v[5].add(0, 0, -0.5);
 
-  Top = new AlphaFace(alpha_QUADS, v[2], v[3], v[0], v[1]);
-  Front = new AlphaFace(alpha_QUADS, v[3], v[2], v[7], v[6]);
-  Left = new AlphaFace(alpha_QUADS, v[0], v[3], v[6], v[5]);
-  Back = new AlphaFace(alpha_QUADS, v[1], v[0], v[5], v[4]);
-  Right = new AlphaFace(alpha_QUADS, v[2], v[1], v[4], v[7]);
-  Bottom = new AlphaFace(alpha_QUADS, v[6], v[7], v[4], v[5]);
+  Top = new AlphaFace(alphaQUADS, v[2], v[3], v[0], v[1]);
+  Front = new AlphaFace(alphaQUADS, v[3], v[2], v[7], v[6]);
+  Left = new AlphaFace(alphaQUADS, v[0], v[3], v[6], v[5]);
+  Back = new AlphaFace(alphaQUADS, v[1], v[0], v[5], v[4]);
+  Right = new AlphaFace(alphaQUADS, v[2], v[1], v[4], v[7]);
+  Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
   const HALF_SLAB = new AlphaShape(Top, Front, Left, Back, Right, Bottom);
 
   BlockTypes.Load('stone', 'half_slab', stone, HALF_SLAB);
@@ -545,18 +544,18 @@ export function standardBlockTypes(BlockTypes) {
     new AlphaVector(0.5, 0, 0.5), // 11 -- mid
   ];
   v = stairStructure;
-  const Flight1Top = new AlphaFace(alpha_QUADS, v[2], v[3], v[0], v[1]);
-  const Flight1Front = new AlphaFace(alpha_QUADS, v[1], v[0], v[8], v[9]);
-  const Flight2Top = new AlphaFace(alpha_QUADS, v[9], v[8], v[10], v[11]);
-  const Flight2Front = new AlphaFace(alpha_QUADS, v[11], v[10], v[5], v[4]);
-  Front = new AlphaFace(alpha_QUADS, v[3], v[2], v[7], v[6]);
-  const LeftTop = new AlphaFace(alpha_QUADS, v[0], v[3], v[6], v[8]);
-  const LeftBot = new AlphaFace(alpha_QUADS, v[8], v[6], v[5], v[10]);
+  const Flight1Top = new AlphaFace(alphaQUADS, v[2], v[3], v[0], v[1]);
+  const Flight1Front = new AlphaFace(alphaQUADS, v[1], v[0], v[8], v[9]);
+  const Flight2Top = new AlphaFace(alphaQUADS, v[9], v[8], v[10], v[11]);
+  const Flight2Front = new AlphaFace(alphaQUADS, v[11], v[10], v[5], v[4]);
+  Front = new AlphaFace(alphaQUADS, v[3], v[2], v[7], v[6]);
+  const LeftTop = new AlphaFace(alphaQUADS, v[0], v[3], v[6], v[8]);
+  const LeftBot = new AlphaFace(alphaQUADS, v[8], v[6], v[5], v[10]);
 
-  const RightTop = new AlphaFace(alpha_QUADS, v[2], v[1], v[9], v[7]);
-  const RightBot = new AlphaFace(alpha_QUADS, v[9], v[11], v[4], v[7]);
+  const RightTop = new AlphaFace(alphaQUADS, v[2], v[1], v[9], v[7]);
+  const RightBot = new AlphaFace(alphaQUADS, v[9], v[11], v[4], v[7]);
 
-  Bottom = new AlphaFace(alpha_QUADS, v[6], v[7], v[4], v[5]);
+  Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   const STAIRS = new AlphaShape(
       Flight1Top,
@@ -577,16 +576,16 @@ export function standardBlockTypes(BlockTypes) {
   // medium corner; lowers 1 and 3 to mid range
   // and 2 to bottom
   v = buildCubeStructure();
-  v[0].Add(0, -0.5, 0);
-  v[2].Add(0, -0.5, 0);
-  v[1].Add(0, -1, 0);
+  v[0].add(0, -0.5, 0);
+  v[2].add(0, -0.5, 0);
+  v[1].add(0, -1, 0);
   // this causes left and right to become triangles
-  Top = new AlphaFace(alpha_QUADS, v[2], v[3], v[0], v[1]);
-  Front = new AlphaFace(alpha_QUADS, v[3], v[2], v[7], v[6]);
-  Left = new AlphaFace(alpha_QUADS, v[0], v[3], v[6], v[5]);
-  Back = new AlphaFace(alpha_TRIANGLES, v[0], v[5], v[4]);
-  Right = new AlphaFace(alpha_TRIANGLES, v[2], v[4], v[7]);
-  Bottom = new AlphaFace(alpha_QUADS, v[6], v[7], v[4], v[5]);
+  Top = new AlphaFace(alphaQUADS, v[2], v[3], v[0], v[1]);
+  Front = new AlphaFace(alphaQUADS, v[3], v[2], v[7], v[6]);
+  Left = new AlphaFace(alphaQUADS, v[0], v[3], v[6], v[5]);
+  Back = new AlphaFace(alphaTRIANGLES, v[0], v[5], v[4]);
+  Right = new AlphaFace(alphaTRIANGLES, v[2], v[4], v[7]);
+  Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   const MED_CORNER = new AlphaShape(Top, Front, Left, Back, Right, Bottom);
   BlockTypes.Load('stone', 'med_corner', stone, MED_CORNER);
@@ -594,15 +593,15 @@ export function standardBlockTypes(BlockTypes) {
   // medium corner; lowers 1 to midrange
   // and 2 to bottom
   v = buildCubeStructure();
-  v[0].Add(0, -0.5, 0);
-  v[1].Add(0, -1, 0);
+  v[0].add(0, -0.5, 0);
+  v[1].add(0, -1, 0);
   // this causes left and right to become triangles
-  Top = new AlphaFace(alpha_QUADS, v[2], v[3], v[0], v[1]);
-  Front = new AlphaFace(alpha_QUADS, v[3], v[2], v[7], v[6]);
-  Left = new AlphaFace(alpha_QUADS, v[0], v[3], v[6], v[5]);
-  Back = new AlphaFace(alpha_TRIANGLES, v[0], v[5], v[4]);
-  Right = new AlphaFace(alpha_TRIANGLES, v[2], v[4], v[7]);
-  Bottom = new AlphaFace(alpha_QUADS, v[6], v[7], v[4], v[5]);
+  Top = new AlphaFace(alphaQUADS, v[2], v[3], v[0], v[1]);
+  Front = new AlphaFace(alphaQUADS, v[3], v[2], v[7], v[6]);
+  Left = new AlphaFace(alphaQUADS, v[0], v[3], v[6], v[5]);
+  Back = new AlphaFace(alphaTRIANGLES, v[0], v[5], v[4]);
+  Right = new AlphaFace(alphaTRIANGLES, v[2], v[4], v[7]);
+  Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   const MED_CORNER2 = new AlphaShape(Top, Front, Left, Back, Right, Bottom);
   BlockTypes.Load('stone', 'med_corner2', stone, MED_CORNER2);
@@ -610,15 +609,15 @@ export function standardBlockTypes(BlockTypes) {
   // medium corner; lowers 1 and 3 to mid range
   // and 2 to bottom
   v = buildCubeStructure();
-  v[2].Add(0, -0.5, 0);
-  v[1].Add(0, -1, 0);
+  v[2].add(0, -0.5, 0);
+  v[1].add(0, -1, 0);
   // this causes left and right to become triangles
-  Top = new AlphaFace(alpha_QUADS, v[2], v[3], v[0], v[1]);
-  Front = new AlphaFace(alpha_QUADS, v[3], v[2], v[7], v[6]);
-  Left = new AlphaFace(alpha_QUADS, v[0], v[3], v[6], v[5]);
-  Back = new AlphaFace(alpha_TRIANGLES, v[0], v[5], v[4]);
-  Right = new AlphaFace(alpha_TRIANGLES, v[2], v[4], v[7]);
-  Bottom = new AlphaFace(alpha_QUADS, v[6], v[7], v[4], v[5]);
+  Top = new AlphaFace(alphaQUADS, v[2], v[3], v[0], v[1]);
+  Front = new AlphaFace(alphaQUADS, v[3], v[2], v[7], v[6]);
+  Left = new AlphaFace(alphaQUADS, v[0], v[3], v[6], v[5]);
+  Back = new AlphaFace(alphaTRIANGLES, v[0], v[5], v[4]);
+  Right = new AlphaFace(alphaTRIANGLES, v[2], v[4], v[7]);
+  Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   const MED_CORNER3 = new AlphaShape(Top, Front, Left, Back, Right, Bottom);
   BlockTypes.Load('stone', 'med_corner3', stone, MED_CORNER3);
