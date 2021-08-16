@@ -29,7 +29,7 @@ export default class AlphaCluster {
     this.facePainter = null;
   }
 
-  HasBlock(block) {
+  hasBlock(block) {
     for (let i = 0; i < this.blocks.length; ++i) {
       if (this.blocks[i] == block) {
         return i;
@@ -38,21 +38,21 @@ export default class AlphaCluster {
     return null;
   };
 
-  AddBlock() {
+  addBlock() {
     if (arguments.length > 1) {
       // Create a new block.
       this.blocks.push(createBlock.apply(null, arguments));
       return;
     }
     const block = arguments[0];
-    if (!this.HasBlock(block)) {
+    if (!this.hasBlock(block)) {
       this.blocks.push(block);
     }
     return block;
   };
 
   RemoveBlock(block) {
-    const i = this.HasBlock(block);
+    const i = this.hasBlock(block);
     if (i != null) {
       return this.blocks.splice(i, 1)[0];
     }
@@ -64,11 +64,11 @@ export default class AlphaCluster {
   AddBlocks() {
     if (arguments.length > 1) {
       for (let i = 0; i < arguments.length; ++i) {
-        this.AddBlock(arguments[i]);
+        this.addBlock(arguments[i]);
       }
     } else {
       for (let i = 0; i < arguments[0].length; ++i) {
-        this.AddBlock(arguments[0][i]);
+        this.addBlock(arguments[0][i]);
       }
     }
   };
@@ -77,12 +77,12 @@ export default class AlphaCluster {
     this.blocks.splice(0, this.blocks.length);
   };
 
-  CalculateVertices() {
+  calculateVertices() {
     if (!this.facePainter) {
       this.facePainter = new FacePainter(this.widget.gl());
     } else {
       // delete what we had;
-      this.facePainter.Clear();
+      this.facePainter.clear();
     }
 
     const rv1 = new AlphaVector();
@@ -90,14 +90,14 @@ export default class AlphaCluster {
     const rv3 = new AlphaVector();
     const rv4 = new AlphaVector();
     this.blocks.forEach(function(block) {
-      const quat = block.GetQuaternion(true);
+      const quat = block.getQuaternion(true);
       if (!quat) {
         // console.log(block);
         throw new Error('Block must not return a null quaternion');
       }
 
       // get the faces from the blocktype
-      const bType = this.widget.BlockTypes.Get(block.id);
+      const bType = this.widget.BlockTypes.get(block.id);
       if (!bType) {
         return;
       }
@@ -137,7 +137,7 @@ export default class AlphaCluster {
             vertex = vertex.dded(new AlphaVector(block[0], block[1], block[2]));
 
             // vector and cluster use the same indexes
-            this.facePainter.Triangle(
+            this.facePainter.triangle(
                 vertex[0],
                 vertex[1],
                 vertex[2],
@@ -186,10 +186,10 @@ export default class AlphaCluster {
 
             // rotate it; if it's not the default
             if (block.orientation > 0) {
-              quat.RotatedVectorEach(rv1, v1[0], v1[1], v1[2]);
-              quat.RotatedVectorEach(rv2, v2[0], v2[1], v2[2]);
-              quat.RotatedVectorEach(rv3, v3[0], v3[1], v3[2]);
-              quat.RotatedVectorEach(rv4, v4[0], v4[1], v4[2]);
+              quat.rotatedVectorEach(rv1, v1[0], v1[1], v1[2]);
+              quat.rotatedVectorEach(rv2, v2[0], v2[1], v2[2]);
+              quat.rotatedVectorEach(rv3, v3[0], v3[1], v3[2]);
+              quat.rotatedVectorEach(rv4, v4[0], v4[1], v4[2]);
             } else {
               rv1.set(v1);
               rv2.set(v2);
@@ -207,7 +207,7 @@ export default class AlphaCluster {
             rv4.add(block[0], block[1], block[2]);
 
             // Translate quads to triangles
-            this.facePainter.Quad(rv1, rv2, rv3, rv4, c1, c2, c3, c4);
+            this.facePainter.quad(rv1, rv2, rv3, rv4, c1, c2, c3, c4);
           }
         } else {
           throw new Error(
@@ -220,11 +220,11 @@ export default class AlphaCluster {
     }, this);
   };
 
-  Draw(viewMatrix) {
+  draw(viewMatrix) {
     if (!this.facePainter) {
       return;
     }
-    this.facePainter.Draw(viewMatrix);
+    this.facePainter.draw(viewMatrix);
   };
 }
 
@@ -238,10 +238,10 @@ alpha_Cluster_Tests.addTest('alpha_Cluster', function(resultDom) {
   const widget = new alpha_GLWidget(belt, window);
 
   // test version 1.0
-  const cubeman = widget.BlockTypes.Get('blank', 'cubeman');
+  const Cubeman = widget.BlockTypes.get('blank', 'Cubeman');
 
   const testCluster = new alpha_Cluster(widget);
-  testCluster.AddBlock(cubeman, 0, 5, 0, 1);
-  testCluster.CalculateVertices();
+  testCluster.addBlock(Cubeman, 0, 5, 0, 1);
+  testCluster.calculateVertices();
 });
 */

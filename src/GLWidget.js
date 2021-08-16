@@ -31,15 +31,15 @@ export default class AlphaGLWidget extends Component {
     // this.camera.SetProperFOV(2,2);
 
     // Set the camera's near and far distance.
-    this.camera.SetFarDistance(1000);
-    this.camera.SetNearDistance(1);
+    this.camera.setFarDistance(1000);
+    this.camera.setNearDistance(1);
 
     this.paintingDirty = true;
 
-    // this.camera.PitchDown(40 * Math.PI / 180);
+    // this.camera.pitchDown(40 * Math.PI / 180);
 
     this._input = new AlphaInput(this, this.camera);
-    this._input.SetMouseSensitivity(0.4);
+    this._input.setMouseSensitivity(0.4);
 
     this._done = false;
 
@@ -47,17 +47,17 @@ export default class AlphaGLWidget extends Component {
     standardBlockTypes(this.BlockTypes);
     CubeMan(this.BlockTypes);
 
-    const cubeman = this.BlockTypes.Get('blank', 'cubeman');
+    const cubeman = this.BlockTypes.get('blank', 'cubeman');
 
     this.testCluster = new AlphaCluster(this);
-    this.testCluster.AddBlock(cubeman, 0, 5, 0, 0);
+    this.testCluster.addBlock(cubeman, 0, 5, 0, 0);
 
-    const stone = this.BlockTypes.Get('stone', 'cube');
-    const grass = this.BlockTypes.Get('grass', 'cube');
-    const dirt = this.BlockTypes.Get('dirt', 'cube');
+    const stone = this.BlockTypes.get('stone', 'cube');
+    const grass = this.BlockTypes.get('grass', 'cube');
+    const dirt = this.BlockTypes.get('dirt', 'cube');
 
     this.originCluster = new AlphaCluster(this);
-    // this.originCluster.AddBlock(stone,0,0,-50,0);
+    // this.originCluster.addBlock(stone,0,0,-50,0);
 
     this.platformCluster = new AlphaCluster(this);
     this.worldCluster = new AlphaCluster(this);
@@ -65,21 +65,21 @@ export default class AlphaGLWidget extends Component {
     this.playerCluster = new AlphaCluster(this);
 
     for (let i = 0; i <= 2; ++i) {
-      this.playerCluster.AddBlock(grass, 0, i, 0, 0);
+      this.playerCluster.addBlock(grass, 0, i, 0, 0);
     }
 
-    this.playerCluster.AddBlock(grass, -1, 3, 0, 16); // left
+    this.playerCluster.addBlock(grass, -1, 3, 0, 16); // left
 
-    this.playerCluster.AddBlock(grass, 0, 4, 0, 12); // head
+    this.playerCluster.addBlock(grass, 0, 4, 0, 12); // head
 
-    this.playerCluster.AddBlock(grass, 1, 3, 0, 8); // right
+    this.playerCluster.addBlock(grass, 1, 3, 0, 8); // right
 
     const WORLD_SIZE = 30;
     const MAX_TYPE = 23;
     for (let i = -WORLD_SIZE; i <= WORLD_SIZE; ++i) {
       for (let j = 1; j <= WORLD_SIZE * 2; ++j) {
         const r = alphaRandom(0, MAX_TYPE);
-        this.worldCluster.AddBlock(
+        this.worldCluster.addBlock(
             [grass, stone][alphaRandom(0, 1)],
             i,
             -1,
@@ -93,14 +93,14 @@ export default class AlphaGLWidget extends Component {
 
   for (let i = -3; i <= 3; ++i) {
     for (let j = -4; j <= 4; ++j) {
-      this.platformCluster.AddBlock(grass, j, 0, -i, 0);
+      this.platformCluster.addBlock(grass, j, 0, -i, 0);
     }
   }
 
   this.evPlatformCluster = new AlphaCluster(this);
   for (let i = -2; i <= 2; ++i) {
     for (let j = 3; j <= 4; ++j) {
-      this.evPlatformCluster.AddBlock(dirt, j, 1, i, 0);
+      this.evPlatformCluster.addBlock(dirt, j, 1, i, 0);
     }
   }
 
@@ -125,8 +125,8 @@ export default class AlphaGLWidget extends Component {
   this.playerBPhysical.setPosition(0, 0, -3);
 
   this.offsetPlatformPhysical.setPosition(0, 0, -25);
-  this.offsetPlatformPhysical.YawLeft(0);
-  this.offsetPlatformPhysical.RollRight(0);
+  this.offsetPlatformPhysical.yawLeft(0);
+  this.offsetPlatformPhysical.rollRight(0);
 
   this.spherePhysical = new Physical(this.camera);
   this.spherePhysical.setPosition(45, 0, 0);
@@ -140,7 +140,7 @@ export default class AlphaGLWidget extends Component {
     const q = quaternionFromAxisAndAngle(1, 0, 0, (rot * Math.PI) / 180);
     rot += 15;
     const p = q.rotatedVector(0, 0, -radius);
-    this.sphereCluster.AddBlock(stone, p, 0);
+    this.sphereCluster.addBlock(stone, p, 0);
   }
 
   rot = 0;
@@ -149,7 +149,7 @@ export default class AlphaGLWidget extends Component {
     rot += 15;
 
     const p = q.rotatedVector(0, 0, -radius);
-    this.sphereCluster.AddBlock(stone, p, 0);
+    this.sphereCluster.addBlock(stone, p, 0);
   }
 
   const spot = new AlphaVector(0, 15, 35);
@@ -177,13 +177,13 @@ paint() {
   if (!this.paintingDirty) {
     return false;
   }
-  this.evPlatformCluster.CalculateVertices();
-  this.testCluster.CalculateVertices();
-  this.originCluster.CalculateVertices();
-  this.playerCluster.CalculateVertices();
-  this.worldCluster.CalculateVertices();
-  this.platformCluster.CalculateVertices();
-  this.sphereCluster.CalculateVertices();
+  this.evPlatformCluster.calculateVertices();
+  this.testCluster.calculateVertices();
+  this.originCluster.calculateVertices();
+  this.playerCluster.calculateVertices();
+  this.worldCluster.calculateVertices();
+  this.platformCluster.calculateVertices();
+  this.sphereCluster.calculateVertices();
   this.paintingDirty = false;
   return true;
 };
@@ -194,7 +194,7 @@ hasEventHandler() {
 
 handleEvent(eventType, eventData) {
   if (eventType === 'tick') {
-    this.Tick(elapsed(this._start));
+    this.tick(elapsed(this._start));
     this._start = new Date();
     return true;
   } else if (eventType === 'wheel') {
@@ -213,27 +213,27 @@ handleEvent(eventType, eventData) {
   return false;
 };
 
-Tick(elapsed) {
+tick(elapsed) {
   elapsed /= 1000;
   this.time += elapsed;
-  this._input.Update(elapsed);
+  this._input.update(elapsed);
 
   for (let i = 0; i < this.swarm.length; ++i) {
     const v = this.swarm[i];
     if (this.time < 6) {
-      v.MoveForward(elapsed);
-      v.YawRight((2 * Math.PI) / 180);
+      v.moveForward(elapsed);
+      v.yawRight((2 * Math.PI) / 180);
     } else {
-      v.PitchDown((1 * Math.PI) / 180);
-      v.YawRight((2 * Math.PI) / 180);
+      v.pitchDown((1 * Math.PI) / 180);
+      v.yawRight((2 * Math.PI) / 180);
       v.changePosition(0, -0.2, 0);
     }
   }
 
   this.orbit.rotate(-0.01, 0, 1, 0);
   // console.log(this.offsetPlatformPhysical.position.toString());
-  this.offsetPlatformPhysical.MoveLeft(elapsed);
-  this.offsetPlatformPhysical.YawLeft((0.1 * Math.PI) / 180);
+  this.offsetPlatformPhysical.moveLeft(elapsed);
+  this.offsetPlatformPhysical.yawLeft((0.1 * Math.PI) / 180);
   // console.log(this.offsetPlatformPhysical.position.toString());
 
   // console.log("Cam: " + this.camera.getOrientation());
@@ -279,7 +279,7 @@ gl() {
  * Render painted memory buffers.
  */
 render(width, height, avoidIfPossible) {
-  const projection = this.camera.UpdateProjection(width, height);
+  const projection = this.camera.updateProjection(width, height);
 
   // local fullcam = 
   //   boat:inverse() * 
@@ -291,7 +291,7 @@ render(width, height, avoidIfPossible) {
   gl.enable(gl.DEPTH_TEST);
   gl.enable(gl.CULL_FACE);
 
-  this.playerCluster.Draw(
+  this.playerCluster.draw(
       this.playerAPhysical.getViewMatrix().multiplied(projection),
   );
 
@@ -301,12 +301,12 @@ render(width, height, avoidIfPossible) {
   //   viewMatrix.toString());
   // console.log(this.camera.getViewMatrix().toString());
   const viewMatrix = this.camera.getViewMatrix().multiplied(projection);
-  this.worldCluster.Draw(viewMatrix);
+  this.worldCluster.draw(viewMatrix);
 
   for (let i = 0; i < this.swarm.length; ++i) {
     const v = this.swarm[i];
-    this.testCluster.Draw(v.getViewMatrix().multiplied(projection));
-    // this.worldCluster.Draw(v.getViewMatrix().multiplied(projection));
+    this.testCluster.draw(v.getViewMatrix().multiplied(projection));
+    // this.worldCluster.draw(v.getViewMatrix().multiplied(projection));
   }
 
   // console.log(projection.toString());
@@ -314,18 +314,18 @@ render(width, height, avoidIfPossible) {
   const platformMatrix = this.offsetPlatformPhysical
       .getViewMatrix()
       .multiplied(projection);
-  this.platformCluster.Draw(platformMatrix);
-  this.evPlatformCluster.Draw(platformMatrix);
+  this.platformCluster.draw(platformMatrix);
+  this.evPlatformCluster.draw(platformMatrix);
 
-  this.playerCluster.Draw(
+  this.playerCluster.draw(
       this.playerAPhysical.getViewMatrix().multiplied(projection),
   );
 
-  this.testCluster.Draw(
+  this.testCluster.draw(
       this.playerBPhysical.getViewMatrix().multiplied(projection),
   );
 
-  this.sphereCluster.Draw(
+  this.sphereCluster.draw(
       this.spherePhysical.getViewMatrix().multiplied(projection),
   );
   return false;

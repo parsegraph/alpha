@@ -35,9 +35,9 @@ import { AlphaQuaternion, AlphaRMatrix4, AlphaVector, quaternionFromAxisAndAngle
 // SetRotationSpeed( speed ) // sets all axes the same
 // p:setSpeeds(x,y,z) // ( movement speeds ) units / second per axis
 
-// p:YawLeft( elapsed ) // p:YawRight( elapsed )
-// p:PitchUp( elapsed ) // p:PitchDown( elapsed )
-// p:RollLeft( elapsed ) // p:RollRight( elapsed )
+// p:yawLeft( elapsed ) // p:yawRight( elapsed )
+// p:pitchUp( elapsed ) // p:pitchDown( elapsed )
+// p:rollLeft( elapsed ) // p:rollRight( elapsed )
 
 // instantly update your global position when you call these
 // p:WarpForward( distance ) // p:WarpBackward( distance )
@@ -51,9 +51,9 @@ import { AlphaQuaternion, AlphaRMatrix4, AlphaVector, quaternionFromAxisAndAngle
 // a simpler way to use velocity is to use these:
 // it will be automatically calculated using our set speeds;
 
-// p:MoveForward( elapsed ) // p:MoveBackward( elapsed )
-// p:MoveLeft( elapsed ) // p:MoveRight( elapsed )
-// p:MoveUp( elapsed ) // p:MoveDown( elapsed )
+// p:moveForward( elapsed ) // p:moveBackward( elapsed )
+// p:moveLeft( elapsed ) // p:moveRight( elapsed )
+// p:moveUp( elapsed ) // p:moveDown( elapsed )
 
 // XXX: for some reason I have to inverse quaterions for physical
 // not for the camera. I do not understand why.
@@ -145,32 +145,32 @@ Physical.prototype.RotateGlobal = function(angle, x, y, z) {
 /*
  * these rotations take place at the speeds set by rotationSpeed
  */
-Physical.prototype.YawLeft = function(elapsed) {
+Physical.prototype.yawLeft = function(elapsed) {
   const angle = elapsed * this.rotationSpeed[1];
   this.rotate(angle, 0, 1, 0);
 };
 
-Physical.prototype.YawRight = function(elapsed) {
+Physical.prototype.yawRight = function(elapsed) {
   const angle = elapsed * this.rotationSpeed[1];
   this.rotate(-angle, 0, 1, 0);
 };
 
-Physical.prototype.PitchUp = function(elapsed) {
+Physical.prototype.pitchUp = function(elapsed) {
   const angle = elapsed * this.rotationSpeed[0];
   this.rotate(angle, 1, 0, 0);
 };
 
-Physical.prototype.PitchDown = function(elapsed) {
+Physical.prototype.pitchDown = function(elapsed) {
   const angle = elapsed * this.rotationSpeed[0];
   this.rotate(-angle, 1, 0, 0);
 };
 
-Physical.prototype.RollLeft = function(elapsed) {
+Physical.prototype.rollLeft = function(elapsed) {
   const angle = elapsed * this.rotationSpeed[2];
   this.rotate(angle, 0, 0, 1);
 };
 
-Physical.prototype.RollRight = function(elapsed) {
+Physical.prototype.rollRight = function(elapsed) {
   const angle = elapsed * this.rotationSpeed[2];
   this.rotate(-angle, 0, 0, 1);
 };
@@ -186,12 +186,12 @@ Physical.prototype.turn = function(angle) {
   this.setOrientation(q.multiply(this.getOrientation()));
 };
 
-Physical.prototype.TurnLeft = function(elapsed) {
+Physical.prototype.turnLeft = function(elapsed) {
   const angle = elapsed * this.rotationSpeed[1];
   this.turn(angle);
 };
 
-Physical.prototype.TurnRight = function(elapsed) {
+Physical.prototype.turnRight = function(elapsed) {
   const angle = elapsed * this.rotationSpeed[1];
   this.turn(-angle);
 };
@@ -321,32 +321,32 @@ Physical.prototype.addVelocity = function(...args) {
 
 // Move commands adjust the velocity
 // using the set speed
-Physical.prototype.MoveForward = function(elapsed) {
+Physical.prototype.moveForward = function(elapsed) {
   const distance = elapsed * this.speed[2];
   this.addVelocity(0, 0, -distance);
 };
 
-Physical.prototype.MoveBackward = function(elapsed) {
+Physical.prototype.moveBackward = function(elapsed) {
   const distance = elapsed * this.speed[2];
   this.addVelocity(0, 0, distance);
 };
 
-Physical.prototype.MoveLeft = function(elapsed) {
+Physical.prototype.moveLeft = function(elapsed) {
   const distance = elapsed * this.speed[0];
   this.addVelocity(-distance, 0, 0);
 };
 
-Physical.prototype.MoveRight = function(elapsed) {
+Physical.prototype.moveRight = function(elapsed) {
   const distance = elapsed * this.speed[0];
   this.addVelocity(distance, 0, 0);
 };
 
-Physical.prototype.MoveUp = function(elapsed) {
+Physical.prototype.moveUp = function(elapsed) {
   const distance = elapsed * this.speed[1];
   this.addVelocity(0, distance, 0);
 };
 
-Physical.prototype.MoveDown = function(elapsed) {
+Physical.prototype.moveDown = function(elapsed) {
   const distance = elapsed * this.speed[1];
   this.addVelocity(0, -distance, 0);
 };

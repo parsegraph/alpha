@@ -1,7 +1,7 @@
 import { compileShader } from "parsegraph-shader";
 import { createPagingBuffer } from "parsegraph-pagingbuffer";
 
-const alpha_FacePainter_VertexShader =
+const alphaFacePainterVertexShader =
   'uniform mat4 u_world;\n' +
   '\n' +
   'attribute vec3 a_position;\n' +
@@ -14,7 +14,7 @@ const alpha_FacePainter_VertexShader =
   'contentColor = a_color;' +
   '}';
 
-const alpha_FacePainter_FragmentShader =
+const alphaFacePainterFragmentShader =
   '#ifdef GL_ES\n' +
   'precision mediump float;\n' +
   '#endif\n' +
@@ -41,7 +41,7 @@ export default class FacePainter {
         this.faceProgram,
         compileShader(
             this.gl,
-            alpha_FacePainter_VertexShader,
+            alphaFacePainterVertexShader,
             this.gl.VERTEX_SHADER,
         ),
     );
@@ -50,7 +50,7 @@ export default class FacePainter {
         this.faceProgram,
         compileShader(
             this.gl,
-            alpha_FacePainter_FragmentShader,
+            alphaFacePainterFragmentShader,
             this.gl.FRAGMENT_SHADER,
         ),
     );
@@ -71,22 +71,21 @@ export default class FacePainter {
     this.faceBuffer.addPage();
   }
 
-  Clear() {
+  clear() {
     this.faceBuffer.clear();
     this.faceBuffer.addPage();
   };
 
-  Quad(v1, v2, v3, v4, c1, c2, c3, c4) {
-    this.Triangle(v1, v2, v3, c1, c2, c3);
-    this.Triangle(v1, v3, v4, c1, c3, c4);
+  quad(v1, v2, v3, v4, c1, c2, c3, c4) {
+    this.triangle(v1, v2, v3, c1, c2, c3);
+    this.triangle(v1, v3, v4, c1, c3, c4);
   };
 
-  /**
-   * painter.Triangle(v1, v2, v3, c1, c2, c3);
-   *
-   *
+  /*
+   * painter.triangle(v1, v2, v3, c1, c2, c3);
    */
-  Triangle(v1, v2, v3, c1, c2, c3) {
+
+  triangle(v1, v2, v3, c1, c2, c3) {
     if (!c2) {
       c2 = c1;
     }
@@ -141,7 +140,7 @@ export default class FacePainter {
     }
   };
 
-  Draw(viewMatrix) {
+  draw(viewMatrix) {
     if (!viewMatrix) {
       throw new Error('A viewMatrix must be provided');
     }

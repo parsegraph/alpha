@@ -102,11 +102,11 @@ alphaVectorTests.addTest('AlphaVector.add', function() {
 });
 
 AlphaVector.prototype.added = function(...args) {
-  const rv = this.Clone();
+  const rv = this.clone();
   return rv.add.apply(rv, args);
 };
 
-AlphaVector.prototype.Clone = function() {
+AlphaVector.prototype.clone = function() {
   return new AlphaVector(this);
 };
 
@@ -128,7 +128,7 @@ AlphaVector.prototype.multiply = function(...args) {
 };
 
 AlphaVector.prototype.multiplied = function(...args) {
-  const rv = this.Clone();
+  const rv = this.clone();
   return rv.multiply.apply(rv, args);
 };
 
@@ -150,7 +150,7 @@ AlphaVector.prototype.Divide = function(...args) {
 };
 
 AlphaVector.prototype.Divided = function(...args) {
-  const rv = this.Clone();
+  const rv = this.clone();
   return rv.Divide.apply(rv, args);
 };
 
@@ -268,7 +268,7 @@ alphaVectorTests.addTest('AlphaVector.normalize', function() {
 });
 
 AlphaVector.prototype.normalized = function() {
-  return this.Clone().normalize();
+  return this.clone().normalize();
 };
 
 AlphaVector.prototype.Magnitude = function() {
@@ -390,7 +390,7 @@ alphaQuaternionTests.addTest('quaternionFromAxisAndAngle', function() {
   }
 });
 
-AlphaQuaternion.prototype.Clone = function() {
+AlphaQuaternion.prototype.clone = function() {
   return new AlphaQuaternion(this);
 };
 
@@ -433,7 +433,7 @@ AlphaQuaternion.prototype.multiply = function(...args) {
 };
 
 AlphaQuaternion.prototype.multiplied = function(...args) {
-  const rv = this.Clone();
+  const rv = this.clone();
   return rv.multiply.apply(rv, args);
 };
 
@@ -523,7 +523,7 @@ AlphaQuaternion.prototype.inverse = function() {
   return this.Conjugate();
 };
 
-AlphaQuaternion.prototype.ToAxisAndAngle = function() {
+AlphaQuaternion.prototype.toAxisAndAngle = function() {
   if (w > 1) {
     this.normalize();
   }
@@ -631,14 +631,14 @@ AlphaQuaternion.prototype.InnerProduct = AlphaQuaternion.prototype.DotProduct;
       y = args[0][1];
       z = args[0][2];
     }
-    this.RotatedVectorEach(vec, x, y, z);
+    this.rotatedVectorEach(vec, x, y, z);
     return vec;
   };
 })();
 
 (function() {
   const scratchQuat = new AlphaQuaternion();
-  AlphaQuaternion.prototype.RotatedVectorEach = function(outVec, x, y, z) {
+  AlphaQuaternion.prototype.rotatedVectorEach = function(outVec, x, y, z) {
     let aw = 0;
     let ax = x;
     let ay = y;
@@ -807,7 +807,7 @@ AlphaRMatrix4.prototype.Equals = function(...args) {
   return true;
 };
 
-AlphaRMatrix4.prototype.Clone = function() {
+AlphaRMatrix4.prototype.clone = function() {
   return new AlphaRMatrix4(this);
 };
 
@@ -1033,7 +1033,7 @@ alphaRMatrix4Tests.addTest(
 );
 
 AlphaRMatrix4.prototype.multiplied = function(...args) {
-  const rv = this.Clone();
+  const rv = this.clone();
   return rv.multiply.apply(rv, args);
 };
 

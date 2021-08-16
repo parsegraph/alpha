@@ -33,7 +33,7 @@ export default class AlphaCamera {
     this.width = null;
     this.height = null;
 
-    this.projectionDirty = true; // dirty until you call UpdateProjection();
+    this.projectionDirty = true; // dirty until you call updateProjection();
     this.projectionMatrix = new AlphaRMatrix4();
     this.modelDirty = true;
     this.modelMatrix = new AlphaRMatrix4();
@@ -193,7 +193,7 @@ export default class AlphaCamera {
   };
 
   // anything further than this is clipped
-  SetFarDistance(distance) {
+  setFarDistance(distance) {
     this.farDistance = distance;
     this.projectionDirty = true;
   };
@@ -203,7 +203,7 @@ export default class AlphaCamera {
   };
 
   // anything nearer than this is clipped
-  SetNearDistance(distance) {
+  setNearDistance(distance) {
     this.nearDistance = distance;
     this.projectionDirty = true;
   };
@@ -212,7 +212,7 @@ export default class AlphaCamera {
     return this.nearDistance;
   };
 
-  UpdateProjection(width, height) {
+  updateProjection(width, height) {
     this.width = width;
     this.height = height;
 
@@ -308,17 +308,17 @@ export default class AlphaCamera {
   };
 
   // these rotations take place at the speeds set by rotationSpeed
-  TurnLeft(elapsed) {
+  turnLeft(elapsed) {
     const angle = elapsed * this.rotationSpeed[1];
     this.turn(angle);
   };
 
-  TurnRight(elapsed) {
+  turnRight(elapsed) {
     const angle = elapsed * this.rotationSpeed[1];
     this.turn(-angle);
   };
 
-  PitchUp(elapsed) {
+  pitchUp(elapsed) {
     const angle = elapsed * this.rotationSpeed[0];
     if (angle !== 0) {
       // console.log("Pitch up " + angle);
@@ -326,7 +326,7 @@ export default class AlphaCamera {
     }
   };
 
-  PitchDown(elapsed) {
+  pitchDown(elapsed) {
     const angle = elapsed * this.rotationSpeed[0];
     if (angle !== 0) {
       // console.log("Pitch down " + angle);
@@ -335,7 +335,7 @@ export default class AlphaCamera {
   };
 
   // set which axis you want to align to
-  AlignParentToMy(x, y) {
+  alignParentToMy(x, y) {
     let q = new AlphaQuaternion();
     if (x == 0) {
       x = false;
@@ -506,12 +506,12 @@ export default class AlphaCamera {
     return this.speed;
   };
 
-  MoveForward(elapsed) {
+  moveForward(elapsed) {
     const distance = elapsed * this.speed;
     this.warp(-distance);
   };
 
-  MoveBackward(elapsed) {
+  moveBackward(elapsed) {
     const distance = elapsed * this.speed;
     this.warp(distance);
   };

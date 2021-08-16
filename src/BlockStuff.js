@@ -129,9 +129,9 @@ export class AlphaColor {
   };
 }
 
-const alpha_Color_Tests = new TestSuite('AlphaColor');
+const alphaColorTests = new TestSuite('AlphaColor');
 
-alpha_Color_Tests.addTest('alpha_Color.<constructor>', function(resultDom) {
+alphaColorTests.addTest('alpha_Color.<constructor>', function(resultDom) {
   let v = new AlphaColor(0.1, 0.2, 0.3);
   if (v[0] != 0.1 || v[1] != 0.2 || v[2] != 0.3) {
     resultDom.appendChild(document.createTextNode(v));
@@ -145,7 +145,7 @@ alpha_Color_Tests.addTest('alpha_Color.<constructor>', function(resultDom) {
   }
 });
 
-alpha_Color_Tests.addTest('alpha_Color.set', function() {
+alphaColorTests.addTest('alpha_Color.set', function() {
   const v = new AlphaColor(1);
   v.set(0.2);
   if (!v.equals(new AlphaColor(0.2, 0.2, 0.2))) {
@@ -166,7 +166,7 @@ alpha_Color_Tests.addTest('alpha_Color.set', function() {
   }
 });
 
-alpha_Color_Tests.addTest('alpha_Color.Equals', function() {
+alphaColorTests.addTest('alpha_Color.Equals', function() {
   const v = new AlphaColor(1);
   v.set(0.2);
   if (!v.equals(0.2)) {
@@ -210,22 +210,22 @@ export class AlphaSkin {
       // Passed colors directly.
       this.length = arguments.length;
       for (let i = 0; i < arguments.length; ++i) {
-        let color = arguments[i];
+        const color = arguments[i];
         this[i] = [];
         for (let j = 0; j < color.length; ++j) {
           this[i].push(new AlphaColor(color[j]));
-          let c = color[j];
+          const c = color[j];
         }
       }
     } else if (arguments.length > 0) {
       // Passed a single array of colors.
       this.length = arguments[0].length;
       for (let i = 0; i < arguments[0].length; ++i) {
-        let color = arguments[0][i];
+        const color = arguments[0][i];
         this[i] = [];
         for (let j = 0; j < color.length; ++j) {
           this[i].push(new AlphaColor(color[j]));
-          let c = color[j];
+          const c = color[j];
         }
       }
     } else {
@@ -342,10 +342,10 @@ export class AlphaFace {
     }
   }
 
-  Clone() {
+  clone() {
     const values = [];
     for (let i = 0; i < this.length; ++i) {
-      values.push(this[i].Clone());
+      values.push(this[i].clone());
     }
     return new AlphaFace(this.drawType, values);
   };
@@ -383,7 +383,7 @@ export class AlphaShape {
   constructor() {
     this.length = arguments.length;
     for (let i = 0; i < arguments.length; ++i) {
-      this[i] = arguments[i].Clone();
+      this[i] = arguments[i].clone();
     }
   }
 }
@@ -403,14 +403,15 @@ export class AlphaBlockTypes {
     this.descriptions = [];
   }
 
-  Load(descSkin, descShape, skin, shape) {
-    return this.Create(descSkin, descShape, skin, shape);
+  load(descSkin, descShape, skin, shape) {
+    return this.create(descSkin, descShape, skin, shape);
   };
 
-  /**
+  /*
    * creates a blocktype and returns the id.
    */
-  Create(
+
+  create(
       descSkin,
       descShape,
       skin,
@@ -441,15 +442,13 @@ export class AlphaBlockTypes {
     return this.descriptions[descSkin][descShape];
   };
 
-  Get() {
+  get() {
     if (arguments.length == 1) {
       const id = arguments[0];
       return this.blockIDs[id];
     }
-    let descSkin;
-    let descShape;
-    descSkin = arguments[0];
-    descShape = arguments[1];
+    const descSkin = arguments[0];
+    const descShape = arguments[1];
     if (this.descriptions[descSkin] == undefined) {
       console.log(this.descriptions);
       throw new Error(
@@ -525,7 +524,7 @@ export class AlphaBlock {
   };
 
   GetAngleAxis() {
-    return blockOrientations[this.orientation].ToAxisAndAngle();
+    return blockOrientations[this.orientation].toAxisAndAngle();
   };
 
   // naively calling this function results in a quaternion that you can
@@ -534,7 +533,7 @@ export class AlphaBlock {
   // quaternion; and returns the same quaternion for the same rotation
   // for better comparing
   // in C these values would be const static
-  GetQuaternion(actual) {
+  getQuaternion(actual) {
     if (actual) {
       return blockOrientations[this.orientation];
     }
@@ -674,8 +673,8 @@ AlphaBlockTypes_Tests.addTest('AlphaBlockTypes', function(resultDom) {
   // front to back
   const CUBE = new AlphaShape(Top, Front, Left, Back, Right, Bottom);
 
-  types.Create('stone', 'cube', stone, CUBE);
-  if (types.Get('stone', 'cube') != types.Get('stone', 'cube')) {
+  types.create('stone', 'cube', stone, CUBE);
+  if (types.get('stone', 'cube') != types.get('stone', 'cube')) {
     return 'Types do not match.';
   }
 });

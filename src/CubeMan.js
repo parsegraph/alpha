@@ -268,5 +268,5 @@ export default function CubeMan(BlockTypes) {
   }
   blank = new AlphaSkin(blank);
 
-  BlockTypes.Load('blank', 'cubeman', blank, shape);
+  BlockTypes.load('blank', 'cubeman', blank, shape);
 }
