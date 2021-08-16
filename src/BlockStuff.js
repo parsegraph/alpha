@@ -380,10 +380,10 @@ export class AlphaFace {
 // cubeBack
 // )
 export class AlphaShape {
-  constructor() {
-    this.length = arguments.length;
-    for (let i = 0; i < arguments.length; ++i) {
-      this[i] = arguments[i].clone();
+  constructor(...args) {
+    this.length = args.length;
+    for (let i = 0; i < args.length; ++i) {
+      this[i] = args[i].clone();
     }
   }
 }
@@ -469,26 +469,26 @@ export class AlphaBlockTypes {
 // --------------------------------------------
 // --------------------------------------------
 export class AlphaBlock {
-  constructor() {
+  constructor(...args) {
     let id;
     let x;
     let y;
     let z;
     let orientation;
-    if (arguments.length > 3) {
-      id = arguments[0];
-      x = arguments[1];
-      y = arguments[2];
-      z = arguments[3];
-      orientation = arguments[4];
-    } else if (arguments.length === 3) {
-      id = arguments[0];
-      x = arguments[1][0];
-      y = arguments[1][1];
-      z = arguments[1][2];
-      orientation = arguments[2];
+    if (args.length > 3) {
+      id = args[0];
+      x = args[1];
+      y = args[2];
+      z = args[3];
+      orientation = args[4];
+    } else if (args.length === 3) {
+      id = args[0];
+      x = args[1][0];
+      y = args[1][1];
+      z = args[1][2];
+      orientation = args[2];
     } else {
-      throw new Error('Unexpected number of arguments: ' + arguments.length);
+      throw new Error('Unexpected number of arguments: ' + args.length);
     }
 
     this.id = id || 0;
@@ -541,17 +541,17 @@ export class AlphaBlock {
   };
 }
 
-export function createBlock() {
-  if (arguments.length > 3) {
+export function createBlock(...args) {
+  if (args.length > 3) {
     return new AlphaBlock(
-        arguments[0],
-        arguments[1],
-        arguments[2],
-        arguments[3],
-        arguments[4],
+        args[0],
+        args[1],
+        args[2],
+        args[3],
+        args[4],
     );
   } else if (arguments.length == 3) {
-    return new AlphaBlock(arguments[0], arguments[1], arguments[2]);
+    return new AlphaBlock(args[0], args[1], args[2]);
   }
   throw new Error('Unexpected number of arguments: ' + arguments.length);
 }

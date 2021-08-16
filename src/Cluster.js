@@ -38,13 +38,13 @@ export default class AlphaCluster {
     return null;
   };
 
-  addBlock() {
+  addBlock(...args) {
     if (arguments.length > 1) {
       // Create a new block.
-      this.blocks.push(createBlock.apply(null, arguments));
+      this.blocks.push(createBlock(...args));
       return;
     }
-    const block = arguments[0];
+    const block = args[0];
     if (!this.hasBlock(block)) {
       this.blocks.push(block);
     }
