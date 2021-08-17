@@ -193,6 +193,10 @@ createAudioNode(audio) {
 onKeyDown(key) {
   // console.log(key);
   switch (key) {
+    case 'X':
+    case 'x':
+      this._frozen = !this._frozen;
+      return true;
     case 'Enter':
     case 'Return':
       this.switchAudioMode();
