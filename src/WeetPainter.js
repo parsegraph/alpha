@@ -3,138 +3,8 @@
 import alphaWeetPainterVertexShader from './WeetPainter_VertexShader.glsl';
 import alphaWeetPainterFragmentShader from './WeetPainter_FragmentShader.glsl';
 import { AlphaColor } from './BlockStuff';
-import {setIgnoreGLErrors} from 'parsegraph-checkglerror';
-setIgnoreGLErrors(false);
+import { compileProgram } from 'parsegraph-compileprogram';
 
-import checkGLError, {ignoreGLErrors} from 'parsegraph-checkglerror';
-
-/**
- * Creates and compiles a shader.
- *
- * @param {!WebGLRenderingContext} gl The WebGL Context.
- * @param {string} shaderSource The GLSL source code for the shader.
- * @param {number} shaderType The type of shader, VERTEX_SHADER or
- *     FRAGMENT_SHADER.
- * @param {string} shaderName The name used for debugging
- * @return {!WebGLShader} The shader.
- */
-function compileShader(gl, shaderSource, shaderType, shaderName) {
-  // Create the shader object
-  const shader = gl.createShader(shaderType);
-
-  // Set the shader source code.
-  gl.shaderSource(shader, shaderSource);
-
-  // Compile the shader
-  gl.compileShader(shader);
-
-  console.log("Checking Shaders" + ignoreGLErrors());
-  // Check if it compiled
-  if (!ignoreGLErrors()) {
-    const success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
-    if (!success) {
-      // Something went wrong during compilation; get the error
-      throw new Error(
-          'Could not compile ' +
-          (shaderType === gl.FRAGMENT_SHADER ? 'fragment' : 'vertex') +
-          ' shader ' +
-          shaderName +
-          ': ' +
-          gl.getShaderInfoLog(shader),
-      );
-    }
-  }
-
-  return shader;
-}
-
-function compileProgram(
-    window,
-    shaderName,
-    vertexShader,
-    fragShader
-) {
-  const gl = window.gl();
-  const shaders = window.shaders();
-  if (gl.isContextLost()) {
-    return;
-  }
-  if (shaders[shaderName]) {
-    return shaders[shaderName];
-  }
-
-  const program = gl.createProgram();
-  checkGLError(
-      gl,
-      'compileProgram.createProgram(shaderName=\'',
-      shaderName,
-      ')',
-  );
-
-  const compiledVertexShader = compileShader(
-      gl,
-      vertexShader,
-      gl.VERTEX_SHADER,
-      shaderName,
-  );
-  checkGLError(
-      gl,
-      'compileProgram.compile vertex shader(shaderName=\'',
-      shaderName,
-      ')',
-  );
-
-  gl.attachShader(program, compiledVertexShader);
-  checkGLError(
-      gl,
-      'compileProgram.attach vertex shader(shaderName=\'',
-      shaderName,
-      ')',
-  );
-
-  const compiledFragmentShader = compileShader(
-      gl,
-      fragShader,
-      gl.FRAGMENT_SHADER,
-      shaderName,
-  );
-  checkGLError(
-      gl,
-      'compileProgram.compile fragment shader(shaderName=\'',
-      shaderName,
-      ')',
-  );
-  gl.attachShader(program, compiledFragmentShader);
-  checkGLError(
-      gl,
-      'compileProgram.attach fragment shader(shaderName=\'',
-      shaderName,
-      ')',
-  );
-
-  gl.linkProgram(program);
-  if (!ignoreGLErrors()) {
-    const st = gl.getProgramParameter(program, gl.LINK_STATUS);
-    if (!st) {
-      throw new Error(
-          '\'' +
-          shaderName +
-          '\' shader program failed to link:\n' +
-          gl.getProgramInfoLog(program),
-      );
-    }
-    const err = gl.getError();
-    if (err != gl.NO_ERROR && err != gl.CONTEXT_LOST_WEBGL) {
-      throw new Error(
-          '\'' + shaderName + '\' shader program failed to link: ' + err,
-      );
-    }
-  }
-
-  shaders[shaderName] = program;
-  // console.log("Created shader for " + shaderName + ": " + program);
-  return program;
-}
 /*
  * Draws 3d faces in a solid color.
  */
@@ -145,7 +15,6 @@ export function alphaWeetPainter(window) {
   this.gl = window.gl();
   this._numCubes = null;
 
-  setIgnoreGLErrors(false);
   this.faceProgram = compileProgram(
       window,
       'alpha_WeetPainter',
