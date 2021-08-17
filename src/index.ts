@@ -3,7 +3,6 @@ import GraphicsWindow from "parsegraph-window";
 import AlphaGLWidget from "./GLWidget";
 import WeetCubeWidget from "./WeetCubeWidget";
 
-
 export function startAlpha() {
   const belt = new TimingBelt();
     const window = new GraphicsWindow();
