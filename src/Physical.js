@@ -58,9 +58,9 @@ import { AlphaQuaternion, AlphaRMatrix4, AlphaVector, quaternionFromAxisAndAngle
 // XXX: for some reason I have to inverse quaterions for physical
 // not for the camera. I do not understand why.
 
-const PHYSICAL_TRANSLATE_ROTATE_SCALE = 1;
-const PHYSICAL_SCALE_ROTATE_TRANSLATE = 2;
-const PHYSICAL_ROTATE_TRANSLATE_SCALE = 3;
+export const PHYSICAL_TRANSLATE_ROTATE_SCALE = 1;
+export const PHYSICAL_SCALE_ROTATE_TRANSLATE = 2;
+export const PHYSICAL_ROTATE_TRANSLATE_SCALE = 3;
 
 export default function Physical(parent) {
   this.modelMode = PHYSICAL_TRANSLATE_ROTATE_SCALE;
@@ -407,7 +407,7 @@ Physical.prototype.getParent = function() {
 // ------------------------------------------
 
 Physical.prototype.SetScale = function(...args) {
-  this.scale.set.apply(this.scale, ...args);
+  this.scale.set(...args);
   this.modelDirty = true;
 };
 
