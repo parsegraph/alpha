@@ -4089,6 +4089,11 @@ parse5@^7.0.0, parse5@^7.1.1:
   dependencies:
     entities "^4.4.0"
 
+parsegraph-checkglerror@^1.5.5:
+  version "1.5.5"
+  resolved "https://registry.yarnpkg.com/parsegraph-checkglerror/-/parsegraph-checkglerror-1.5.5.tgz#10d83ffbc7aa4910945f2ff305c46c9a8805413b"
+  integrity sha512-7S//HGc5o6i2XwGt191CqQVAujH6sY14mxf+uWNzbiXOqeiQE6/x8GkDH5UuY++qdbuLdt8XCy2y/ESbkRLk1Q==
+
 parsegraph-color@^1.4.10:
   version "1.4.10"
   resolved "https://registry.yarnpkg.com/parsegraph-color/-/parsegraph-color-1.4.10.tgz#5eaa88e69e3836ffea7dfa44453e1321ce2daeba"
@@ -4122,6 +4127,11 @@ parsegraph-input@^2.0.8:
     parsegraph-fuzzyequals "^1.4.10"
     parsegraph-matrix "^1.4.13"
     parsegraph-normalizewheel "^1.4.8"
+
+parsegraph-log@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/parsegraph-log/-/parsegraph-log-1.9.0.tgz#4c00ea79945a4c783b5daaa043599b964054f05b"
+  integrity sha512-Qx0zEY45y2z6hBl93WeCBIfQJJE8Qx3GQBkDGvKpmbal62Xpf4f8sZFlm/9/hMzEba60EPwBIEUNvUoi1cYiRA==
 
 parsegraph-matrix@^1.4.13, parsegraph-matrix@^1.4.7:
   version "1.4.13"
@@ -4161,6 +4171,11 @@ parsegraph-shader@^1.4.12-dev, parsegraph-shader@^1.5.7:
   version "1.5.8"
   resolved "https://registry.yarnpkg.com/parsegraph-shader/-/parsegraph-shader-1.5.8.tgz#6413de310e32392f904cc350c12dfe35707d0643"
   integrity sha512-2SuWPjYuLyiJuUQUpVY2rCOaHUZ2yFs6TuMpNKvrc4zROg6xrRyyPQP2mNScbAWk8NA4vssg7j2MLvQsNFvK3w==
+
+parsegraph-testsuite@^1.6.3:
+  version "1.6.3"
+  resolved "https://registry.yarnpkg.com/parsegraph-testsuite/-/parsegraph-testsuite-1.6.3.tgz#ab9a9b3476fb7f2540987688418212662b9b9a9e"
+  integrity sha512-GVu3km/MBLvnrRtYZ89jTlepPX3dVvSJ8vVgwGDqCu3qP3U7SGy7i/Ebh2BIbNhJed2J4xor0bSNQfQ16UGvtw==
 
 parsegraph-timing@^1.4.17:
   version "1.4.17"

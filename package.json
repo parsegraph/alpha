@@ -53,9 +53,12 @@
   "dependencies": {
     "glslify-loader": "^2.0.0",
     "parsegraph-compileprogram": "^2.0.14-dev",
+    "parsegraph-fuzzyequals": "^1.4.10",
     "parsegraph-matrix": "^1.4.7",
     "parsegraph-pagingbuffer": "^1.5.1",
     "parsegraph-shader": "^1.4.12-dev",
+    "parsegraph-testsuite": "^1.6.3",
+    "parsegraph-timing": "^1.4.17",
     "parsegraph-timingbelt": "^1.5.7",
     "parsegraph-toradians": "^1.4.5",
     "parsegraph-window": "^1.6.2",
