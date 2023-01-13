@@ -2,7 +2,7 @@
   "name": "parsegraph-alpha",
   "version": "1.4.0",
   "description": "TODO-DESCRIPTION",
-  "main": "dist/alpha.js",
+  "main": "dist/src/index.js",
   "scripts": {
     "coverage": "nyc npm run test",
     "test": "mocha -r @babel/register -r jsdom-global/register --recursive",
@@ -84,5 +84,6 @@
     "raw-loader": "^4.0.1",
     "ts-mocha": "^8.0.0",
     "webgl-mock": "^0.1.7"
-  }
+  },
+  "types": "dist/src/index.d.ts"
 }
