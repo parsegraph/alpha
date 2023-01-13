@@ -1,46 +1,25 @@
 DIST_NAME = alpha
 
 SCRIPT_FILES = \
-	src/index.ts
+	src/BlockIDs.js \
+	src/index.ts \
+	src/CubeMan.js \
+	src/GLWidget.js \
+	src/Physical.js \
+	src/Maths.js \
+	src/WeetPainter.js \
+	src/Cam.js \
+	src/glsl.d.ts \
+	src/Input.js \
+	src/Cluster.js \
+	src/BlockStuff.js \
+	src/WeetCubeWidget.js \
+	src/FacePainter.js \
+	src/demo.ts \
+	test/test.ts
 
-all: build lint test coverage esdoc
+EXTRA_SCRIPTS = \
+	src/WeetPainter_FragmentShader.glsl \
+	src/WeetPainter_VertexShader.glsl
 
-build: dist/$(DIST_NAME).js
-.PHONY: build
-
-demo: dist/$(DIST_NAME).js
-	npm run demo
-.PHONY: demo
-
-check:
-	npm run test
-.PHONY: check
-
-test: check
-.PHONY: test
-
-coverage:
-	npm run coverage
-.PHONY: coverage
-
-prettier:
-	npx prettier --write src test demo www
-.PHONY: prettier
-
-lint:
-	npx eslint --fix $(SCRIPT_FILES)
-.PHONY: lint
-
-esdoc:
-	npx esdoc
-.PHONY: esdoc
-
-doc: esdoc
-.PHONY: doc
-
-dist/$(DIST_NAME).js: $(SCRIPT_FILES)
-	npm run build
-
-clean:
-	rm -rf dist .nyc_output
-.PHONY: clean
+include ./Makefile.microproject
