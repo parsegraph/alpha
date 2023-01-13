@@ -4099,7 +4099,7 @@ parsegraph-color@^1.4.10:
   resolved "https://registry.yarnpkg.com/parsegraph-color/-/parsegraph-color-1.4.10.tgz#5eaa88e69e3836ffea7dfa44453e1321ce2daeba"
   integrity sha512-w0utQ0RS04s8KKkrtfeodbuvUrdUdzDr4lpFsK0YVf5USCO6f0m5rxHR/6DpcyDr3uZ+AKgtar3ALTY7iV94fQ==
 
-parsegraph-compileprogram@^2.0.14-dev, parsegraph-compileprogram@^2.2.18:
+parsegraph-compileprogram@^2.2.18:
   version "2.2.18"
   resolved "https://registry.yarnpkg.com/parsegraph-compileprogram/-/parsegraph-compileprogram-2.2.18.tgz#653c9e3d6e005e7c1d105cf175cca1c8851325a8"
   integrity sha512-Vx9OerBOiDOYjcPzPXiLv6Wrii7IdyWFqX9sWSgITRYqwg/cpM3Vicv08vStChY/0iuUYb+zquybLqHocV0zGQ==
@@ -4133,7 +4133,7 @@ parsegraph-log@^1.9.0:
   resolved "https://registry.yarnpkg.com/parsegraph-log/-/parsegraph-log-1.9.0.tgz#4c00ea79945a4c783b5daaa043599b964054f05b"
   integrity sha512-Qx0zEY45y2z6hBl93WeCBIfQJJE8Qx3GQBkDGvKpmbal62Xpf4f8sZFlm/9/hMzEba60EPwBIEUNvUoi1cYiRA==
 
-parsegraph-matrix@^1.4.13, parsegraph-matrix@^1.4.7:
+parsegraph-matrix@^1.4.13:
   version "1.4.13"
   resolved "https://registry.yarnpkg.com/parsegraph-matrix/-/parsegraph-matrix-1.4.13.tgz#03ae82514add3e45864dfa93e74518856c3217e1"
   integrity sha512-D39aH6MTGxnJA+XTZC2Oc3qjfw/oTgODYKK0fm+fO6I+cZOs6GL+rRIRZhF0Nb5Ibm/UAv+IKIE6cS9XG+CHEw==
@@ -4148,10 +4148,10 @@ parsegraph-normalizewheel@^1.4.8:
   resolved "https://registry.yarnpkg.com/parsegraph-normalizewheel/-/parsegraph-normalizewheel-1.4.8.tgz#9cf34316b343945cc9ebb4676e7acaee86361e19"
   integrity sha512-/snL0pXiTV+GFjPpIvsMCeIoagaijUEim+iPkfX8GCjA9jBAkGEyofK3PKEf2aCo46D0DUSKHqEuoZ+3IT/wog==
 
-parsegraph-pagingbuffer@^1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/parsegraph-pagingbuffer/-/parsegraph-pagingbuffer-1.5.1.tgz#945859976de166c6f515630748f13ad9b9a5a142"
-  integrity sha512-LgCwkcDsBkhtTUfpu5T2F1o9LVRxGQu1FUzDMH14omm2Hry/NT8Y+Cm1bUJe38dj5JYl5r+5cc28hPwaJbk+Kw==
+parsegraph-pagingbuffer@^2.1.5:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/parsegraph-pagingbuffer/-/parsegraph-pagingbuffer-2.1.5.tgz#f6abe6aaca351f2302a6bc398e2cda803a6452fe"
+  integrity sha512-NgghZ3QYZmFxmanmkE0Tj5KOgjc2aiqnnk+pMd7tqaPhDr7zTfrNfQKJtu6y1XLbJmV35N/WdkdPGvpVzIz6yA==
 
 parsegraph-projector@^1.14.6:
   version "1.14.6"
@@ -4167,7 +4167,7 @@ parsegraph-rect@^1.5.2:
   resolved "https://registry.yarnpkg.com/parsegraph-rect/-/parsegraph-rect-1.5.2.tgz#e6c51d74ed1496ccac21402a2ec5abedebe0c092"
   integrity sha512-KwNzJwWl6EhzZ2IenrrIoTZeAbmLu+8Lt05NBWugWZnto1uqBBl0e3vj+yFs2Sr3jFm2z2RihvCziVKBOMDgHw==
 
-parsegraph-shader@^1.4.12-dev, parsegraph-shader@^1.5.7:
+parsegraph-shader@^1.5.7, parsegraph-shader@^1.5.8:
   version "1.5.8"
   resolved "https://registry.yarnpkg.com/parsegraph-shader/-/parsegraph-shader-1.5.8.tgz#6413de310e32392f904cc350c12dfe35707d0643"
   integrity sha512-2SuWPjYuLyiJuUQUpVY2rCOaHUZ2yFs6TuMpNKvrc4zROg6xrRyyPQP2mNScbAWk8NA4vssg7j2MLvQsNFvK3w==
@@ -4185,7 +4185,7 @@ parsegraph-timing@^1.4.17:
     parsegraph-gettimeinmillis "^1.4.7"
     parsegraph-method "^1.4.23"
 
-parsegraph-timingbelt@^1.5.7, parsegraph-timingbelt@^1.7.15:
+parsegraph-timingbelt@^1.7.15:
   version "1.7.15"
   resolved "https://registry.yarnpkg.com/parsegraph-timingbelt/-/parsegraph-timingbelt-1.7.15.tgz#0d23de5df5be61f95ee05cc66d319d03e7c3d4f3"
   integrity sha512-k4KgBNNHKId6JZHZHu4zxmaX/YNyEAIuzfz6gRJrGYq7lrHyb61kFBLN2Y5+MdKhuj5mnwneCRy1KRnWmGlHVg==
@@ -4193,12 +4193,12 @@ parsegraph-timingbelt@^1.5.7, parsegraph-timingbelt@^1.7.15:
     parsegraph-method "^1.4.23"
     parsegraph-timing "^1.4.17"
 
-parsegraph-toradians@^1.4.5:
+parsegraph-toradians@^1.4.10:
   version "1.4.10"
   resolved "https://registry.yarnpkg.com/parsegraph-toradians/-/parsegraph-toradians-1.4.10.tgz#e79797c2af66f47c0760c7ab8d8ae18ca35a4a9f"
   integrity sha512-bIwb7d293w1ffarSBMmz1Lziu8O3vNLrKmNWj9oF2Oq3SlhV3RDN+GLEq4IbLYzBmpPzpWVEtsVGmd9GcqV/Hg==
 
-parsegraph-window@^1.6.2:
+parsegraph-window@^1.8.32:
   version "1.8.32"
   resolved "https://registry.yarnpkg.com/parsegraph-window/-/parsegraph-window-1.8.32.tgz#6551daaf997ac9f16d1b6b494983e4b1c56a6326"
   integrity sha512-TcK+ibKNBQgBCQko1GAw5iibewZ4fqWr9NGLCgoNeCDzIe0jLwQDg0NmvgUTuwGAPPO6Z6IDDMhQ8pyDZcA59w==
