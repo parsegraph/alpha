@@ -3,13 +3,6 @@
   "version": "1.4.0",
   "description": "TODO-DESCRIPTION",
   "main": "dist/src/index.js",
-  "scripts": {
-    "coverage": "nyc npm run test",
-    "test": "mocha -r @babel/register -r jsdom-global/register --recursive",
-    "demo": "node demo/demo.js",
-    "autobuild": "webpack --watch --config webpack.config.js",
-    "build": "webpack --config webpack.config.js"
-  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/parsegraph/alpha.git"
