@@ -13,17 +13,6 @@
     "url": "https://github.com/parsegraph/alpha/issues"
   },
   "homepage": "https://github.com/parsegraph/alpha#readme",
-  "nyc": {
-    "extends": "@istanbuljs/nyc-config-babel",
-    "reporter": [
-      "html"
-    ],
-    "exclude": [
-      "test/**.js",
-      "dist/**.js"
-    ],
-    "reportDir": "dist/coverage"
-  },
   "devDependencies": {
     "@babel/cli": "^7.12.10",
     "@babel/core": "^7.12.10",
