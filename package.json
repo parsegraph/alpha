@@ -39,8 +39,6 @@
     "@babel/register": "^7.12.10",
     "babel-loader": "^8.1.0",
     "glslify-loader": "^2.0.0",
-    "parsegraph-collections": "^1.4.1",
-    "parsegraph-color": "^1.4.3",
     "parsegraph-compileprogram": "^2.0.14-dev",
     "parsegraph-matrix": "^1.4.7",
     "parsegraph-pagingbuffer": "^1.5.1",
