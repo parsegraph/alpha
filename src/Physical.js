@@ -11,8 +11,13 @@
 // TODO: Children
 // TODO: acceleration
 
-import TestSuite from 'parsegraph-testsuite';
-import { AlphaQuaternion, AlphaRMatrix4, AlphaVector, quaternionFromAxisAndAngle } from './Maths';
+import TestSuite from "parsegraph-testsuite";
+import {
+  AlphaQuaternion,
+  AlphaRMatrix4,
+  AlphaVector,
+  quaternionFromAxisAndAngle,
+} from "./Maths";
 
 // -----------------------------------
 // ------------ USAGE ----------------
@@ -76,7 +81,7 @@ export default function Physical(parent) {
   this.setParent(parent);
 }
 
-Physical.prototype.toJSON = function() {
+Physical.prototype.toJSON = function () {
   return {
     position: this.position.toJSON(),
     orientation: this.orientation.toJSON(),
@@ -84,9 +89,9 @@ Physical.prototype.toJSON = function() {
 };
 
 // Register the test suite.
-const alphaPhysicalTests = new TestSuite('Physical');
+const alphaPhysicalTests = new TestSuite("Physical");
 
-alphaPhysicalTests.addTest('Physical', function(resultDom) {
+alphaPhysicalTests.addTest("Physical", function (resultDom) {
   const surface = new GLWidget();
   const cam = new Camera(surface);
   const p = new Physical(cam);
@@ -97,7 +102,7 @@ alphaPhysicalTests.addTest('Physical', function(resultDom) {
 // ---------- Rotation ---------------
 // -----------------------------------
 
-Physical.prototype.setOrientation = function(...args) {
+Physical.prototype.setOrientation = function (...args) {
   this.orientation.set.apply(this.orientation, ...args);
   this.modelDirty = true;
 };
@@ -105,24 +110,23 @@ Physical.prototype.setOrientation = function(...args) {
 /*
  * returns as Quaternion
  */
-Physical.prototype.getOrientation = function() {
+Physical.prototype.getOrientation = function () {
   return this.orientation;
 };
 
 /*
  * in radians / second
  */
-Physical.prototype.SetRotationSpeeds = function(...args) {
+Physical.prototype.SetRotationSpeeds = function (...args) {
   this.rotationSpeed.set.apply(this.rotationSpeed, ...args);
 };
-Physical.prototype.SetRotationSpeed =
-  Physical.prototype.SetRotationSpeeds;
+Physical.prototype.SetRotationSpeed = Physical.prototype.SetRotationSpeeds;
 
-Physical.prototype.GetRotationSpeeds = function() {
+Physical.prototype.GetRotationSpeeds = function () {
   return this.rotationSpeed;
 };
 
-Physical.prototype.rotate = function(angle, x, y, z) {
+Physical.prototype.rotate = function (angle, x, y, z) {
   // if you aren't rotating about an angle, then you aren't rotating
   if (angle == 0) {
     return;
@@ -132,7 +136,7 @@ Physical.prototype.rotate = function(angle, x, y, z) {
   this.modelDirty = true;
 };
 
-Physical.prototype.RotateGlobal = function(angle, x, y, z) {
+Physical.prototype.RotateGlobal = function (angle, x, y, z) {
   // if you aren't rotating about an angle, then you aren't rotating
   if (angle == 0) {
     return;
@@ -145,37 +149,37 @@ Physical.prototype.RotateGlobal = function(angle, x, y, z) {
 /*
  * these rotations take place at the speeds set by rotationSpeed
  */
-Physical.prototype.yawLeft = function(elapsed) {
+Physical.prototype.yawLeft = function (elapsed) {
   const angle = elapsed * this.rotationSpeed[1];
   this.rotate(angle, 0, 1, 0);
 };
 
-Physical.prototype.yawRight = function(elapsed) {
+Physical.prototype.yawRight = function (elapsed) {
   const angle = elapsed * this.rotationSpeed[1];
   this.rotate(-angle, 0, 1, 0);
 };
 
-Physical.prototype.pitchUp = function(elapsed) {
+Physical.prototype.pitchUp = function (elapsed) {
   const angle = elapsed * this.rotationSpeed[0];
   this.rotate(angle, 1, 0, 0);
 };
 
-Physical.prototype.pitchDown = function(elapsed) {
+Physical.prototype.pitchDown = function (elapsed) {
   const angle = elapsed * this.rotationSpeed[0];
   this.rotate(-angle, 1, 0, 0);
 };
 
-Physical.prototype.rollLeft = function(elapsed) {
+Physical.prototype.rollLeft = function (elapsed) {
   const angle = elapsed * this.rotationSpeed[2];
   this.rotate(angle, 0, 0, 1);
 };
 
-Physical.prototype.rollRight = function(elapsed) {
+Physical.prototype.rollRight = function (elapsed) {
   const angle = elapsed * this.rotationSpeed[2];
   this.rotate(-angle, 0, 0, 1);
 };
 
-Physical.prototype.turn = function(angle) {
+Physical.prototype.turn = function (angle) {
   // if you aren't rotating about an angle, then you aren't rotating
   if (angle == 0) {
     return;
@@ -186,12 +190,12 @@ Physical.prototype.turn = function(angle) {
   this.setOrientation(q.multiply(this.getOrientation()));
 };
 
-Physical.prototype.turnLeft = function(elapsed) {
+Physical.prototype.turnLeft = function (elapsed) {
   const angle = elapsed * this.rotationSpeed[1];
   this.turn(angle);
 };
 
-Physical.prototype.turnRight = function(elapsed) {
+Physical.prototype.turnRight = function (elapsed) {
   const angle = elapsed * this.rotationSpeed[1];
   this.turn(-angle);
 };
@@ -203,9 +207,9 @@ Physical.prototype.turnRight = function(elapsed) {
 /*
  * send as x,y,z
  */
-Physical.prototype.setPosition = function(...args) {
+Physical.prototype.setPosition = function (...args) {
   if (Number.isNaN(this.position[0])) {
-    throw new Error('Position became NaN.');
+    throw new Error("Position became NaN.");
   }
   this.position.set.call(this.position, ...args);
   this.modelDirty = true;
@@ -214,13 +218,13 @@ Physical.prototype.setPosition = function(...args) {
 /*
  * return as Vector
  */
-Physical.prototype.getPosition = function() {
+Physical.prototype.getPosition = function () {
   return this.position;
 };
 
-Physical.prototype.changePosition = function(...args) {
+Physical.prototype.changePosition = function (...args) {
   if (Number.isNaN(this.position[0])) {
-    throw new Error('Position became NaN!');
+    throw new Error("Position became NaN!");
   }
   this.position.add.call(this.position, ...args);
   this.modelDirty = true;
@@ -234,7 +238,7 @@ Physical.prototype.changePosition = function(...args) {
 /*
  * convertes the local x,y,z vector to the global position vector
  */
-Physical.prototype.warp = function(...args) {
+Physical.prototype.warp = function (...args) {
   let x;
   let y;
   let z;
@@ -265,27 +269,27 @@ Physical.prototype.warp = function(...args) {
 // these movement commands MOVE the physical
 // the physical's position is updated in the call
 // use the Move commands for player-commanded movement
-Physical.prototype.WarpForward = function(distance) {
+Physical.prototype.WarpForward = function (distance) {
   this.warp(0, 0, -distance);
 };
 
-Physical.prototype.WarpBackward = function(distance) {
+Physical.prototype.WarpBackward = function (distance) {
   this.warp(0, 0, distance);
 };
 
-Physical.prototype.WarpLeft = function(distance) {
+Physical.prototype.WarpLeft = function (distance) {
   this.warp(-distance, 0, 0);
 };
 
-Physical.prototype.WarpRight = function(distance) {
+Physical.prototype.WarpRight = function (distance) {
   this.warp(distance, 0, 0);
 };
 
-Physical.prototype.WarpUp = function(distance) {
+Physical.prototype.WarpUp = function (distance) {
   this.warp(0, distance, 0);
 };
 
-Physical.prototype.WarpDown = function(distance) {
+Physical.prototype.WarpDown = function (distance) {
   this.warp(0, -distance, 0);
 };
 
@@ -294,66 +298,67 @@ Physical.prototype.WarpDown = function(distance) {
 // ------------------------------------------
 
 // speed is in units per second
-Physical.prototype.setSpeeds = function(...args) {
+Physical.prototype.setSpeeds = function (...args) {
   this.speed.set.call(this.speed, ...args);
 };
 
-Physical.prototype.GetSpeeds = function() {
+Physical.prototype.GetSpeeds = function () {
   return this.speed;
 };
 
-Physical.prototype.SetSpeed = function(speed) {4
+Physical.prototype.SetSpeed = function (speed) {
+  4;
   return this.setSpeeds(speed, speed, speed);
 };
 
-Physical.prototype.SetVelocity = function(...args) {
+Physical.prototype.SetVelocity = function (...args) {
   this.velocity.set.call(this.velocity, ...args);
 };
 
-Physical.prototype.GetVelocity = function() {
+Physical.prototype.GetVelocity = function () {
   return this.velocity;
 };
 
-Physical.prototype.addVelocity = function(...args) {
+Physical.prototype.addVelocity = function (...args) {
   this.velocity.add.call(this.velocity, ...args);
   this.modelDirty = true;
 };
 
 // Move commands adjust the velocity
 // using the set speed
-Physical.prototype.moveForward = function(elapsed) {
+Physical.prototype.moveForward = function (elapsed) {
   const distance = elapsed * this.speed[2];
   this.addVelocity(0, 0, -distance);
 };
 
-Physical.prototype.moveBackward = function(elapsed) {
+Physical.prototype.moveBackward = function (elapsed) {
   const distance = elapsed * this.speed[2];
   this.addVelocity(0, 0, distance);
 };
 
-Physical.prototype.moveLeft = function(elapsed) {
+Physical.prototype.moveLeft = function (elapsed) {
   const distance = elapsed * this.speed[0];
   this.addVelocity(-distance, 0, 0);
 };
 
-Physical.prototype.moveRight = function(elapsed) {
+Physical.prototype.moveRight = function (elapsed) {
   const distance = elapsed * this.speed[0];
   this.addVelocity(distance, 0, 0);
 };
 
-Physical.prototype.moveUp = function(elapsed) {
+Physical.prototype.moveUp = function (elapsed) {
   const distance = elapsed * this.speed[1];
   this.addVelocity(0, distance, 0);
 };
 
-Physical.prototype.moveDown = function(elapsed) {
+Physical.prototype.moveDown = function (elapsed) {
   const distance = elapsed * this.speed[1];
   this.addVelocity(0, -distance, 0);
 };
 
 // calculates our new position using our current velocity
 // and then resets the velocity
-Physical.prototype.applyVelocity = function() {
+Physical.prototype.applyVelocity = function () {
   this.warp(this.velocity);
   this.velocity.set(0, 0, 0);
 };
@@ -365,7 +370,7 @@ Physical.prototype.applyVelocity = function() {
 // in order to be a good lineage:
 // a camera must be reached
 // // therefore it must not infinitely loop
-Physical.prototype.isGoodLineageFor = function(prospectiveChild) {
+Physical.prototype.isGoodLineageFor = function (prospectiveChild) {
   const parent = this.getParent();
 
   // no parent = no lineage
@@ -383,22 +388,22 @@ Physical.prototype.isGoodLineageFor = function(prospectiveChild) {
   return parent.isGoodLineageFor(prospectiveChild);
 };
 
-Physical.prototype.setParent = function(parent) {
+Physical.prototype.setParent = function (parent) {
   if (!parent) {
     throw new Error(
-        'A Physical must have a parent. set it to the camera for a default',
+      "A Physical must have a parent. set it to the camera for a default"
     );
   }
 
   if (!parent.isGoodLineageFor(this)) {
     throw new Error(
-        'Setting this is a parent would result in a lineage that never reaches the camera',
+      "Setting this is a parent would result in a lineage that never reaches the camera"
     );
   }
   this.parent = parent;
 };
 
-Physical.prototype.getParent = function() {
+Physical.prototype.getParent = function () {
   return this.parent;
 };
 
@@ -406,17 +411,17 @@ Physical.prototype.getParent = function() {
 // -----------  MODELVIEW MATRIX ------------
 // ------------------------------------------
 
-Physical.prototype.SetScale = function(...args) {
+Physical.prototype.SetScale = function (...args) {
   this.scale.set(...args);
   this.modelDirty = true;
 };
 
-Physical.prototype.GetScale = function() {
+Physical.prototype.GetScale = function () {
   return this.scale;
 };
 
 // combine our position and orientation into a matrix;
-Physical.prototype.getModelMatrix = function() {
+Physical.prototype.getModelMatrix = function () {
   const x = this.velocity[0];
   const y = this.velocity[1];
   const z = this.velocity[2];
@@ -451,7 +456,7 @@ Physical.prototype.getModelMatrix = function() {
         break;
       default:
         throw new Error(
-            'Model mode must be an expected value: ' + this.modelMode,
+          "Model mode must be an expected value: " + this.modelMode
         );
     }
 
@@ -503,7 +508,7 @@ Physical.prototype.getModelMatrix = function() {
 // it starts with a simple camera:CalculateViewMatrices();
 // I will return to this.
 
-Physical.prototype.getViewMatrix = function(...args) {
+Physical.prototype.getViewMatrix = function (...args) {
   // if this was just called then we need to set who sent it
   let requestor;
   if (args.length == 0) {
@@ -514,7 +519,7 @@ Physical.prototype.getViewMatrix = function(...args) {
 
   if (this.parent && this.parent != requestor) {
     this.viewMatrix = this.getModelMatrix().multiplied(
-        this.parent.getViewMatrix(requestor),
+      this.parent.getViewMatrix(requestor)
     );
     return this.viewMatrix;
   } else {
@@ -522,7 +527,7 @@ Physical.prototype.getViewMatrix = function(...args) {
   }
 };
 
-Physical.prototype.GetWorldPositionByViewMatrix = function() {
+Physical.prototype.GetWorldPositionByViewMatrix = function () {
   return new RMatrix4([
     1,
     0,
@@ -545,7 +550,7 @@ Physical.prototype.GetWorldPositionByViewMatrix = function() {
 
 // legacy code; left in case I try this again
 // it does not work correctly, in all cases
-Physical.prototype.getWorldPosition = function(requestor) {
+Physical.prototype.getWorldPosition = function (requestor) {
   const parent = this.parent;
   if (parent && parent != requestor) {
     const rot = parent.getWorldOrientation(requestor);
@@ -557,7 +562,7 @@ Physical.prototype.getWorldPosition = function(requestor) {
 
 // legacy code; left in case I try this again
 // it DOES work
-Physical.prototype.getWorldOrientation = function(requestor) {
+Physical.prototype.getWorldOrientation = function (requestor) {
   const parent = this.parent;
   if (parent && parent != requestor) {
     return parent.getWorldOrientation(requestor).multiplied(this.orientation);

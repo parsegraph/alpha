@@ -1,7 +1,7 @@
-import { makePerspective } from 'parsegraph-matrix';
+import { makePerspective } from "parsegraph-matrix";
 
-const TestSuite = require('parsegraph-testsuite').default;
-const fuzzyEquals  = require('parsegraph-fuzzyequals').default;
+const TestSuite = require("parsegraph-testsuite").default;
+const fuzzyEquals = require("parsegraph-fuzzyequals").default;
 /* eslint-disable require-jsdoc, prefer-spread, new-cap */
 // Maths VERSION: 1.8.130828
 
@@ -56,11 +56,11 @@ export function AlphaVector(...args) {
   }
 }
 
-AlphaVector.prototype.toJSON = function() {
+AlphaVector.prototype.toJSON = function () {
   return [this[0], this[1], this[2]];
 };
 
-AlphaVector.prototype.restore = function(json) {
+AlphaVector.prototype.restore = function (json) {
   if (Array.isArray(json)) {
     this.set.apply(this, json);
   } else {
@@ -70,16 +70,16 @@ AlphaVector.prototype.restore = function(json) {
   }
 };
 
-const alphaVectorTests = new TestSuite('AlphaVector');
+const alphaVectorTests = new TestSuite("AlphaVector");
 
-alphaVectorTests.addTest('AlphaVector.<constructor>', function() {
+alphaVectorTests.addTest("AlphaVector.<constructor>", function () {
   const v = new AlphaVector(1, 2, 3);
   if (v[0] != 1 || v[1] != 2 || v[2] != 3) {
-    return 'Constructor must accept arguments.';
+    return "Constructor must accept arguments.";
   }
 });
 
-AlphaVector.prototype.add = function(...args) {
+AlphaVector.prototype.add = function (...args) {
   if (args.length > 1) {
     this[0] += args[0];
     this[1] += args[1];
@@ -92,30 +92,30 @@ AlphaVector.prototype.add = function(...args) {
   return this;
 };
 
-alphaVectorTests.addTest('AlphaVector.add', function() {
+alphaVectorTests.addTest("AlphaVector.add", function () {
   const a = new AlphaVector(3, 4, 0);
 
   a.add(new AlphaVector(1, 2, 3));
   if (!a.Equals(4, 6, 3)) {
-    return 'add must add component-wise';
+    return "add must add component-wise";
   }
 });
 
-AlphaVector.prototype.added = function(...args) {
+AlphaVector.prototype.added = function (...args) {
   const rv = this.clone();
   return rv.add.apply(rv, args);
 };
 
-AlphaVector.prototype.clone = function() {
+AlphaVector.prototype.clone = function () {
   return new AlphaVector(this);
 };
 
-AlphaVector.prototype.multiply = function(...args) {
+AlphaVector.prototype.multiply = function (...args) {
   if (args.length > 1) {
     this[0] *= args[0];
     this[1] *= args[1];
     this[2] *= args[2];
-  } else if (typeof args[0] == 'number') {
+  } else if (typeof args[0] == "number") {
     this[0] *= args[0];
     this[1] *= args[0];
     this[2] *= args[0];
@@ -127,17 +127,17 @@ AlphaVector.prototype.multiply = function(...args) {
   return this;
 };
 
-AlphaVector.prototype.multiplied = function(...args) {
+AlphaVector.prototype.multiplied = function (...args) {
   const rv = this.clone();
   return rv.multiply.apply(rv, args);
 };
 
-AlphaVector.prototype.Divide = function(...args) {
+AlphaVector.prototype.Divide = function (...args) {
   if (args.length > 1) {
     this[0] /= args[0];
     this[1] /= args[1];
     this[2] /= args[2];
-  } else if (typeof args[0] == 'number') {
+  } else if (typeof args[0] == "number") {
     this[0] /= args[0];
     this[1] /= args[0];
     this[2] /= args[0];
@@ -149,12 +149,12 @@ AlphaVector.prototype.Divide = function(...args) {
   return this;
 };
 
-AlphaVector.prototype.Divided = function(...args) {
+AlphaVector.prototype.Divided = function (...args) {
   const rv = this.clone();
   return rv.Divide.apply(rv, args);
 };
 
-alphaVectorTests.addTest('AlphaVector.Divide', function() {
+alphaVectorTests.addTest("AlphaVector.Divide", function () {
   const a = new AlphaVector(3, 4, 0);
 
   const b = new AlphaVector(2, 2, 2);
@@ -185,7 +185,7 @@ alphaVectorTests.addTest('AlphaVector.Divide', function() {
   }
 });
 
-AlphaVector.prototype.Equals = function(...args) {
+AlphaVector.prototype.Equals = function (...args) {
   if (args.length > 1) {
     // .Equals(x, y, z)
     for (let i = 0; i < this.length; ++i) {
@@ -208,7 +208,7 @@ AlphaVector.prototype.Equals = function(...args) {
   return true;
 };
 
-alphaVectorTests.addTest('AlphaVector.Equals', function() {
+alphaVectorTests.addTest("AlphaVector.Equals", function () {
   const a = new AlphaVector(3, 4, 0);
   if (!a.Equals(3, 4, 0)) {
     return a.toString();
@@ -224,7 +224,7 @@ alphaVectorTests.addTest('AlphaVector.Equals', function() {
   }
 });
 
-AlphaVector.prototype.set = function(...args) {
+AlphaVector.prototype.set = function (...args) {
   if (args.length > 1) {
     for (let i = 0; i < this.length; ++i) {
       this[i] = args[i];
@@ -234,19 +234,19 @@ AlphaVector.prototype.set = function(...args) {
       this[i] = args[0][i];
     }
   }
-  if (typeof this[0] != 'number') {
-    throw new Error('All components must be numbers');
+  if (typeof this[0] != "number") {
+    throw new Error("All components must be numbers");
   }
-  if (typeof this[1] != 'number') {
-    throw new Error('All components must be numbers');
+  if (typeof this[1] != "number") {
+    throw new Error("All components must be numbers");
   }
-  if (typeof this[2] != 'number') {
-    throw new Error('All components must be numbers');
+  if (typeof this[2] != "number") {
+    throw new Error("All components must be numbers");
   }
   return this;
 };
 
-AlphaVector.prototype.normalize = function() {
+AlphaVector.prototype.normalize = function () {
   const magnitude = this.Magnitude();
   if (magnitude != 0) {
     this.Divide(magnitude);
@@ -255,11 +255,11 @@ AlphaVector.prototype.normalize = function() {
   return this;
 };
 
-alphaVectorTests.addTest('AlphaVector.normalize', function() {
+alphaVectorTests.addTest("AlphaVector.normalize", function () {
   const a = new AlphaVector(3, 4, 0);
   a.normalize();
   if (a.Length() != 1) {
-    return 'normalize must create a vector of length one.';
+    return "normalize must create a vector of length one.";
   }
 
   if (!a.Equals(3 / 5, 4 / 5, 0)) {
@@ -267,62 +267,62 @@ alphaVectorTests.addTest('AlphaVector.normalize', function() {
   }
 });
 
-AlphaVector.prototype.normalized = function() {
+AlphaVector.prototype.normalized = function () {
   return this.clone().normalize();
 };
 
-AlphaVector.prototype.Magnitude = function() {
+AlphaVector.prototype.Magnitude = function () {
   return Math.sqrt(this.DotProduct(this));
 };
 AlphaVector.prototype.Length = AlphaVector.prototype.Magnitude;
 
-alphaVectorTests.addTest('AlphaVector.Magnitude', function() {
+alphaVectorTests.addTest("AlphaVector.Magnitude", function () {
   let v = new AlphaVector();
   if (v.Magnitude() != 0) {
-    return 'Empty vector must have zero magnitude.';
+    return "Empty vector must have zero magnitude.";
   }
 
   v = new AlphaVector(1, 0, 0);
   if (v.Magnitude() != 1) {
-    return 'Vector magnitude does not match.';
+    return "Vector magnitude does not match.";
   }
 
   v = new AlphaVector(3, 4, 0);
   if (v.Magnitude() != 5) {
-    return 'Vector magnitude does not match.';
+    return "Vector magnitude does not match.";
   }
 });
 
-AlphaVector.prototype.DotProduct = function(other) {
+AlphaVector.prototype.DotProduct = function (other) {
   return this[0] * other[0] + this[1] * other[1] + this[2] * other[2];
 };
 AlphaVector.prototype.InnerProduct = AlphaVector.prototype.DotProduct;
 AlphaVector.prototype.ScalarProduct = AlphaVector.prototype.DotProduct;
 
-alphaVectorTests.addTest('AlphaVector.DotProduct', function() {
+alphaVectorTests.addTest("AlphaVector.DotProduct", function () {
   const a = new AlphaVector(1, 0, 0);
   const b = new AlphaVector(0, 1, 0);
   if (a.DotProduct(b)) {
-    return 'Orthogonal vectors must have zero dot product';
+    return "Orthogonal vectors must have zero dot product";
   }
 });
 
-AlphaVector.prototype.AngleBetween = function(other) {
+AlphaVector.prototype.AngleBetween = function (other) {
   const dot = this.DotProduct(other);
   return Math.acos(dot / (this.Magnitude() * other.Magnitude()));
 };
 
-AlphaVector.prototype.toString = function() {
-  if (typeof this[0] != 'number') {
-    throw new Error('All components must be numbers');
+AlphaVector.prototype.toString = function () {
+  if (typeof this[0] != "number") {
+    throw new Error("All components must be numbers");
   }
-  if (typeof this[1] != 'number') {
-    throw new Error('All components must be numbers');
+  if (typeof this[1] != "number") {
+    throw new Error("All components must be numbers");
   }
-  if (typeof this[2] != 'number') {
-    throw new Error('All components must be numbers');
+  if (typeof this[2] != "number") {
+    throw new Error("All components must be numbers");
   }
-  return '[' + this[0] + ', ' + this[1] + ', ' + this[2] + ']';
+  return "[" + this[0] + ", " + this[1] + ", " + this[2] + "]";
 };
 
 // ----------------------------------------------
@@ -343,11 +343,11 @@ export function AlphaQuaternion(...args) {
   }
 }
 
-AlphaQuaternion.prototype.toJSON = function() {
+AlphaQuaternion.prototype.toJSON = function () {
   return [this[0], this[1], this[2], this[3]];
 };
 
-AlphaQuaternion.prototype.restore = function(json) {
+AlphaQuaternion.prototype.restore = function (json) {
   if (Array.isArray(json)) {
     this.set.apply(this, json);
   } else {
@@ -358,23 +358,23 @@ AlphaQuaternion.prototype.restore = function(json) {
   }
 };
 
-const alphaQuaternionTests = new TestSuite('AlphaQuaternion');
+const alphaQuaternionTests = new TestSuite("AlphaQuaternion");
 
 alphaQuaternionTests.addTest(
-    'Does quaternion rotation really even work?',
-    function() {
-      const m = new alphaRMatrix4();
-      const rotq = Math.PI / 2;
-      m.rotate(quaternionFromAxisAndAngle(0, 1, 1, rotq));
-      m.rotate(quaternionFromAxisAndAngle(1, 0, 0, rotq));
-      m.rotate(quaternionFromAxisAndAngle(1, 0, 1, rotq));
-      m.Transform(10, 0, 0);
+  "Does quaternion rotation really even work?",
+  function () {
+    const m = new alphaRMatrix4();
+    const rotq = Math.PI / 2;
+    m.rotate(quaternionFromAxisAndAngle(0, 1, 1, rotq));
+    m.rotate(quaternionFromAxisAndAngle(1, 0, 0, rotq));
+    m.rotate(quaternionFromAxisAndAngle(1, 0, 1, rotq));
+    m.Transform(10, 0, 0);
     // TODO What is the expected value?
     // console.log(v.toString());
-    },
+  }
 );
 
-alphaQuaternionTests.addTest('quaternionFromAxisAndAngle', function() {
+alphaQuaternionTests.addTest("quaternionFromAxisAndAngle", function () {
   const quat = quaternionFromAxisAndAngle(1, 0, 0, Math.PI / 2);
   if (
     !fuzzyEquals(quat[0], 0.7071, 10e-2) ||
@@ -383,19 +383,17 @@ alphaQuaternionTests.addTest('quaternionFromAxisAndAngle', function() {
     !fuzzyEquals(quat[3], 0.7071, 10e-2)
   ) {
     throw new Error(
-        'Quaternion ' +
-        quat +
-        ' does not match expected (0.7071, 0, 0, 0.7071)',
+      "Quaternion " + quat + " does not match expected (0.7071, 0, 0, 0.7071)"
     );
   }
 });
 
-AlphaQuaternion.prototype.clone = function() {
+AlphaQuaternion.prototype.clone = function () {
   return new AlphaQuaternion(this);
 };
 
-AlphaQuaternion.prototype.multiply = function(...args) {
-  if (arguments.length == 1 && typeof args[0] === 'number') {
+AlphaQuaternion.prototype.multiply = function (...args) {
+  if (arguments.length == 1 && typeof args[0] === "number") {
     this[0] *= args[0];
     this[1] *= args[0];
     this[2] *= args[0];
@@ -432,7 +430,7 @@ AlphaQuaternion.prototype.multiply = function(...args) {
   return this;
 };
 
-AlphaQuaternion.prototype.multiplied = function(...args) {
+AlphaQuaternion.prototype.multiplied = function (...args) {
   const rv = this.clone();
   return rv.multiply.apply(rv, args);
 };
@@ -440,7 +438,7 @@ AlphaQuaternion.prototype.multiplied = function(...args) {
 // really this could use a few tweaks
 // negatives can be the same rotation
 // (different paths)
-AlphaQuaternion.prototype.Equals = function(...args) {
+AlphaQuaternion.prototype.Equals = function (...args) {
   if (args.length > 1) {
     for (let i = 0; i < this.length; ++i) {
       if (Math.abs(this[i] - args[i]) > FUZZINESS) {
@@ -461,7 +459,7 @@ AlphaQuaternion.prototype.Equals = function(...args) {
   return true;
 };
 
-AlphaQuaternion.prototype.Magnitude = function() {
+AlphaQuaternion.prototype.Magnitude = function () {
   const w = this[3];
   const x = this[0];
   const y = this[1];
@@ -471,7 +469,7 @@ AlphaQuaternion.prototype.Magnitude = function() {
 AlphaQuaternion.prototype.Length = AlphaQuaternion.prototype.Magnitude;
 AlphaQuaternion.prototype.Norm = AlphaQuaternion.prototype.Magnitude;
 
-AlphaQuaternion.prototype.normalize = function() {
+AlphaQuaternion.prototype.normalize = function () {
   const magnitude = this.Magnitude();
   if (magnitude != 0) {
     this.multiply(1 / magnitude);
@@ -479,7 +477,7 @@ AlphaQuaternion.prototype.normalize = function() {
   return this;
 };
 
-alphaQuaternionTests.addTest('AlphaQuaternion.normalize', function() {
+alphaQuaternionTests.addTest("AlphaQuaternion.normalize", function () {
   const q = new AlphaQuaternion();
   q.normalize();
   if (!q.Equals(new AlphaQuaternion())) {
@@ -488,7 +486,7 @@ alphaQuaternionTests.addTest('AlphaQuaternion.normalize', function() {
   }
 });
 
-AlphaQuaternion.prototype.set = function(...args) {
+AlphaQuaternion.prototype.set = function (...args) {
   const w = this[3];
 
   if (args.length > 1) {
@@ -510,11 +508,11 @@ AlphaQuaternion.prototype.set = function(...args) {
 /*
  * Returns a new quaternion that represents the conjugate of this quaternion.
  */
-AlphaQuaternion.prototype.Conjugate = function() {
+AlphaQuaternion.prototype.Conjugate = function () {
   return new AlphaQuaternion(-this[0], -this[1], -this[2], this[3]);
 };
 
-AlphaQuaternion.prototype.inverse = function() {
+AlphaQuaternion.prototype.inverse = function () {
   // actual inverse is q.Conjugate() / Math.pow(Math.abs(q.Magnitude()), 2)
   // but as we only deal with unit quaternions we can just force a normalization
   // q.Conjugate() / 1 == q.Conjugate();
@@ -523,7 +521,7 @@ AlphaQuaternion.prototype.inverse = function() {
   return this.Conjugate();
 };
 
-AlphaQuaternion.prototype.toAxisAndAngle = function() {
+AlphaQuaternion.prototype.toAxisAndAngle = function () {
   if (w > 1) {
     this.normalize();
   }
@@ -548,7 +546,7 @@ export function quaternionFromAxisAndAngle(...args) {
   return quat.fromAxisAndAngle.apply(quat, args);
 }
 
-AlphaQuaternion.prototype.fromAxisAndAngle = function(...args) {
+AlphaQuaternion.prototype.fromAxisAndAngle = function (...args) {
   let angle;
   const axis = new AlphaVector();
   if (args.length == 2) {
@@ -574,7 +572,7 @@ AlphaQuaternion.prototype.fromAxisAndAngle = function(...args) {
   return this;
 };
 
-alphaQuaternionTests.addTest('fromAxisAndAngle', function() {
+alphaQuaternionTests.addTest("fromAxisAndAngle", function () {
   const q = new AlphaQuaternion();
   const angle = Math.PI / 2;
 
@@ -599,15 +597,14 @@ alphaQuaternionTests.addTest('fromAxisAndAngle', function() {
   }
 });
 
-AlphaQuaternion.prototype.DotProduct = function(other) {
+AlphaQuaternion.prototype.DotProduct = function (other) {
   let rv = 0;
   for (let i = 0; i < this.length; ++i) {
     rv += this[i] * other[i];
   }
   return rv;
 };
-AlphaQuaternion.prototype.ScalarProduct =
-  AlphaQuaternion.prototype.DotProduct;
+AlphaQuaternion.prototype.ScalarProduct = AlphaQuaternion.prototype.DotProduct;
 AlphaQuaternion.prototype.InnerProduct = AlphaQuaternion.prototype.DotProduct;
 
 // v' = qr * v * qr-1
@@ -616,8 +613,8 @@ AlphaQuaternion.prototype.InnerProduct = AlphaQuaternion.prototype.DotProduct;
 // so its been optimized to hell and back
 // a more normal, and decently optimized version is found next
 // this version is about 2x faster than RotatedVector2
-(function() {
-  AlphaQuaternion.prototype.rotatedVector = function(...args) {
+(function () {
+  AlphaQuaternion.prototype.rotatedVector = function (...args) {
     let x;
     let y;
     let z;
@@ -636,9 +633,9 @@ AlphaQuaternion.prototype.InnerProduct = AlphaQuaternion.prototype.DotProduct;
   };
 })();
 
-(function() {
+(function () {
   const scratchQuat = new AlphaQuaternion();
-  AlphaQuaternion.prototype.rotatedVectorEach = function(outVec, x, y, z) {
+  AlphaQuaternion.prototype.rotatedVectorEach = function (outVec, x, y, z) {
     let aw = 0;
     let ax = x;
     let ay = y;
@@ -651,10 +648,10 @@ AlphaQuaternion.prototype.InnerProduct = AlphaQuaternion.prototype.DotProduct;
 
     // removed all the mults by aw, which would result in 0;
     scratchQuat.set(
-        ax * bw + ay * bz - az * by,
-        -ax * bz + ay * bw + az * bx,
-        ax * by - ay * bx + az * bw,
-        -ax * bx - ay * by - az * bz,
+      ax * bw + ay * bz - az * by,
+      -ax * bz + ay * bw + az * bx,
+      ax * by - ay * bx + az * bw,
+      -ax * bx - ay * by - az * bz
     );
     const q = scratchQuat;
 
@@ -672,28 +669,28 @@ AlphaQuaternion.prototype.InnerProduct = AlphaQuaternion.prototype.DotProduct;
     // and we strip the w component from this
     // which makes it a vector
     outVec.set(
-        aw * bx + ax * bw + ay * bz - az * by,
-        aw * by - ax * bz + ay * bw + az * bx,
-        aw * bz + ax * by - ay * bx + az * bw,
+      aw * bx + ax * bw + ay * bz - az * by,
+      aw * by - ax * bz + ay * bw + az * bx,
+      aw * bz + ax * by - ay * bx + az * bw
     );
   };
 })();
 
-AlphaQuaternion.prototype.toString = function() {
+AlphaQuaternion.prototype.toString = function () {
   return (
-    '{x: ' +
+    "{x: " +
     this[0] +
-    '\ny: ' +
+    "\ny: " +
     this[1] +
-    '\nz: ' +
+    "\nz: " +
     this[2] +
-    '\nw: ' +
+    "\nw: " +
     this[3] +
-    '}'
+    "}"
   );
 };
 
-AlphaQuaternion.prototype.AngleBetween = function(other) {
+AlphaQuaternion.prototype.AngleBetween = function (other) {
   this.normalize();
   other.normalize();
   const dot = this.DotProduct(other);
@@ -724,40 +721,40 @@ export function AlphaRMatrix4(...args) {
   }
 }
 
-AlphaRMatrix4.prototype.restore = function(json) {
+AlphaRMatrix4.prototype.restore = function (json) {
   this.set.apply(this, json);
 };
 
-AlphaRMatrix4.prototype.toJSON = function() {
+AlphaRMatrix4.prototype.toJSON = function () {
   return this.toArray();
 };
 
-const alphaRMatrix4Tests = new TestSuite('AlphaRMatrix4');
+const alphaRMatrix4Tests = new TestSuite("AlphaRMatrix4");
 
-AlphaRMatrix4.prototype.toDom = function(reference) {
-  const tableDom = document.createElement('table');
+AlphaRMatrix4.prototype.toDom = function (reference) {
+  const tableDom = document.createElement("table");
 
   for (let i = 0; i < 4; ++i) {
-    const rowDom = document.createElement('tr');
+    const rowDom = document.createElement("tr");
     tableDom.appendChild(rowDom);
     for (let j = 0; j < 4; ++j) {
-      const cellDom = document.createElement('td');
-      cellDom.style.padding = '3px';
-      cellDom.style.textAlign = 'center';
+      const cellDom = document.createElement("td");
+      cellDom.style.padding = "3px";
+      cellDom.style.textAlign = "center";
 
       if (reference) {
         const refValue = reference[4 * i + j];
         const givenValue = this[4 * i + j];
 
         if (Math.abs(givenValue - refValue) > FUZZINESS) {
-          cellDom.style.color = 'black';
-          cellDom.style.backgroundColor = 'red';
+          cellDom.style.color = "black";
+          cellDom.style.backgroundColor = "red";
           cellDom.appendChild(
-              document.createTextNode(givenValue + ' (not ' + refValue + ')'),
+            document.createTextNode(givenValue + " (not " + refValue + ")")
           );
         } else {
-          cellDom.style.backgroundColor = 'green';
-          cellDom.style.color = 'white';
+          cellDom.style.backgroundColor = "green";
+          cellDom.style.color = "white";
           cellDom.appendChild(document.createTextNode(this[4 * i + j]));
         }
       } else {
@@ -770,7 +767,7 @@ AlphaRMatrix4.prototype.toDom = function(reference) {
   return tableDom;
 };
 
-AlphaRMatrix4.prototype.set = function(...args) {
+AlphaRMatrix4.prototype.set = function (...args) {
   if (args.length == 1) {
     // All components passed in a single argument.
     for (let i = 0; i < this.length; ++i) {
@@ -786,7 +783,7 @@ AlphaRMatrix4.prototype.set = function(...args) {
   return this;
 };
 
-AlphaRMatrix4.prototype.Equals = function(...args) {
+AlphaRMatrix4.prototype.Equals = function (...args) {
   if (args.length > 1) {
     for (let i = 0; i < this.length; ++i) {
       if (Math.abs(this[i] - args[i]) > FUZZINESS) {
@@ -807,7 +804,7 @@ AlphaRMatrix4.prototype.Equals = function(...args) {
   return true;
 };
 
-AlphaRMatrix4.prototype.clone = function() {
+AlphaRMatrix4.prototype.clone = function () {
   return new AlphaRMatrix4(this);
 };
 
@@ -820,26 +817,26 @@ AlphaRMatrix4.prototype.clone = function() {
   const c2 = new AlphaQuaternion();
   const c3 = new AlphaQuaternion();
   const c4 = new AlphaQuaternion();
-  AlphaRMatrix4.prototype.multiply = function(other) {
-    if (typeof other == 'number') {
+  AlphaRMatrix4.prototype.multiply = function (other) {
+    if (typeof other == "number") {
       // multiply by the scalar value.
       return this.set(
-          s * this[0],
-          s * this[1],
-          s * this[2],
-          s * this[3],
-          s * this[4],
-          s * this[5],
-          s * this[6],
-          s * this[7],
-          s * this[8],
-          s * this[9],
-          s * this[10],
-          s * this[11],
-          s * this[12],
-          s * this[13],
-          s * this[14],
-          s * this[15],
+        s * this[0],
+        s * this[1],
+        s * this[2],
+        s * this[3],
+        s * this[4],
+        s * this[5],
+        s * this[6],
+        s * this[7],
+        s * this[8],
+        s * this[9],
+        s * this[10],
+        s * this[11],
+        s * this[12],
+        s * this[13],
+        s * this[14],
+        s * this[15]
       );
     }
 
@@ -854,95 +851,95 @@ AlphaRMatrix4.prototype.clone = function() {
     c4.set(other[3], other[7], other[11], other[15]);
 
     return this.set(
-        r1.DotProduct(c1),
-        r1.DotProduct(c2),
-        r1.DotProduct(c3),
-        r1.DotProduct(c4),
-        r2.DotProduct(c1),
-        r2.DotProduct(c2),
-        r2.DotProduct(c3),
-        r2.DotProduct(c4),
-        r3.DotProduct(c1),
-        r3.DotProduct(c2),
-        r3.DotProduct(c3),
-        r3.DotProduct(c4),
-        r4.DotProduct(c1),
-        r4.DotProduct(c2),
-        r4.DotProduct(c3),
-        r4.DotProduct(c4),
+      r1.DotProduct(c1),
+      r1.DotProduct(c2),
+      r1.DotProduct(c3),
+      r1.DotProduct(c4),
+      r2.DotProduct(c1),
+      r2.DotProduct(c2),
+      r2.DotProduct(c3),
+      r2.DotProduct(c4),
+      r3.DotProduct(c1),
+      r3.DotProduct(c2),
+      r3.DotProduct(c3),
+      r3.DotProduct(c4),
+      r4.DotProduct(c1),
+      r4.DotProduct(c2),
+      r4.DotProduct(c3),
+      r4.DotProduct(c4)
     );
   };
 }
 
-alphaRMatrix4Tests.addTest('AlphaRMatrix4.multiply', function(resultDom) {
+alphaRMatrix4Tests.addTest("AlphaRMatrix4.multiply", function (resultDom) {
   const m = new AlphaRMatrix4(
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12,
-      13,
-      14,
-      15,
-      16,
-      17,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17
   );
   m.multiply(
-      new AlphaRMatrix4(
-          2,
-          3,
-          5,
-          7,
-          11,
-          13,
-          17,
-          19,
-          23,
-          29,
-          31,
-          37,
-          39,
-          41,
-          43,
-          47,
-      ),
+    new AlphaRMatrix4(
+      2,
+      3,
+      5,
+      7,
+      11,
+      13,
+      17,
+      19,
+      23,
+      29,
+      31,
+      37,
+      39,
+      41,
+      43,
+      47
+    )
   );
 
   const result = new AlphaRMatrix4(
-      2 * 2 + 3 * 11 + 4 * 23 + 5 * 39,
-      2 * 3 + 3 * 13 + 4 * 29 + 5 * 41,
-      2 * 5 + 3 * 17 + 4 * 31 + 5 * 43,
-      2 * 7 + 3 * 19 + 4 * 37 + 5 * 47,
+    2 * 2 + 3 * 11 + 4 * 23 + 5 * 39,
+    2 * 3 + 3 * 13 + 4 * 29 + 5 * 41,
+    2 * 5 + 3 * 17 + 4 * 31 + 5 * 43,
+    2 * 7 + 3 * 19 + 4 * 37 + 5 * 47,
 
-      6 * 2 + 7 * 11 + 8 * 23 + 9 * 39,
-      6 * 3 + 7 * 13 + 8 * 29 + 9 * 41,
-      6 * 5 + 7 * 17 + 8 * 31 + 9 * 43,
-      6 * 7 + 7 * 19 + 8 * 37 + 9 * 47,
+    6 * 2 + 7 * 11 + 8 * 23 + 9 * 39,
+    6 * 3 + 7 * 13 + 8 * 29 + 9 * 41,
+    6 * 5 + 7 * 17 + 8 * 31 + 9 * 43,
+    6 * 7 + 7 * 19 + 8 * 37 + 9 * 47,
 
-      10 * 2 + 11 * 11 + 12 * 23 + 13 * 39,
-      10 * 3 + 11 * 13 + 12 * 29 + 13 * 41,
-      10 * 5 + 11 * 17 + 12 * 31 + 13 * 43,
-      10 * 7 + 11 * 19 + 12 * 37 + 13 * 47,
+    10 * 2 + 11 * 11 + 12 * 23 + 13 * 39,
+    10 * 3 + 11 * 13 + 12 * 29 + 13 * 41,
+    10 * 5 + 11 * 17 + 12 * 31 + 13 * 43,
+    10 * 7 + 11 * 19 + 12 * 37 + 13 * 47,
 
-      14 * 2 + 15 * 11 + 16 * 23 + 17 * 39,
-      14 * 3 + 15 * 13 + 16 * 29 + 17 * 41,
-      14 * 5 + 15 * 17 + 16 * 31 + 17 * 43,
-      14 * 7 + 15 * 19 + 16 * 37 + 17 * 47,
+    14 * 2 + 15 * 11 + 16 * 23 + 17 * 39,
+    14 * 3 + 15 * 13 + 16 * 29 + 17 * 41,
+    14 * 5 + 15 * 17 + 16 * 31 + 17 * 43,
+    14 * 7 + 15 * 19 + 16 * 37 + 17 * 47
   );
 
   if (!m.Equals(result)) {
     resultDom.appendChild(m.toDom(result));
-    return 'multiply did not produce correct values';
+    return "multiply did not produce correct values";
   }
 });
 
-AlphaRMatrix4.prototype.Transform = function(...args) {
+AlphaRMatrix4.prototype.Transform = function (...args) {
   let x;
   let y;
   let z;
@@ -973,21 +970,21 @@ AlphaRMatrix4.prototype.Transform = function(...args) {
     // console.log("Y", this[4] * x + this[5] * y + this[6] * z + this[7]);
     // console.log("Z", this[8] * x + this[9] * y + this[10] * z + this[11]);
     return new AlphaVector(
-        this[0] * x + this[1] * y + this[2] * z + this[3],
-        this[4] * x + this[5] * y + this[6] * z + this[7],
-        this[8] * x + this[9] * y + this[10] * z + this[11],
+      this[0] * x + this[1] * y + this[2] * z + this[3],
+      this[4] * x + this[5] * y + this[6] * z + this[7],
+      this[8] * x + this[9] * y + this[10] * z + this[11]
     );
   }
 
   return new AlphaQuaternion(
-      this[0] * x + this[1] * y + this[2] * z + this[3] * w,
-      this[4] * x + this[5] * y + this[6] * z + this[7] * w,
-      this[8] * x + this[9] * y + this[10] * z + this[11] * w,
-      this[12] * x + this[13] * y + this[14] * z + this[15] * w,
+    this[0] * x + this[1] * y + this[2] * z + this[3] * w,
+    this[4] * x + this[5] * y + this[6] * z + this[7] * w,
+    this[8] * x + this[9] * y + this[10] * z + this[11] * w,
+    this[12] * x + this[13] * y + this[14] * z + this[15] * w
   );
 };
 
-alphaRMatrix4Tests.addTest('AlphaRMatrix4.Transform', function() {
+alphaRMatrix4Tests.addTest("AlphaRMatrix4.Transform", function () {
   const m = new AlphaRMatrix4();
   m.scale(2, 2, 2);
 
@@ -1003,45 +1000,45 @@ alphaRMatrix4Tests.addTest('AlphaRMatrix4.Transform', function() {
 });
 
 alphaRMatrix4Tests.addTest(
-    'AlphaRMatrix4.Transform with rotation',
-    function() {
-      const m = new AlphaRMatrix4();
-      let rot = quaternionFromAxisAndAngle(0, 0, 1, Math.PI / 2);
-      m.FromQuaternion(rot);
+  "AlphaRMatrix4.Transform with rotation",
+  function () {
+    const m = new AlphaRMatrix4();
+    let rot = quaternionFromAxisAndAngle(0, 0, 1, Math.PI / 2);
+    m.FromQuaternion(rot);
 
-      let value = m.Transform(1, 0, 0);
-      if (!value.Equals(0, -1, 0)) {
-        return value.toString();
-      }
+    let value = m.Transform(1, 0, 0);
+    if (!value.Equals(0, -1, 0)) {
+      return value.toString();
+    }
 
-      rot = quaternionFromAxisAndAngle(0, 0, 1, Math.PI);
-      m.FromQuaternion(rot);
-      value = m.Transform(1, 0, 0);
-      if (!value.Equals(-1, 0, 0)) {
-        return value.toString();
-      }
+    rot = quaternionFromAxisAndAngle(0, 0, 1, Math.PI);
+    m.FromQuaternion(rot);
+    value = m.Transform(1, 0, 0);
+    if (!value.Equals(-1, 0, 0)) {
+      return value.toString();
+    }
 
-      const m2 = new AlphaRMatrix4();
-      rot = quaternionFromAxisAndAngle(0, 0, 1, Math.PI);
-      m2.FromQuaternion(rot);
-      m.multiply(m2);
-      value = m.Transform(1, 0, 0);
-      if (!value.Equals(1, 0, 0)) {
-        return value.toString();
-      }
-    },
+    const m2 = new AlphaRMatrix4();
+    rot = quaternionFromAxisAndAngle(0, 0, 1, Math.PI);
+    m2.FromQuaternion(rot);
+    m.multiply(m2);
+    value = m.Transform(1, 0, 0);
+    if (!value.Equals(1, 0, 0)) {
+      return value.toString();
+    }
+  }
 );
 
-AlphaRMatrix4.prototype.multiplied = function(...args) {
+AlphaRMatrix4.prototype.multiplied = function (...args) {
   const rv = this.clone();
   return rv.multiply.apply(rv, args);
 };
 
-AlphaRMatrix4.prototype.identity = function() {
+AlphaRMatrix4.prototype.identity = function () {
   return this.set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
 };
 
-AlphaRMatrix4.prototype.scale = function(...args) {
+AlphaRMatrix4.prototype.scale = function (...args) {
   // Retrieve arguments.
   let x;
   let y;
@@ -1069,22 +1066,20 @@ AlphaRMatrix4.prototype.scale = function(...args) {
   return this;
 };
 
-alphaRMatrix4Tests.addTest('AlphaRMatrix4.scale', function() {
+alphaRMatrix4Tests.addTest("AlphaRMatrix4.scale", function () {
   const m = new AlphaRMatrix4();
 
   // console.log(m.toString());
   m.scale(2, 3, 4);
 
   if (
-    !m.Equals(
-        new AlphaRMatrix4(2, 0, 0, 0, 0, 3, 0, 0, 0, 0, 4, 0, 0, 0, 0, 1),
-    )
+    !m.Equals(new AlphaRMatrix4(2, 0, 0, 0, 0, 3, 0, 0, 0, 0, 4, 0, 0, 0, 0, 1))
   ) {
     return m.toString();
   }
 });
 
-AlphaRMatrix4.prototype.translate = function(...args) {
+AlphaRMatrix4.prototype.translate = function (...args) {
   // Retrieve arguments.
   let x;
   let y;
@@ -1111,31 +1106,27 @@ AlphaRMatrix4.prototype.translate = function(...args) {
   return this;
 };
 
-alphaRMatrix4Tests.addTest('AlphaRMatrix4.translate', function() {
+alphaRMatrix4Tests.addTest("AlphaRMatrix4.translate", function () {
   const m = new AlphaRMatrix4();
 
   // console.log(m.toString());
   m.translate(2, 3, 4);
 
   if (
-    !m.Equals(
-        new AlphaRMatrix4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 2, 3, 4, 1),
-    )
+    !m.Equals(new AlphaRMatrix4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 2, 3, 4, 1))
   ) {
     return m.toString();
   }
 
   m.translate(2, 3, 4);
   if (
-    !m.Equals(
-        new AlphaRMatrix4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 4, 6, 8, 1),
-    )
+    !m.Equals(new AlphaRMatrix4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 4, 6, 8, 1))
   ) {
     return m.toString();
   }
 });
 
-alphaRMatrix4Tests.addTest('AlphaRMatrix4.rotate', function() {
+alphaRMatrix4Tests.addTest("AlphaRMatrix4.rotate", function () {
   const m = new AlphaRMatrix4();
 
   // console.log(m.toString());
@@ -1143,7 +1134,7 @@ alphaRMatrix4Tests.addTest('AlphaRMatrix4.rotate', function() {
 
   if (
     !m.Equals(
-        new AlphaRMatrix4(1, 0, 0, 0, 0, -1, 2, 0, 0, -2, -1, 0, 0, 0, 0, 1),
+      new AlphaRMatrix4(1, 0, 0, 0, 0, -1, 2, 0, 0, -2, -1, 0, 0, 0, 0, 1)
     )
   ) {
     // console.log("Rotated matrix: " + m.toString());
@@ -1162,7 +1153,7 @@ export function AlphaGetScratchMatrix() {
   return alphaRMatrix4Scratch;
 }
 
-AlphaRMatrix4.prototype.rotate = function(...args) {
+AlphaRMatrix4.prototype.rotate = function (...args) {
   // Retrieve arguments.
   let x;
   let y;
@@ -1211,41 +1202,41 @@ AlphaRMatrix4.prototype.rotate = function(...args) {
   return this;
 };
 
-AlphaRMatrix4.prototype.Transpose = function() {
+AlphaRMatrix4.prototype.Transpose = function () {
   return this.set(
-      this[0],
-      this[4],
-      this[8],
-      this[12],
-      this[1],
-      this[5],
-      this[9],
-      this[13],
-      this[2],
-      this[6],
-      this[10],
-      this[14],
-      this[3],
-      this[7],
-      this[11],
-      this[15],
+    this[0],
+    this[4],
+    this[8],
+    this[12],
+    this[1],
+    this[5],
+    this[9],
+    this[13],
+    this[2],
+    this[6],
+    this[10],
+    this[14],
+    this[3],
+    this[7],
+    this[11],
+    this[15]
   );
 };
 
-AlphaRMatrix4.prototype.toString = function() {
-  const line = function(a, b, c, d) {
-    return [a, b, c, d].join(', ');
+AlphaRMatrix4.prototype.toString = function () {
+  const line = function (a, b, c, d) {
+    return [a, b, c, d].join(", ");
   };
 
   return (
-    '[' +
+    "[" +
     [
       line(this[0], this[1], this[2], this[3]),
       line(this[4], this[5], this[6], this[7]),
       line(this[8], this[9], this[10], this[11]),
       line(this[12], this[13], this[14], this[15]),
-    ].join(',\n') +
-    ']'
+    ].join(",\n") +
+    "]"
   );
 };
 
@@ -1254,7 +1245,7 @@ export function AlphaRMatrix4FromEuler(...args) {
   return m.FromEuler.apply(m, args);
 }
 
-AlphaRMatrix4.prototype.FromEuler = function(...args) {
+AlphaRMatrix4.prototype.FromEuler = function (...args) {
   // Retrieve arguments.
   let x;
   let y;
@@ -1277,22 +1268,22 @@ AlphaRMatrix4.prototype.FromEuler = function(...args) {
   const cz = Math.cos(z);
 
   this.set(
-      sy * cx,
-      sx,
-      -sy * cx,
-      0,
-      -sy * sx * cz + sy * sz,
-      cx * cz,
-      sy * sx * cz + sy * sz,
-      0,
-      sy * sx * sz + sy * cz,
-      -cx * sz,
-      -sy * sx * sz + sy * cz,
-      0,
-      0,
-      0,
-      0,
-      1,
+    sy * cx,
+    sx,
+    -sy * cx,
+    0,
+    -sy * sx * cz + sy * sz,
+    cx * cz,
+    sy * sx * cz + sy * sz,
+    0,
+    sy * sx * sz + sy * cz,
+    -cx * sz,
+    -sy * sx * sz + sy * cz,
+    0,
+    0,
+    0,
+    0,
+    1
   );
 
   return this;
@@ -1303,7 +1294,7 @@ export function AlphaRMatrix4FromQuaternion(...args) {
   return m.FromQuaternion.apply(m, args);
 }
 
-AlphaRMatrix4.prototype.FromQuaternion = function(...args) {
+AlphaRMatrix4.prototype.FromQuaternion = function (...args) {
   // Retrieve arguments.
   let x;
   let y;
@@ -1335,22 +1326,22 @@ AlphaRMatrix4.prototype.FromQuaternion = function(...args) {
   const wz = w * z;
 
   return this.set(
-      1 - 2 * (y2 + z2),
-      2 * (xy + wz),
-      2 * (xz - wy),
-      0,
-      2 * (xy - wz),
-      1 - 2 * (x2 + z2),
-      2 * (yz + wx),
-      0,
-      2 * (xz + wy),
-      2 * (yz - wx),
-      1 - 2 * (x2 + y2),
-      0,
-      0,
-      0,
-      0,
-      1,
+    1 - 2 * (y2 + z2),
+    2 * (xy + wz),
+    2 * (xz - wy),
+    0,
+    2 * (xy - wz),
+    1 - 2 * (x2 + z2),
+    2 * (yz + wx),
+    0,
+    2 * (xz + wy),
+    2 * (yz - wx),
+    1 - 2 * (x2 + y2),
+    0,
+    0,
+    0,
+    0,
+    1
   );
 };
 
@@ -1360,7 +1351,7 @@ export function alphaRMatrix4FromQuaternionAtVector(...args) {
 }
 
 // equivalent to rotationMatrix * translationMatrix;
-AlphaRMatrix4.prototype.FromQuaternionAtVector = function(vector, quat) {
+AlphaRMatrix4.prototype.FromQuaternionAtVector = function (vector, quat) {
   this.FromQuaternion(quat);
   this[12] = vector[0];
   this[13] = vector[1];
@@ -1377,7 +1368,7 @@ export function alphaRMatrix4FromVectorAroundQuaternion(...args) {
 // equivalent to
 // translationMatrix * rotationMatrix
 // the 4th value in this matrix multplication always end up as 0
-AlphaRMatrix4.prototype.FromVectorAroundQuaternion = function(vector, quat) {
+AlphaRMatrix4.prototype.FromVectorAroundQuaternion = function (vector, quat) {
   // set our 3x3 rotation matrix
   this.FromQuaternion(quat);
 
@@ -1400,10 +1391,10 @@ export function alphaRMatrix4FromVectorAroundQuaternionAtVector(...args) {
   return m.fromVectorAroundQuaternionAtVector.apply(m, args);
 }
 
-AlphaRMatrix4.prototype.fromVectorAroundQuaternionAtVector = function(
-    position,
-    rotation,
-    offset,
+AlphaRMatrix4.prototype.fromVectorAroundQuaternionAtVector = function (
+  position,
+  rotation,
+  offset
 ) {
   // rotation * translation;
   this.FromQuaternionAtVector(offset, rotation);
@@ -1421,12 +1412,12 @@ AlphaRMatrix4.prototype.fromVectorAroundQuaternionAtVector = function(
   return this;
 };
 
-AlphaRMatrix4.prototype.inverse = function() {
+AlphaRMatrix4.prototype.inverse = function () {
   const inv = this.Inversed();
   return this.set(inv);
 };
 
-AlphaRMatrix4.prototype.Inversed = function() {
+AlphaRMatrix4.prototype.Inversed = function () {
   const inv = new AlphaRMatrix4();
 
   // code was lifted from MESA 3D
@@ -1562,7 +1553,7 @@ AlphaRMatrix4.prototype.Inversed = function() {
     this[0] * inv[0] + this[1] * inv[4] + this[2] * inv[8] + this[3] * inv[12];
 
   if (det == 0) {
-    throw new Error('Determinate in Matrix.inverse cannot be 0');
+    throw new Error("Determinate in Matrix.inverse cannot be 0");
   }
   det = 1.0 / det;
 
@@ -1574,80 +1565,46 @@ AlphaRMatrix4.prototype.Inversed = function() {
 };
 
 alphaRMatrix4Tests.addTest(
-    'Does AlphaRMatrix4.inverse even work for simple things?',
-    function(resultDom) {
-      const m = new AlphaRMatrix4(
-          2,
-          0,
-          0,
-          0,
-          0,
-          2,
-          0,
-          0,
-          0,
-          0,
-          2,
-          0,
-          0,
-          0,
-          0,
-          2,
-      );
-      const expected = new AlphaRMatrix4(
-          0.5,
-          0,
-          0,
-          0,
-          0,
-          0.5,
-          0,
-          0,
-          0,
-          0,
-          0.5,
-          0,
-          0,
-          0,
-          0,
-          0.5,
-      );
-      if (!m.inverse().Equals(expected)) {
-        resultDom.appendChild(m.inverse());
-        return 'It doesn\'t even work for 2!';
-      }
-    },
+  "Does AlphaRMatrix4.inverse even work for simple things?",
+  function (resultDom) {
+    const m = new AlphaRMatrix4(2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2);
+    const expected = new AlphaRMatrix4(
+      0.5,
+      0,
+      0,
+      0,
+      0,
+      0.5,
+      0,
+      0,
+      0,
+      0,
+      0.5,
+      0,
+      0,
+      0,
+      0,
+      0.5
+    );
+    if (!m.inverse().Equals(expected)) {
+      resultDom.appendChild(m.inverse());
+      return "It doesn't even work for 2!";
+    }
+  }
 );
 
 alphaRMatrix4Tests.addTest(
-    'Does AlphaRMatrix4.inverse work for zero-determinants?',
-    function() {
-      const m = new AlphaRMatrix4(
-          2,
-          0,
-          0,
-          0,
-          0,
-          2,
-          0,
-          0,
-          0,
-          0,
-          2,
-          0,
-          0,
-          0,
-          0,
-          0,
-      );
-      try {
-        m.inverse();
-        return 'inverse shouldn\'t succeed.';
-      } catch (ex) {}
-    },
+  "Does AlphaRMatrix4.inverse work for zero-determinants?",
+  function () {
+    const m = new AlphaRMatrix4(2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0);
+    try {
+      m.inverse();
+      return "inverse shouldn't succeed.";
+    } catch (ex) {}
+  }
 );
 
-AlphaRMatrix4.prototype.toArray = function() {
+AlphaRMatrix4.prototype.toArray = function () {
   return [
     this[0],
     this[1],
@@ -1669,61 +1626,61 @@ AlphaRMatrix4.prototype.toArray = function() {
 };
 
 alphaRMatrix4Tests.addTest(
-    'Does the RMatrix4 actually return rows for rows?',
-    function() {
-      const m = new AlphaRMatrix4(
-          2,
-          3,
-          5,
-          7,
-          11,
-          13,
-          17,
-          19,
-          23,
-          29,
-          31,
-          37,
-          39,
-          41,
-          43,
-          47,
-      );
+  "Does the RMatrix4 actually return rows for rows?",
+  function () {
+    const m = new AlphaRMatrix4(
+      2,
+      3,
+      5,
+      7,
+      11,
+      13,
+      17,
+      19,
+      23,
+      29,
+      31,
+      37,
+      39,
+      41,
+      43,
+      47
+    );
 
-      if (m[0] !== 2 || m[1] !== 3 || m[2] !== 5 || m[3] !== 7) {
-        return '';
-      }
+    if (m[0] !== 2 || m[1] !== 3 || m[2] !== 5 || m[3] !== 7) {
+      return "";
+    }
 
-      if (m[4] !== 11 || m[5] !== 13 || m[6] !== 17 || m[7] !== 19) {
-        return '';
-      }
+    if (m[4] !== 11 || m[5] !== 13 || m[6] !== 17 || m[7] !== 19) {
+      return "";
+    }
 
-      if (m[8] !== 23 || m[9] !== 29 || m[10] !== 31 || m[11] !== 37) {
-        return '';
-      }
+    if (m[8] !== 23 || m[9] !== 29 || m[10] !== 31 || m[11] !== 37) {
+      return "";
+    }
 
-      if (m[12] !== 39 || m[13] !== 41 || m[14] !== 43 || m[15] !== 47) {
-        return '';
-      }
-    },
+    if (m[12] !== 39 || m[13] !== 41 || m[14] !== 43 || m[15] !== 47) {
+      return "";
+    }
+  }
 );
 
 alphaRMatrix4Tests.addTest(
-    'Does the perspective matrix work with AlphaRMatrix4?',
-    function() {
-      const width = 800;
-      const height = 600;
-      const m = new AlphaRMatrix4(
-          makePerspective(Math.PI / 3, width / height, 0.1, 150),
-      );
-      m.Transpose();
+  "Does the perspective matrix work with AlphaRMatrix4?",
+  function () {
+    const width = 800;
+    const height = 600;
+    const m = new AlphaRMatrix4(
+      makePerspective(Math.PI / 3, width / height, 0.1, 150)
+    );
+    m.Transpose();
 
-      const v = new AlphaVector(1, 2, 3);
-      const rv = m.Transform(v);
+    const v = new AlphaVector(1, 2, 3);
+    const rv = m.Transform(v);
 
-      // TODO Skipped.
-      if (!rv.Equals(0, 1, 0)) {
+    // TODO Skipped.
+    if (!rv.Equals(0, 1, 0)) {
       // return rv.toString();
-      }
-    },
+    }
+  }
 );

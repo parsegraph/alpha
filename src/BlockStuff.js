@@ -1,6 +1,6 @@
 // Version 1.5
 
-import { AlphaQuaternion, AlphaVector } from './Maths';
+import { AlphaQuaternion, AlphaVector } from "./Maths";
 
 /*
 			[Vector]    [Color]
@@ -21,7 +21,7 @@ they exist to make it easier to piece things together
 hopefully
 */
 
-const TestSuite = require('parsegraph-testsuite').default;
+const TestSuite = require("parsegraph-testsuite").default;
 
 // --------------------------------------------
 // --------------------------------------------
@@ -48,15 +48,15 @@ export class AlphaColor {
 
   asRGB() {
     return (
-      'rgb(' +
+      "rgb(" +
       Math.round(this[0] * 255) +
-      ', ' +
+      ", " +
       Math.round(this[1] * 255) +
-      ', ' +
+      ", " +
       Math.round(this[2] * 255) +
-      ')'
+      ")"
     );
-  };
+  }
 
   set() {
     let r;
@@ -66,14 +66,14 @@ export class AlphaColor {
       r = arguments[0];
       g = arguments[1];
       b = arguments[2];
-    } else if (typeof arguments[0] === 'number') {
+    } else if (typeof arguments[0] === "number") {
       r = arguments[0];
       g = arguments[0];
       b = arguments[0];
-    } else if (typeof arguments[0] === 'string') {
+    } else if (typeof arguments[0] === "string") {
       // passed a hex color (hopefully)
       let start = 0;
-      if (arguments[0].charAt(0) === '#') {
+      if (arguments[0].charAt(0) === "#") {
         // strip the # from it
         start = 1;
       }
@@ -99,7 +99,7 @@ export class AlphaColor {
     this[0] = r;
     this[1] = g;
     this[2] = b;
-  };
+  }
 
   equals() {
     if (arguments.length > 1) {
@@ -108,7 +108,7 @@ export class AlphaColor {
           return false;
         }
       }
-    } else if (typeof arguments[0] === 'number') {
+    } else if (typeof arguments[0] === "number") {
       for (let i = 0; i < this.length; ++i) {
         if (this[i] != arguments[0]) {
           return false;
@@ -122,68 +122,68 @@ export class AlphaColor {
       }
     }
     return true;
-  };
+  }
 
   toString() {
-    return '{' + this[0] + ', ' + this[1] + ', ' + this[2] + '}';
-  };
+    return "{" + this[0] + ", " + this[1] + ", " + this[2] + "}";
+  }
 }
 
-const alphaColorTests = new TestSuite('AlphaColor');
+const alphaColorTests = new TestSuite("AlphaColor");
 
-alphaColorTests.addTest('alpha_Color.<constructor>', function(resultDom) {
+alphaColorTests.addTest("alpha_Color.<constructor>", function (resultDom) {
   let v = new AlphaColor(0.1, 0.2, 0.3);
   if (v[0] != 0.1 || v[1] != 0.2 || v[2] != 0.3) {
     resultDom.appendChild(document.createTextNode(v));
-    return 'Constructor must accept arguments.';
+    return "Constructor must accept arguments.";
   }
 
   v = new AlphaColor();
   if (v[0] != 0 || v[1] != 0 || v[2] != 0) {
     resultDom.appendChild(document.createTextNode(v));
-    return 'Constructor must allow zero-arguments.';
+    return "Constructor must allow zero-arguments.";
   }
 });
 
-alphaColorTests.addTest('alpha_Color.set', function() {
+alphaColorTests.addTest("alpha_Color.set", function () {
   const v = new AlphaColor(1);
   v.set(0.2);
   if (!v.equals(new AlphaColor(0.2, 0.2, 0.2))) {
     console.log(v);
-    return 'set must allow single arguments.';
+    return "set must allow single arguments.";
   }
 
   v.set(0.2, 0.3, 0.4);
   if (!v.equals(new AlphaColor(0.2, 0.3, 0.4))) {
     console.log(v);
-    return 'set must allow multiple arguments.';
+    return "set must allow multiple arguments.";
   }
 
   v.set(new AlphaColor(0.2, 0.3, 0.4));
   if (!v.equals(new AlphaColor(0.2, 0.3, 0.4))) {
     console.log(v);
-    return 'set must allow alpha_Colors as arguments.';
+    return "set must allow alpha_Colors as arguments.";
   }
 });
 
-alphaColorTests.addTest('alpha_Color.Equals', function() {
+alphaColorTests.addTest("alpha_Color.Equals", function () {
   const v = new AlphaColor(1);
   v.set(0.2);
   if (!v.equals(0.2)) {
     console.log(v);
-    return 'Equals must accept a single numeric argument.';
+    return "Equals must accept a single numeric argument.";
   }
 
   v.set(0.2, 0.3, 0.4);
   if (!v.equals(0.2, 0.3, 0.4)) {
     console.log(v);
-    return 'Equals must accept mulitple arguments.';
+    return "Equals must accept mulitple arguments.";
   }
 
   v.set(new AlphaColor(0.2, 0.3, 0.4));
   if (!v.equals(new AlphaColor(0.2, 0.3, 0.4))) {
     console.log(v);
-    return 'Equals accepts single alpha_Color arguments.';
+    return "Equals accepts single alpha_Color arguments.";
   }
 });
 
@@ -239,12 +239,12 @@ export class AlphaSkin {
     for (let i = 0; i < this.length; ++i) {
       callback.call(thisArg, this[i], i, this);
     }
-  };
+  }
 }
 
-const AlphaSkinTests = new TestSuite('alpha_Skin');
+const AlphaSkinTests = new TestSuite("alpha_Skin");
 
-AlphaSkinTests.addTest('alpha_Skin.<constructor>', function(resultDom) {
+AlphaSkinTests.addTest("alpha_Skin.<constructor>", function (resultDom) {
   const green = new AlphaColor(0, 1, 0);
   const brown = new AlphaColor(0.5, 0.5, 0);
   const skin = new AlphaSkin([
@@ -254,7 +254,7 @@ AlphaSkinTests.addTest('alpha_Skin.<constructor>', function(resultDom) {
   ]);
 });
 
-AlphaSkinTests.addTest('alpha_Skin.forEach', function(resultDom) {
+AlphaSkinTests.addTest("alpha_Skin.forEach", function (resultDom) {
   const green = new AlphaColor(0, 1, 0);
   const brown = new AlphaColor(0.5, 0.5, 0);
   const skin = new AlphaSkin([
@@ -264,7 +264,7 @@ AlphaSkinTests.addTest('alpha_Skin.forEach', function(resultDom) {
   ]);
 
   let maxRow = 0;
-  skin.forEach(function(color, i) {
+  skin.forEach(function (color, i) {
     maxRow = Math.max(maxRow, i);
     switch (i) {
       case 0:
@@ -275,7 +275,7 @@ AlphaSkinTests.addTest('alpha_Skin.forEach', function(resultDom) {
           !color[3].equals(green)
         ) {
           console.log(color);
-          throw new Error('Face 0 does not match');
+          throw new Error("Face 0 does not match");
         }
         break;
       case 1:
@@ -286,7 +286,7 @@ AlphaSkinTests.addTest('alpha_Skin.forEach', function(resultDom) {
           !color[3].equals(brown)
         ) {
           console.log(color);
-          throw new Error('Face 1 does not match');
+          throw new Error("Face 1 does not match");
         }
         break;
       case 2:
@@ -297,14 +297,14 @@ AlphaSkinTests.addTest('alpha_Skin.forEach', function(resultDom) {
           !color[3].equals(brown)
         ) {
           console.log(color);
-          throw new Error('Face 2 does not match');
+          throw new Error("Face 2 does not match");
         }
         break;
     }
   });
 
   if (maxRow != 2) {
-    return 'Unexpected number of rows iterated: ' + maxRow;
+    return "Unexpected number of rows iterated: " + maxRow;
   }
 });
 
@@ -348,18 +348,18 @@ export class AlphaFace {
       values.push(this[i].clone());
     }
     return new AlphaFace(this.drawType, values);
-  };
+  }
 
   toString() {
-    let rv = '';
+    let rv = "";
     for (let i = 0; i < this.length; ++i) {
       if (i > 0) {
-        rv += ', ';
+        rv += ", ";
       }
       rv += this[i].toString();
     }
     return rv;
-  };
+  }
 }
 
 // --------------------------------------------
@@ -405,23 +405,18 @@ export class AlphaBlockTypes {
 
   load(descSkin, descShape, skin, shape) {
     return this.create(descSkin, descShape, skin, shape);
-  };
+  }
 
   /*
    * creates a blocktype and returns the id.
    */
 
-  create(
-      descSkin,
-      descShape,
-      skin,
-      shape,
-  ) {
+  create(descSkin, descShape, skin, shape) {
     for (let i = 0; i < shape.length; ++i) {
       const face = shape[i];
       for (let j = 0; j < face.length; ++j) {
         if (!skin[i] || !skin[i][j]) {
-          throw new Error('Skin is too damn small');
+          throw new Error("Skin is too damn small");
           // however I will let you wear it if its a little large!
         }
       }
@@ -431,7 +426,9 @@ export class AlphaBlockTypes {
       this.descriptions[descSkin] = {};
       this.descriptions[descSkin][descShape] = {};
     } else if (this.descriptions[descSkin][descShape]) {
-      throw new Error('This Shape and Skin description combo is already in use');
+      throw new Error(
+        "This Shape and Skin description combo is already in use"
+      );
     } else {
       this.descriptions[descSkin][descShape] = {};
     }
@@ -440,7 +437,7 @@ export class AlphaBlockTypes {
     this.blockIDs.push(blockType);
     this.descriptions[descSkin][descShape] = this.blockIDs.length - 1;
     return this.descriptions[descSkin][descShape];
-  };
+  }
 
   get() {
     if (arguments.length == 1) {
@@ -452,15 +449,15 @@ export class AlphaBlockTypes {
     if (this.descriptions[descSkin] == undefined) {
       console.log(this.descriptions);
       throw new Error(
-          'No such skin description exists for \'' + (descSkin || '') + '\'',
+        "No such skin description exists for '" + (descSkin || "") + "'"
       );
     } else if (this.descriptions[descSkin][descShape] == undefined) {
       throw new Error(
-          'No such shape description exists for \'' + (descShape || '') + '\'',
+        "No such shape description exists for '" + (descShape || "") + "'"
       );
     }
     return this.descriptions[descSkin][descShape];
-  };
+  }
 }
 
 // --------------------------------------------
@@ -488,13 +485,15 @@ export class AlphaBlock {
       z = args[1][2];
       orientation = args[2];
     } else {
-      throw new Error('Unexpected number of arguments: ' + args.length);
+      throw new Error("Unexpected number of arguments: " + args.length);
     }
 
     this.id = id || 0;
     this.orientation = orientation || 0;
     if (this.orientation >= 24 || this.orientation < 0) {
-      throw new Error('Orientation cannot be out of bounds: ' + this.orientation);
+      throw new Error(
+        "Orientation cannot be out of bounds: " + this.orientation
+      );
     }
 
     this[0] = x;
@@ -502,11 +501,11 @@ export class AlphaBlock {
     this[2] = z;
 
     if (
-      typeof this[0] !== 'number' ||
-      typeof this[1] !== 'number' ||
-      typeof this[2] !== 'number'
+      typeof this[0] !== "number" ||
+      typeof this[1] !== "number" ||
+      typeof this[2] !== "number"
     ) {
-      throw new Error('All block components must be numeric.');
+      throw new Error("All block components must be numeric.");
     }
   }
 
@@ -521,11 +520,11 @@ export class AlphaBlock {
 
     // Equal.
     return true;
-  };
+  }
 
   GetAngleAxis() {
     return blockOrientations[this.orientation].toAxisAndAngle();
-  };
+  }
 
   // naively calling this function results in a quaternion that you can
   // manipulate but not  destroy the Block.Orienations
@@ -538,22 +537,16 @@ export class AlphaBlock {
       return blockOrientations[this.orientation];
     }
     return new AlphaQuaternion(blockOrientations[this.orientation]);
-  };
+  }
 }
 
 export function createBlock(...args) {
   if (args.length > 3) {
-    return new AlphaBlock(
-        args[0],
-        args[1],
-        args[2],
-        args[3],
-        args[4],
-    );
+    return new AlphaBlock(args[0], args[1], args[2], args[3], args[4]);
   } else if (arguments.length == 3) {
     return new AlphaBlock(args[0], args[1], args[2]);
   }
-  throw new Error('Unexpected number of arguments: ' + arguments.length);
+  throw new Error("Unexpected number of arguments: " + arguments.length);
 }
 
 const s45 = Math.sin(Math.PI / 4); // Math.sqrt(2) / 2 or Math.sin(45)
@@ -620,29 +613,29 @@ const blockOrientations = [
   new AlphaQuaternion(-s45, 0, s45, 0), // 23
 ];
 
-const AlphaBlockTypes_Tests = new TestSuite('AlphaBlockTypes');
+const AlphaBlockTypes_Tests = new TestSuite("AlphaBlockTypes");
 
-AlphaBlockTypes_Tests.addTest('AlphaBlockTypes', function(resultDom) {
+AlphaBlockTypes_Tests.addTest("AlphaBlockTypes", function (resultDom) {
   const types = new AlphaBlockTypes();
 
   const white = new AlphaColor(1, 1, 1);
-  const dbrown = new AlphaColor('#3b2921');
-  const lbrown = new AlphaColor('#604b42');
-  const ggreen = new AlphaColor('#0b9615');
-  const gray = new AlphaColor('#5e5a5e');
-  const lgray = new AlphaColor('#726f72');
+  const dbrown = new AlphaColor("#3b2921");
+  const lbrown = new AlphaColor("#604b42");
+  const ggreen = new AlphaColor("#0b9615");
+  const gray = new AlphaColor("#5e5a5e");
+  const lgray = new AlphaColor("#726f72");
 
   const stone = new AlphaSkin(
-      [lgray, gray, lgray, gray], // top
-      [lgray, gray, lgray, gray], // front
-      [lgray, gray, lgray, gray], // left
-      [lgray, gray, lgray, gray], // back
-      [lgray, gray, lgray, gray], // right
-      [lgray, gray, lgray, gray], // bottom
-      [lgray, gray, lgray, gray], // misc
-      [lgray, gray, lgray, gray], // misc
-      [lgray, gray, lgray, gray], // misc
-      [lgray, gray, lgray, gray], // misc
+    [lgray, gray, lgray, gray], // top
+    [lgray, gray, lgray, gray], // front
+    [lgray, gray, lgray, gray], // left
+    [lgray, gray, lgray, gray], // back
+    [lgray, gray, lgray, gray], // right
+    [lgray, gray, lgray, gray], // bottom
+    [lgray, gray, lgray, gray], // misc
+    [lgray, gray, lgray, gray], // misc
+    [lgray, gray, lgray, gray], // misc
+    [lgray, gray, lgray, gray] // misc
   );
 
   // vertices!
@@ -673,8 +666,8 @@ AlphaBlockTypes_Tests.addTest('AlphaBlockTypes', function(resultDom) {
   // front to back
   const CUBE = new AlphaShape(Top, Front, Left, Back, Right, Bottom);
 
-  types.create('stone', 'cube', stone, CUBE);
-  if (types.get('stone', 'cube') != types.get('stone', 'cube')) {
-    return 'Types do not match.';
+  types.create("stone", "cube", stone, CUBE);
+  if (types.get("stone", "cube") != types.get("stone", "cube")) {
+    return "Types do not match.";
   }
 });

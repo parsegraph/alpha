@@ -1,8 +1,8 @@
-var assert = require("assert");
+const assert = require("assert");
 import todo from "../dist/alpha";
 
 describe("Package", function () {
-  it("works", ()=>{
+  it("works", () => {
     assert.equal(todo(), 42);
   });
 });

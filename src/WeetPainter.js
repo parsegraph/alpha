@@ -1,34 +1,34 @@
 /* eslint-disable require-jsdoc */
 
-import alphaWeetPainterVertexShader from './WeetPainter_VertexShader.glsl';
-import alphaWeetPainterFragmentShader from './WeetPainter_FragmentShader.glsl';
-import { AlphaColor } from './BlockStuff';
-import { compileProgram } from 'parsegraph-compileprogram';
+import alphaWeetPainterVertexShader from "./WeetPainter_VertexShader.glsl";
+import alphaWeetPainterFragmentShader from "./WeetPainter_FragmentShader.glsl";
+import { AlphaColor } from "./BlockStuff";
+import { compileProgram } from "parsegraph-compileprogram";
 
 /*
  * Draws 3d faces in a solid color.
  */
 export function alphaWeetPainter(window) {
   if (!window) {
-    throw new Error('A Window must be provided when creating a WeetPainter');
+    throw new Error("A Window must be provided when creating a WeetPainter");
   }
   this.gl = window.gl();
   this._numCubes = null;
 
   this.faceProgram = compileProgram(
-      window,
-      'alpha_WeetPainter',
-      alphaWeetPainterVertexShader,
-      alphaWeetPainterFragmentShader,
+    window,
+    "alpha_WeetPainter",
+    alphaWeetPainterVertexShader,
+    alphaWeetPainterFragmentShader
   );
   console.log(this.faceProgram);
 
   // Prepare attribute buffers.
-  this.a_position = this.gl.getAttribLocation(this.faceProgram, 'a_position');
-  this.a_color = this.gl.getAttribLocation(this.faceProgram, 'a_color');
+  this.a_position = this.gl.getAttribLocation(this.faceProgram, "a_position");
+  this.a_color = this.gl.getAttribLocation(this.faceProgram, "a_color");
 
   // Cache program locations.
-  this.u_world = this.gl.getUniformLocation(this.faceProgram, 'u_world');
+  this.u_world = this.gl.getUniformLocation(this.faceProgram, "u_world");
 }
 
 const cubeSize = 1;
@@ -83,7 +83,7 @@ const CUBE_COLORS = [
   new AlphaColor(0, 1, 0), // 4
 ];
 
-alphaWeetPainter.prototype.Init = function(numCubes) {
+alphaWeetPainter.prototype.Init = function (numCubes) {
   if (!this._posBuffer) {
     this._posBuffer = this.gl.createBuffer();
   }
@@ -116,12 +116,12 @@ alphaWeetPainter.prototype.Init = function(numCubes) {
   this._numCubes = numCubes;
 };
 
-alphaWeetPainter.prototype.Cube = function(m) {
+alphaWeetPainter.prototype.Cube = function (m) {
   if (!this._data) {
-    throw new Error('Init must be called first');
+    throw new Error("Init must be called first");
   }
-  const drawFace = function(c1, c2, c3, c4, color) {
-    const drawVert = function(v) {
+  const drawFace = function (c1, c2, c3, c4, color) {
+    const drawVert = function (v) {
       const x = m[0] * v[0] + m[1] * v[1] + m[2] * v[2] + m[12];
       const y = m[4] * v[0] + m[5] * v[1] + m[6] * v[2] + m[13];
       const z = m[8] * v[0] + m[9] * v[1] + m[10] * v[2] + m[14];
@@ -156,16 +156,16 @@ alphaWeetPainter.prototype.Cube = function(m) {
   drawFace.call(this, cv[20], cv[21], cv[22], cv[23], cc[4]);
 };
 
-alphaWeetPainter.prototype.Clear = function() {
+alphaWeetPainter.prototype.Clear = function () {
   if (!this._data) {
     return;
   }
   this._dataX = 0;
 };
 
-alphaWeetPainter.prototype.Draw = function(viewMatrix) {
+alphaWeetPainter.prototype.Draw = function (viewMatrix) {
   if (!viewMatrix) {
-    throw new Error('A viewMatrix must be provided');
+    throw new Error("A viewMatrix must be provided");
   }
 
   // Render faces.

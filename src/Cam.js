@@ -4,10 +4,10 @@
 // -- raytracing
 // -- TODO: figure out aiming for third person
 
-import { makePerspective } from 'parsegraph-matrix';
-import { toDegrees, toRadians } from 'parsegraph-toradians';
-import { AlphaQuaternion, AlphaRMatrix4, AlphaVector } from './Maths';
-import Physical from './Physical';
+import { makePerspective } from "parsegraph-matrix";
+import { toDegrees, toRadians } from "parsegraph-toradians";
+import { AlphaQuaternion, AlphaRMatrix4, AlphaVector } from "./Maths";
+import Physical from "./Physical";
 
 // ----------------------------------------------
 // ------------------- CAMERA  ------------------
@@ -57,13 +57,13 @@ export default class AlphaCamera {
       position: this.position.toJSON(),
       orientation: this.orientation.toJSON(),
     };
-  };
+  }
 
   restore(json) {
     this.position.restore(json.position);
     this.orientation.restore(json.orientation);
     console.log(this.toJSON());
-  };
+  }
 
   // ----------------------------------------------
   // ------------ PROJECTION MATRIX ---------------
@@ -74,12 +74,12 @@ export default class AlphaCamera {
   setFovX(fovX) {
     this.fovX = toRadians(fovX);
     this.projectionDirty = true;
-  };
+  }
 
   setFovY(fovY) {
     this.fovY = toRadians(fovY);
     this.projectionDirty = true;
-  };
+  }
 
   etFovX() {
     // autoadjust if fovX == 0
@@ -90,7 +90,7 @@ export default class AlphaCamera {
     }
 
     return fovX;
-  };
+  }
 
   GetFovY() {
     let fovY = this.fovY;
@@ -101,7 +101,7 @@ export default class AlphaCamera {
     }
     return fovY;
     // if you set them both to zero, you won't see anything. Working as expected.
-  };
+  }
 
   // sets the fov
   // unless you have a huge screen and sit very close I do not recommend
@@ -112,7 +112,7 @@ export default class AlphaCamera {
     const fovx = Math.atan((vpWidth * 0.5) / eyeDistance) * 2;
     this.setFovY(0); // set this to autoadjust;
     this.setFovX(toDegrees(fovx)); // and set this to the proper fov;
-  };
+  }
 
   setZoom(factor) {
     if (factor < 1) {
@@ -122,16 +122,16 @@ export default class AlphaCamera {
     this.zoomFactor = factor;
     this.projectionDirty = true;
     return this.zoomFactor;
-  };
+  }
 
   GetZoom() {
     return this.zoomFactor;
-  };
+  }
 
   setZoomSpeed(speed) {
     this.zoomSpeed = speed;
     return this.zoomSpeed;
-  };
+  }
 
   zoomIn(bind, elapsed) {
     if (!bind || bind <= 0) {
@@ -145,7 +145,7 @@ export default class AlphaCamera {
       zoom = 1;
     }
     return this.setZoom(zoom);
-  };
+  }
 
   ZoomOut(bind, elapsed) {
     if (!bind || !elapsed) {
@@ -163,11 +163,11 @@ export default class AlphaCamera {
       zoom = 1;
     }
     return this.setZoom(zoom);
-  };
+  }
 
   CancelZoom() {
     return this.setZoom(1);
-  };
+  }
 
   // continues to zoom until the zoom is reached;
   // broken until I am less tired
@@ -190,43 +190,43 @@ export default class AlphaCamera {
     if (zoom < factor) {
       // XXX
     }
-  };
+  }
 
   // anything further than this is clipped
   setFarDistance(distance) {
     this.farDistance = distance;
     this.projectionDirty = true;
-  };
+  }
 
   GetFarDistance() {
     return this.farDistance;
-  };
+  }
 
   // anything nearer than this is clipped
   setNearDistance(distance) {
     this.nearDistance = distance;
     this.projectionDirty = true;
-  };
+  }
 
   GetNearDistance() {
     return this.nearDistance;
-  };
+  }
 
   updateProjection(width, height) {
     this.width = width;
     this.height = height;
 
     this.projectionMatrix.set(
-        makePerspective(
-            this.etFovX() / this.zoomFactor,
-            this.width / this.height,
-            this.nearDistance,
-            this.farDistance,
-        ),
+      makePerspective(
+        this.etFovX() / this.zoomFactor,
+        this.width / this.height,
+        this.nearDistance,
+        this.farDistance
+      )
     );
     this.projectionDirty = false;
     return this.projectionMatrix;
-  };
+  }
 
   // -------------------------------------
   // ------------ Rotation ---------------
@@ -235,30 +235,30 @@ export default class AlphaCamera {
   setOrientation() {
     this.orientation.set(this.orientation, ...args);
     this.modelDirty = true;
-  };
+  }
 
   // returns as Quaternion
   getOrientation() {
     return this.orientation;
-  };
+  }
 
   // in radians / second
   SetRotationSpeeds(x, y) {
     const rSpeed = this.rotationSpeed;
     rSpeed[0] = x;
     rSpeed[1] = y;
-  };
+  }
 
   GetRotationSpeeds() {
     const rSpeed = this.rotationSpeed;
     return rSpeed;
-  };
+  }
 
   SetRotationSpeed(speed) {
     const rSpeed = this.rotationSpeed;
     rSpeed[0] = speed;
     rSpeed[1] = speed;
-  };
+  }
 
   pitch(angle) {
     // if you aren't rotating about an angle, then you aren't rotating
@@ -294,7 +294,7 @@ export default class AlphaCamera {
     const q = new AlphaQuaternion();
     q.fromAxisAndAngle(1, 0, 0, angle);
     this.setOrientation(this.orientation.multiplied(q));
-  };
+  }
 
   turn(angle) {
     // if you aren't rotating about an angle, then you aren't rotating
@@ -305,18 +305,18 @@ export default class AlphaCamera {
     const q = new AlphaQuaternion();
     q.fromAxisAndAngle(0, 1, 0, angle);
     this.setOrientation(q.multiply(this.getOrientation()));
-  };
+  }
 
   // these rotations take place at the speeds set by rotationSpeed
   turnLeft(elapsed) {
     const angle = elapsed * this.rotationSpeed[1];
     this.turn(angle);
-  };
+  }
 
   turnRight(elapsed) {
     const angle = elapsed * this.rotationSpeed[1];
     this.turn(-angle);
-  };
+  }
 
   pitchUp(elapsed) {
     const angle = elapsed * this.rotationSpeed[0];
@@ -324,7 +324,7 @@ export default class AlphaCamera {
       // console.log("Pitch up " + angle);
       this.pitch(angle);
     }
-  };
+  }
 
   pitchDown(elapsed) {
     const angle = elapsed * this.rotationSpeed[0];
@@ -332,7 +332,7 @@ export default class AlphaCamera {
       // console.log("Pitch down " + angle);
       this.pitch(angle);
     }
-  };
+  }
 
   // set which axis you want to align to
   alignParentToMy(x, y) {
@@ -353,7 +353,10 @@ export default class AlphaCamera {
       // find the quaternion of our pitch; inverted.
       q.fromAxisAndAngle(1, 0, 0, -pitch);
       // our yaw in player space
-      q = parent.getOrientation().multiplied(this.getOrientation()).multiplied(q);
+      q = parent
+        .getOrientation()
+        .multiplied(this.getOrientation())
+        .multiplied(q);
       // set the parent to the new quaternion
       parent.setOrientation(q);
       // set the camera to default identity
@@ -383,7 +386,7 @@ export default class AlphaCamera {
       parent.setOrientation(q);
       this.setOrientation(0, 0, 0, 1);
     }
-  };
+  }
 
   // -------------------------------------
   // ------------ POSITION ---------------
@@ -400,16 +403,16 @@ export default class AlphaCamera {
     this.position.set(x, y, z);
     this.modelDirty = true;
     return this.position;
-  };
+  }
 
   SetRange(range) {
     return this.setPosition(0, 0, range);
-  };
+  }
 
   // return as Vector
   getPosition() {
     return this.position;
-  };
+  }
 
   changePosition(x, y, z) {
     if (y === undefined) {
@@ -418,7 +421,7 @@ export default class AlphaCamera {
       x = x[0];
     }
     this.setPosition(this.position.added(x, y, z));
-  };
+  }
 
   // offset from the physical
   setOffset(x, y, z) {
@@ -429,12 +432,12 @@ export default class AlphaCamera {
     }
     this.offset.set(x, y, z);
     this.modelDirty = true;
-  };
+  }
 
   // return as Vector
   GetOffset() {
     return this.offset;
-  };
+  }
 
   ChangeOffset(x, y, z) {
     if (y == undefined) {
@@ -443,7 +446,7 @@ export default class AlphaCamera {
       x = x[0];
     }
     this.setOffset(this.offset.added(x, y, z));
-  };
+  }
 
   // ------------------------------------------
   // -----------  MOVEMENT --------------------
@@ -452,11 +455,11 @@ export default class AlphaCamera {
   SetMaxRange(maxRange) {
     this.maxRange = maxRange;
     return this.maxRange;
-  };
+  }
 
   GetMaxRange() {
     return this.maxRange;
-  };
+  }
 
   // camera movement is easy; it can only move in and out
   warp(distance) {
@@ -480,15 +483,15 @@ export default class AlphaCamera {
       }*/
 
     this.changePosition(0, 0, distance);
-  };
+  }
 
   WarpIn(distance) {
     this.warp(-distance);
-  };
+  }
 
   WarpOut(distance) {
     this.warp(distance);
-  };
+  }
   // alias for end-user use
 
   // ------------------------------------------
@@ -500,21 +503,21 @@ export default class AlphaCamera {
   // -- these are the commands needed for expected movement
   SetSpeed(speed) {
     this.speed = speed;
-  };
+  }
 
   GetSpeed() {
     return this.speed;
-  };
+  }
 
   moveForward(elapsed) {
     const distance = elapsed * this.speed;
     this.warp(-distance);
-  };
+  }
 
   moveBackward(elapsed) {
     const distance = elapsed * this.speed;
     this.warp(distance);
-  };
+  }
 
   // ------------------------------------------
   // --------------  PARENTING ----------------
@@ -523,7 +526,7 @@ export default class AlphaCamera {
   // CAMERAS MAKE THE BEST PARENTS
   isGoodLineageFor(prospectiveChild) {
     return true;
-  };
+  }
 
   getInvisiblePhysical(parent) {
     let position;
@@ -546,7 +549,7 @@ export default class AlphaCamera {
       p.setParent(this.parent);
     }
     return p;
-  };
+  }
 
   // enables free floating
   disengage() {
@@ -555,7 +558,7 @@ export default class AlphaCamera {
       this.setParent(this.getInvisiblePhysical(this));
       this.freefloating = true;
     }
-  };
+  }
 
   // sends it back to its previous physical
   engage() {
@@ -568,7 +571,7 @@ export default class AlphaCamera {
       this.setParent(this.reengage);
       this.reengage = this.parent;
     }
-  };
+  }
 
   setParent(parent) {
     // setting the camera to itself sets it to an invisble physical
@@ -588,11 +591,11 @@ export default class AlphaCamera {
     }
 
     this.parent = parent;
-  };
+  }
 
   getParent() {
     return this.parent;
-  };
+  }
 
   // ----------------------------------------------
   // ------------- MODELVIEW MATRIX ---------------
@@ -612,7 +615,7 @@ export default class AlphaCamera {
       this.modelDirty = false;
     }
     return this.modelMatrix;
-  };
+  }
 
   // it chains backwards until it finds a parent of itself;
   // sees as
@@ -644,8 +647,8 @@ export default class AlphaCamera {
       // but why do extra math?
       return this.getModelMatrix().inversed();
     }
-  };
-};
+  }
+}
 
 /*
 const TestSuite = require('parsegraph-testsuite').default;

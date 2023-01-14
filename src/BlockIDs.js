@@ -1,6 +1,13 @@
 // Version 1.3
 
-import { AlphaColor, AlphaFace, AlphaShape, AlphaSkin, alphaQUADS, alphaTRIANGLES } from "./BlockStuff";
+import {
+  AlphaColor,
+  AlphaFace,
+  AlphaShape,
+  AlphaSkin,
+  alphaQUADS,
+  alphaTRIANGLES,
+} from "./BlockStuff";
 import { AlphaVector } from "./Maths";
 
 // vertices!
@@ -27,49 +34,49 @@ export function buildSlabStructure() {
 
 export function standardBlockTypes(BlockTypes) {
   if (!BlockTypes) {
-    throw new Error('BlockTypes must not be null');
+    throw new Error("BlockTypes must not be null");
   }
 
   // skins
   // const white = new AlphaColor(1, 1, 1);
-  const dbrown = new AlphaColor('#3b2921');
-  const lbrown = new AlphaColor('#604b42');
-  const ggreen = new AlphaColor('#0b9615');
-  const gray = new AlphaColor('#5e5a5e');
-  const lgray = new AlphaColor('#726f72');
+  const dbrown = new AlphaColor("#3b2921");
+  const lbrown = new AlphaColor("#604b42");
+  const ggreen = new AlphaColor("#0b9615");
+  const gray = new AlphaColor("#5e5a5e");
+  const lgray = new AlphaColor("#726f72");
 
   // top to bottom
   // counter-clockwise
   // front to back
   const dirt = new AlphaSkin(
-      [lbrown, lbrown, lbrown, lbrown], // top
-      [lbrown, lbrown, dbrown, dbrown], // front
-      [lbrown, lbrown, dbrown, dbrown], // left
-      [lbrown, lbrown, dbrown, dbrown], // back
-      [lbrown, lbrown, dbrown, dbrown], // right
-      [dbrown, dbrown, dbrown, dbrown], // bottom
+    [lbrown, lbrown, lbrown, lbrown], // top
+    [lbrown, lbrown, dbrown, dbrown], // front
+    [lbrown, lbrown, dbrown, dbrown], // left
+    [lbrown, lbrown, dbrown, dbrown], // back
+    [lbrown, lbrown, dbrown, dbrown], // right
+    [dbrown, dbrown, dbrown, dbrown] // bottom
   );
 
   const grass = new AlphaSkin(
-      [ggreen, ggreen, ggreen, ggreen], // top
-      [lbrown, lbrown, dbrown, dbrown], // front
-      [lbrown, lbrown, dbrown, dbrown], // left
-      [lbrown, lbrown, dbrown, dbrown], // back
-      [lbrown, lbrown, dbrown, dbrown], // right
-      [dbrown, dbrown, dbrown, dbrown], // bottom
+    [ggreen, ggreen, ggreen, ggreen], // top
+    [lbrown, lbrown, dbrown, dbrown], // front
+    [lbrown, lbrown, dbrown, dbrown], // left
+    [lbrown, lbrown, dbrown, dbrown], // back
+    [lbrown, lbrown, dbrown, dbrown], // right
+    [dbrown, dbrown, dbrown, dbrown] // bottom
   );
 
   const stone = new AlphaSkin(
-      [lgray, gray, lgray, gray], // top
-      [lgray, gray, lgray, gray], // front
-      [lgray, gray, lgray, gray], // left
-      [lgray, gray, lgray, gray], // back
-      [lgray, gray, lgray, gray], // right
-      [lgray, gray, lgray, gray], // bottom
-      [lgray, gray, lgray, gray], // misc
-      [lgray, gray, lgray, gray], // misc
-      [lgray, gray, lgray, gray], // misc
-      [lgray, gray, lgray, gray], // misc
+    [lgray, gray, lgray, gray], // top
+    [lgray, gray, lgray, gray], // front
+    [lgray, gray, lgray, gray], // left
+    [lgray, gray, lgray, gray], // back
+    [lgray, gray, lgray, gray], // right
+    [lgray, gray, lgray, gray], // bottom
+    [lgray, gray, lgray, gray], // misc
+    [lgray, gray, lgray, gray], // misc
+    [lgray, gray, lgray, gray], // misc
+    [lgray, gray, lgray, gray] // misc
   );
 
   // draw everthing in a face:
@@ -111,9 +118,9 @@ export function standardBlockTypes(BlockTypes) {
   // front to back
   const CUBE = new AlphaShape(Top, Front, Left, Back, Right, Bottom);
 
-  BlockTypes.create('stone', 'cube', stone, CUBE);
-  BlockTypes.create('dirt', 'cube', dirt, CUBE);
-  BlockTypes.create('grass', 'cube', grass, CUBE);
+  BlockTypes.create("stone", "cube", stone, CUBE);
+  BlockTypes.create("dirt", "cube", dirt, CUBE);
+  BlockTypes.create("grass", "cube", grass, CUBE);
 
   // a slope lowers vertices 1 and 2 to 6 and 5;
   let slopeStructure = buildCubeStructure();
@@ -131,7 +138,7 @@ export function standardBlockTypes(BlockTypes) {
   Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   const SLOPE = new AlphaShape(Top, Front, Left, Back, Right, Bottom);
-  BlockTypes.load('stone', 'slope', stone, SLOPE);
+  BlockTypes.load("stone", "slope", stone, SLOPE);
 
   // there are 4 simple sloped corners for a fullsized cube;
   // split the top face into two triangles
@@ -159,7 +166,7 @@ export function standardBlockTypes(BlockTypes) {
   Bottom = new AlphaFace(alphaTRIANGLES, v[6], v[7], v[5]);
 
   const CORNER_SLOPE = new AlphaShape(Top, Front, Left, Bottom);
-  BlockTypes.load('stone', 'corner_slope', stone, CORNER_SLOPE);
+  BlockTypes.load("stone", "corner_slope", stone, CORNER_SLOPE);
 
   let ibcslopeStructure = buildCubeStructure();
   v = ibcslopeStructure;
@@ -175,19 +182,19 @@ export function standardBlockTypes(BlockTypes) {
   Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   const INVERTED_CORNER_SLOPE = new AlphaShape(
-      Top,
-      Slope,
-      Front,
-      Left,
-      Back,
-      Right,
-      Bottom,
+    Top,
+    Slope,
+    Front,
+    Left,
+    Back,
+    Right,
+    Bottom
   );
   BlockTypes.load(
-      'stone',
-      'inverted_corner_slope',
-      stone,
-      INVERTED_CORNER_SLOPE,
+    "stone",
+    "inverted_corner_slope",
+    stone,
+    INVERTED_CORNER_SLOPE
   );
 
   // pyramid corner ( 1 top, 3 bottom )
@@ -203,14 +210,8 @@ export function standardBlockTypes(BlockTypes) {
   Front = new AlphaFace(alphaQUADS, v[3], v[2], v[7], v[6]);
   Left = new AlphaFace(alphaTRIANGLES, v[3], v[6], v[5]);
   Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
-  const PYRAMID_CORNER = new AlphaShape(
-      TopLeft,
-      TopRight,
-      Front,
-      Left,
-      Bottom,
-  );
-  BlockTypes.load('stone', 'pyramid_corner', stone, PYRAMID_CORNER);
+  const PYRAMID_CORNER = new AlphaShape(TopLeft, TopRight, Front, Left, Bottom);
+  BlockTypes.load("stone", "pyramid_corner", stone, PYRAMID_CORNER);
 
   // inverted pyramid corner ( 3 top, 1 bottom )
   let ipcorner = buildCubeStructure();
@@ -227,19 +228,19 @@ export function standardBlockTypes(BlockTypes) {
   Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   const INVERTED_PYRAMID_CORNER = new AlphaShape(
-      TopLeft,
-      TopRight,
-      Front,
-      Left,
-      Back,
-      Right,
-      Bottom,
+    TopLeft,
+    TopRight,
+    Front,
+    Left,
+    Back,
+    Right,
+    Bottom
   );
   BlockTypes.load(
-      'stone',
-      'inverted_pyramid_corner',
-      stone,
-      INVERTED_PYRAMID_CORNER,
+    "stone",
+    "inverted_pyramid_corner",
+    stone,
+    INVERTED_PYRAMID_CORNER
   );
 
   v = buildSlabStructure();
@@ -251,7 +252,7 @@ export function standardBlockTypes(BlockTypes) {
   Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
   const SLAB = new AlphaShape(Top, Front, Left, Back, Right, Bottom);
 
-  BlockTypes.load('stone', 'slab', stone, SLAB);
+  BlockTypes.load("stone", "slab", stone, SLAB);
 
   // a slope lowers vertices 1 and 2 to 6 and 5;
   slopeStructure = buildCubeStructure();
@@ -268,7 +269,7 @@ export function standardBlockTypes(BlockTypes) {
   Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   const SLAB_SLOPE = new AlphaShape(Top, Front, Left, Back, Right, Bottom);
-  BlockTypes.load('stone', 'slab_slope', stone, SLAB_SLOPE);
+  BlockTypes.load("stone", "slab_slope", stone, SLAB_SLOPE);
 
   bcslopeStructure = buildCubeStructure();
   v = bcslopeStructure;
@@ -282,7 +283,7 @@ export function standardBlockTypes(BlockTypes) {
   Bottom = new AlphaFace(alphaTRIANGLES, v[6], v[7], v[5]);
 
   const SLAB_CORNER = new AlphaShape(Top, Front, Left, Bottom);
-  BlockTypes.load('stone', 'slab_corner', stone, SLAB_CORNER);
+  BlockTypes.load("stone", "slab_corner", stone, SLAB_CORNER);
 
   ibcslopeStructure = buildCubeStructure();
   v = ibcslopeStructure;
@@ -297,15 +298,15 @@ export function standardBlockTypes(BlockTypes) {
   Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   const SLAB_INVERTED_CORNER = new AlphaShape(
-      Top,
-      Slope,
-      Front,
-      Left,
-      Back,
-      Right,
-      Bottom,
+    Top,
+    Slope,
+    Front,
+    Left,
+    Back,
+    Right,
+    Bottom
   );
-  BlockTypes.load('stone', 'slab_inverted_corner', stone, SLAB_INVERTED_CORNER);
+  BlockTypes.load("stone", "slab_inverted_corner", stone, SLAB_INVERTED_CORNER);
 
   // pyramid corner ( 1 top, 3 bottom )
   pcorner = buildCubeStructure();
@@ -320,13 +321,13 @@ export function standardBlockTypes(BlockTypes) {
   Left = new AlphaFace(alphaTRIANGLES, v[3], v[6], v[5]);
   Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
   const SLAB_PYRAMID_CORNER = new AlphaShape(
-      TopLeft,
-      TopRight,
-      Front,
-      Left,
-      Bottom,
+    TopLeft,
+    TopRight,
+    Front,
+    Left,
+    Bottom
   );
-  BlockTypes.load('stone', 'slab_pyramid_corner', stone, SLAB_PYRAMID_CORNER);
+  BlockTypes.load("stone", "slab_pyramid_corner", stone, SLAB_PYRAMID_CORNER);
 
   // inverted pyramid corner ( 3 top, 1 bottom )
   ipcorner = buildSlabStructure();
@@ -342,19 +343,19 @@ export function standardBlockTypes(BlockTypes) {
   Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   const SLAB_INVERTED_PYRAMID_CORNER = new AlphaShape(
-      TopLeft,
-      TopRight,
-      Front,
-      Left,
-      Back,
-      Right,
-      Bottom,
+    TopLeft,
+    TopRight,
+    Front,
+    Left,
+    Back,
+    Right,
+    Bottom
   );
   BlockTypes.load(
-      'stone',
-      'slab_inverted_pyramid_corner',
-      stone,
-      SLAB_INVERTED_PYRAMID_CORNER,
+    "stone",
+    "slab_inverted_pyramid_corner",
+    stone,
+    SLAB_INVERTED_PYRAMID_CORNER
   );
 
   // a slope lowers vertices 1 and 2 to 6 and 5;
@@ -372,7 +373,7 @@ export function standardBlockTypes(BlockTypes) {
   Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   const SHALLOW_SLOPE = new AlphaShape(Top, Front, Left, Back, Right, Bottom);
-  BlockTypes.load('stone', 'shallow_slope', stone, SHALLOW_SLOPE);
+  BlockTypes.load("stone", "shallow_slope", stone, SHALLOW_SLOPE);
 
   // there are 4 simple sloped corners for a fullsized cube;
   // split the top face into two triangles
@@ -402,15 +403,15 @@ export function standardBlockTypes(BlockTypes) {
   Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   const SHALLOW_CORNER = new AlphaShape(
-      Top,
-      Slope,
-      Front,
-      Left,
-      Back,
-      Right,
-      Bottom,
+    Top,
+    Slope,
+    Front,
+    Left,
+    Back,
+    Right,
+    Bottom
   );
-  BlockTypes.load('stone', 'shallow_corner', stone, SHALLOW_CORNER);
+  BlockTypes.load("stone", "shallow_corner", stone, SHALLOW_CORNER);
 
   v = buildCubeStructure();
   // 3 top, 1 bottom;
@@ -424,19 +425,19 @@ export function standardBlockTypes(BlockTypes) {
   Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   const SHALLOW_INVERTED_CORNER = new AlphaShape(
-      Top,
-      Slope,
-      Front,
-      Left,
-      Back,
-      Right,
-      Bottom,
+    Top,
+    Slope,
+    Front,
+    Left,
+    Back,
+    Right,
+    Bottom
   );
   BlockTypes.load(
-      'stone',
-      'shallow_inverted_corner',
-      stone,
-      SHALLOW_INVERTED_CORNER,
+    "stone",
+    "shallow_inverted_corner",
+    stone,
+    SHALLOW_INVERTED_CORNER
   );
 
   // pyramid corner ( 1 top, 3 bottom )
@@ -454,19 +455,19 @@ export function standardBlockTypes(BlockTypes) {
   Right = new AlphaFace(alphaQUADS, v[2], v[1], v[4], v[7]);
   Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
   const SHALLOW_PYRAMID_CORNER = new AlphaShape(
-      TopLeft,
-      TopRight,
-      Front,
-      Left,
-      Back,
-      Right,
-      Bottom,
+    TopLeft,
+    TopRight,
+    Front,
+    Left,
+    Back,
+    Right,
+    Bottom
   );
   BlockTypes.load(
-      'stone',
-      'shallow_pyramid_corner',
-      stone,
-      SHALLOW_PYRAMID_CORNER,
+    "stone",
+    "shallow_pyramid_corner",
+    stone,
+    SHALLOW_PYRAMID_CORNER
   );
 
   // inverted pyramid corner ( 3 top, 1 bottom )
@@ -483,19 +484,19 @@ export function standardBlockTypes(BlockTypes) {
   Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   const SHALLOW_INVERTED_PYRAMID_CORNER = new AlphaShape(
-      TopLeft,
-      TopRight,
-      Front,
-      Left,
-      Back,
-      Right,
-      Bottom,
+    TopLeft,
+    TopRight,
+    Front,
+    Left,
+    Back,
+    Right,
+    Bottom
   );
   BlockTypes.load(
-      'stone',
-      'shallow_inverted_pyramid_corner',
-      stone,
-      SHALLOW_INVERTED_PYRAMID_CORNER,
+    "stone",
+    "shallow_inverted_pyramid_corner",
+    stone,
+    SHALLOW_INVERTED_PYRAMID_CORNER
   );
 
   // an angled slab is a half slab cut in a right triangle
@@ -509,7 +510,7 @@ export function standardBlockTypes(BlockTypes) {
   Bottom = new AlphaFace(alphaTRIANGLES, v[6], v[7], v[5]);
   const ANGLED_SLAB = new AlphaShape(Top, Front, Left, Back, Bottom);
 
-  BlockTypes.load('stone', 'angled_slab', stone, ANGLED_SLAB);
+  BlockTypes.load("stone", "angled_slab", stone, ANGLED_SLAB);
 
   // half-slab
   v = buildSlabStructure();
@@ -526,7 +527,7 @@ export function standardBlockTypes(BlockTypes) {
   Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
   const HALF_SLAB = new AlphaShape(Top, Front, Left, Back, Right, Bottom);
 
-  BlockTypes.load('stone', 'half_slab', stone, HALF_SLAB);
+  BlockTypes.load("stone", "half_slab", stone, HALF_SLAB);
 
   // stairs
   const stairStructure = [
@@ -558,20 +559,20 @@ export function standardBlockTypes(BlockTypes) {
   Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   const STAIRS = new AlphaShape(
-      Flight1Top,
-      Flight1Front,
-      Flight2Top,
-      Flight2Front,
-      Front,
-      LeftTop,
-      LeftBot,
+    Flight1Top,
+    Flight1Front,
+    Flight2Top,
+    Flight2Front,
+    Front,
+    LeftTop,
+    LeftBot,
 
-      RightTop,
-      RightBot,
-      Bottom,
+    RightTop,
+    RightBot,
+    Bottom
   );
 
-  BlockTypes.load('stone', 'stairs', stone, STAIRS);
+  BlockTypes.load("stone", "stairs", stone, STAIRS);
 
   // medium corner; lowers 1 and 3 to mid range
   // and 2 to bottom
@@ -588,7 +589,7 @@ export function standardBlockTypes(BlockTypes) {
   Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   const MED_CORNER = new AlphaShape(Top, Front, Left, Back, Right, Bottom);
-  BlockTypes.load('stone', 'med_corner', stone, MED_CORNER);
+  BlockTypes.load("stone", "med_corner", stone, MED_CORNER);
 
   // medium corner; lowers 1 to midrange
   // and 2 to bottom
@@ -604,7 +605,7 @@ export function standardBlockTypes(BlockTypes) {
   Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   const MED_CORNER2 = new AlphaShape(Top, Front, Left, Back, Right, Bottom);
-  BlockTypes.load('stone', 'med_corner2', stone, MED_CORNER2);
+  BlockTypes.load("stone", "med_corner2", stone, MED_CORNER2);
 
   // medium corner; lowers 1 and 3 to mid range
   // and 2 to bottom
@@ -620,5 +621,5 @@ export function standardBlockTypes(BlockTypes) {
   Bottom = new AlphaFace(alphaQUADS, v[6], v[7], v[4], v[5]);
 
   const MED_CORNER3 = new AlphaShape(Top, Front, Left, Back, Right, Bottom);
-  BlockTypes.load('stone', 'med_corner3', stone, MED_CORNER3);
+  BlockTypes.load("stone", "med_corner3", stone, MED_CORNER3);
 }

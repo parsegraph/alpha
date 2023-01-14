@@ -4,9 +4,9 @@
 // --------------------------------------------
 // --------------------------------------------
 
-import { alphaQUADS, alphaTRIANGLES, createBlock } from './BlockStuff';
-import { AlphaVector } from './Maths';
-import FacePainter from './FacePainter';
+import { alphaQUADS, alphaTRIANGLES, createBlock } from "./BlockStuff";
+import { AlphaVector } from "./Maths";
+import FacePainter from "./FacePainter";
 
 /**
  * Cluster is where the information from blocks, blocktype, color and face
@@ -19,7 +19,7 @@ import FacePainter from './FacePainter';
 export default class AlphaCluster {
   constructor(widget) {
     if (!widget) {
-      throw new Error('Cluster must be given a non-null alpha_GLWidget');
+      throw new Error("Cluster must be given a non-null alpha_GLWidget");
     }
     this.widget = widget;
 
@@ -36,7 +36,7 @@ export default class AlphaCluster {
       }
     }
     return null;
-  };
+  }
 
   addBlock(...args) {
     if (arguments.length > 1) {
@@ -49,14 +49,14 @@ export default class AlphaCluster {
       this.blocks.push(block);
     }
     return block;
-  };
+  }
 
   RemoveBlock(block) {
     const i = this.hasBlock(block);
     if (i != null) {
       return this.blocks.splice(i, 1)[0];
     }
-  };
+  }
 
   /**
    * pass a table of blocks and it will add the ones that are new
@@ -71,11 +71,11 @@ export default class AlphaCluster {
         this.addBlock(arguments[0][i]);
       }
     }
-  };
+  }
 
   ClearBlocks() {
     this.blocks.splice(0, this.blocks.length);
-  };
+  }
 
   calculateVertices() {
     if (!this.facePainter) {
@@ -89,11 +89,11 @@ export default class AlphaCluster {
     const rv2 = new AlphaVector();
     const rv3 = new AlphaVector();
     const rv4 = new AlphaVector();
-    this.blocks.forEach(function(block) {
+    this.blocks.forEach(function (block) {
       const quat = block.getQuaternion(true);
       if (!quat) {
         // console.log(block);
-        throw new Error('Block must not return a null quaternion');
+        throw new Error("Block must not return a null quaternion");
       }
 
       // get the faces from the blocktype
@@ -108,11 +108,11 @@ export default class AlphaCluster {
         // vertices is face!
         const face = shape[i];
         if (!face) {
-          throw new Error('Shape must not contain any null faces');
+          throw new Error("Shape must not contain any null faces");
         }
         const colors = skin[i];
         if (!colors) {
-          throw new Error('Shape must not contain any null colors');
+          throw new Error("Shape must not contain any null colors");
         }
 
         // every face has its own drawType;
@@ -121,12 +121,12 @@ export default class AlphaCluster {
           for (let j = 0; j < face.length; ++j) {
             let vertex = face[j];
             if (!vertex) {
-              throw new Error('Face must not contain any null vertices');
+              throw new Error("Face must not contain any null vertices");
             }
             // get the color for this vertex;
             const color = colors[j];
             if (!color) {
-              throw new Error('Colors must not contain any null color values');
+              throw new Error("Colors must not contain any null color values");
             }
 
             // rotate it; if it's not the default
@@ -138,12 +138,12 @@ export default class AlphaCluster {
 
             // vector and cluster use the same indexes
             this.facePainter.triangle(
-                vertex[0],
-                vertex[1],
-                vertex[2],
-                color[0],
-                color[1],
-                color[2],
+              vertex[0],
+              vertex[1],
+              vertex[2],
+              color[0],
+              color[1],
+              color[2]
             );
           }
         } else if (face.drawType == alphaQUADS) {
@@ -211,21 +211,21 @@ export default class AlphaCluster {
           }
         } else {
           throw new Error(
-              'Face must have a valid drawType property to read of either alphaQUADS or alphaTRIANGLES. (Given ' +
+            "Face must have a valid drawType property to read of either alphaQUADS or alphaTRIANGLES. (Given " +
               face.drawType +
-              ')',
+              ")"
           );
         }
       }
     }, this);
-  };
+  }
 
   draw(viewMatrix) {
     if (!this.facePainter) {
       return;
     }
     this.facePainter.draw(viewMatrix);
-  };
+  }
 }
 
 /*
