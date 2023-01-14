@@ -4,7 +4,7 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
-async function getDemos() {
+async function getDemos(): Promise<string[]> {
   return new Promise((respond, reject) => {
     glob("www/*.html", {}, function (err, files) {
       if (err) {
@@ -21,7 +21,7 @@ async function getDemos() {
 }
 
 app.get("/", async (req, res) => {
-  resp = "";
+  let resp = "";
   const write = (text) => {
     resp += text + "\n";
   };
