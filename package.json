@@ -57,7 +57,6 @@
     "parsegraph-matrix": "^1.4.13",
     "parsegraph-pagingbuffer": "^2.1.5",
     "parsegraph-shader": "^1.5.8",
-    "parsegraph-testsuite": "^1.6.3",
     "parsegraph-timing": "^1.4.17",
     "parsegraph-timingbelt": "^1.7.15",
     "parsegraph-toradians": "^1.4.10",
