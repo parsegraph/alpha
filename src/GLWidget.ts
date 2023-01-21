@@ -4,31 +4,50 @@
 import { Color, Component } from "parsegraph-window";
 import { standardBlockTypes } from "./BlockIDs";
 import { AlphaBlockTypes } from "./BlockStuff";
-import AlphaCamera from "./Cam";
+import Physical, { AlphaCamera } from 'parsegraph-physical';
 import AlphaCluster from "./Cluster";
 import CubeMan from "./CubeMan";
-import { AlphaInput } from "./Input";
+import AlphaInput from "./Input";
 import {
   AlphaVector,
   AlphaQuaternion,
   quaternionFromAxisAndAngle,
   alphaRandom,
 } from "./Maths";
-import Physical from "./Physical";
 import { elapsed } from "parsegraph-timing";
+
+import { Renderable } from 'parsegraph-timingbelt';
 
 // TODO Mouse input appears to be... strangely interpreted.
 
 // test version 1.0
-export default class AlphaGLWidget extends Component {
-  constructor(belt, window) {
-    super();
-    this._belt = belt;
-    this._window = window;
+export default class AlphaGLWidget implements Renderable {
+  _backgroundColor: Color;
+  camera: AlphaCamera;
+  _start: Date;
+  paintingDirty: boolean;
+  _input: AlphaInput;
+  _done: boolean;
+  BlockTypes: AlphaBlockTypes;
 
+  orbit: Physical;
+  playerAPhysical: Physical;
+  playerBPhysical: Physical;
+  offsetPlatformPhysical: Physical;
+
+  originCluster: AlphaCluster;
+  playerCluster: AlphaCluster;
+  worldCluster: AlphaCluster;
+  platformCluster: AlphaCluster;
+  evPlatformCluster: AlphaCluster;
+  testCluster: AlphaCluster;
+  sphereCluster: AlphaCluster;
+
+
+  constructor() {
     this._backgroundColor = new Color(0, 47 / 255, 57 / 255);
 
-    this.camera = new AlphaCamera(this);
+    this.camera = new AlphaCamera();
     this._start = new Date();
 
     // Set the field of view.
