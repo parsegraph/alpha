@@ -56,6 +56,7 @@
     "parsegraph-fuzzyequals": "^1.4.11",
     "parsegraph-matrix": "^1.4.14",
     "parsegraph-pagingbuffer": "^2.1.5",
+    "parsegraph-physical": "^2.0.12",
     "parsegraph-shader": "^1.5.8",
     "parsegraph-testsuite": "^1.6.3",
     "parsegraph-timing": "^1.4.17",

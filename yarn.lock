@@ -4153,6 +4153,16 @@ parsegraph-pagingbuffer@^2.1.5:
   resolved "https://registry.yarnpkg.com/parsegraph-pagingbuffer/-/parsegraph-pagingbuffer-2.1.5.tgz#f6abe6aaca351f2302a6bc398e2cda803a6452fe"
   integrity sha512-NgghZ3QYZmFxmanmkE0Tj5KOgjc2aiqnnk+pMd7tqaPhDr7zTfrNfQKJtu6y1XLbJmV35N/WdkdPGvpVzIz6yA==
 
+parsegraph-physical@^2.0.12:
+  version "2.0.12"
+  resolved "https://registry.yarnpkg.com/parsegraph-physical/-/parsegraph-physical-2.0.12.tgz#ac26067043c829293d543072077014de80b8da4f"
+  integrity sha512-FXFHdfwcbdo1VEhSgFcUAKTNRMzzdLdNhd//1wo5ex69xuaV6VwWKyW2mDjuLNOjCUANevdynVUWShxXzTFiMQ==
+  dependencies:
+    parsegraph-fuzzyequals "^1.4.10"
+    parsegraph-matrix "^1.4.13"
+    parsegraph-testsuite "^1.6.3"
+    parsegraph-toradians "^1.4.10"
+
 parsegraph-projector@^1.14.6:
   version "1.14.6"
   resolved "https://registry.yarnpkg.com/parsegraph-projector/-/parsegraph-projector-1.14.6.tgz#c9b40b41a380dd04d5422b1e68f287e57d469eed"
