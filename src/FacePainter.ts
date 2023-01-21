@@ -1,5 +1,8 @@
-import { compileShader } from "parsegraph-shader";
-import { createPagingBuffer } from "parsegraph-pagingbuffer";
+import Color from './Color';
+import {AlphaVector, AlphaRMatrix4} from 'parsegraph-physical';
+import PagingBuffer from 'parsegraph-pagingbuffer';
+
+import { compileProgram, GLProvider } from "parsegraph-compileprogram";
 
 const alphaFacePainterVertexShader =
   "uniform mat4 u_world;\n" +
@@ -29,46 +32,20 @@ const alphaFacePainterFragmentShader =
  * Draws 3d faces in a solid color.
  */
 export default class FacePainter {
-  constructor(gl) {
-    this.gl = gl;
-    if (!this.gl || !this.gl.createProgram) {
-      throw new Error("FacePainter must be given a GL interface");
-    }
+  _glProvider: GLProvider;
+  faceProgram: WebGLProgram;
+  faceBuffer: PagingBuffer;
 
-    this.faceProgram = this.gl.createProgram();
+  aPosition: number;
+  aColor: number;
+  uWorld: WebGLUniformLocation;
 
-    this.gl.attachShader(
-      this.faceProgram,
-      compileShader(
-        this.gl,
-        alphaFacePainterVertexShader,
-        this.gl.VERTEX_SHADER
-      )
-    );
+  gl() {
+    return this._glProvider.gl();
+  }
 
-    this.gl.attachShader(
-      this.faceProgram,
-      compileShader(
-        this.gl,
-        alphaFacePainterFragmentShader,
-        this.gl.FRAGMENT_SHADER
-      )
-    );
-
-    this.gl.linkProgram(this.faceProgram);
-    if (!this.gl.getProgramParameter(this.faceProgram, this.gl.LINK_STATUS)) {
-      throw new Error("FacePainter program failed to link.");
-    }
-
-    // Prepare attribute buffers.
-    this.faceBuffer = createPagingBuffer(this.gl, this.faceProgram);
-    this.a_position = this.faceBuffer.defineAttrib("a_position", 3);
-    this.a_color = this.faceBuffer.defineAttrib("a_color", 4);
-
-    // Cache program locations.
-    this.u_world = this.gl.getUniformLocation(this.faceProgram, "u_world");
-
-    this.faceBuffer.addPage();
+  constructor(glProvider: GLProvider) {
+    this._glProvider = glProvider;
   }
 
   clear() {
@@ -76,7 +53,7 @@ export default class FacePainter {
     this.faceBuffer.addPage();
   }
 
-  quad(v1, v2, v3, v4, c1, c2, c3, c4) {
+  quad(v1: AlphaVector, v2: AlphaVector, v3: AlphaVector, v4: AlphaVector, c1: Color, c2: Color, c3: Color, c4: Color) {
     this.triangle(v1, v2, v3, c1, c2, c3);
     this.triangle(v1, v3, v4, c1, c3, c4);
   }
@@ -85,7 +62,7 @@ export default class FacePainter {
    * painter.triangle(v1, v2, v3, c1, c2, c3);
    */
 
-  triangle(v1, v2, v3, c1, c2, c3) {
+  triangle(v1: AlphaVector, v2: AlphaVector, v3: AlphaVector, c1: Color, c2: Color, c3: Color) {
     if (!c2) {
       c2 = c1;
     }
@@ -94,7 +71,7 @@ export default class FacePainter {
     }
 
     this.faceBuffer.appendData(
-      this.a_position,
+      this.aPosition,
       v1[0],
       v1[1],
       v1[2],
@@ -105,61 +82,44 @@ export default class FacePainter {
       v3[1],
       v3[2]
     );
-    if (c1.length == 3) {
-      this.faceBuffer.appendData(
-        this.a_color,
-        c1[0],
-        c1[1],
-        c1[2],
-        1.0,
-        c2[0],
-        c2[1],
-        c2[2],
-        1.0,
-        c3[0],
-        c3[1],
-        c3[2],
-        1.0
-      );
-    } else {
-      this.faceBuffer.appendData(
-        this.a_color,
-        c1[0],
-        c1[1],
-        c1[2],
-        c1[3],
-        c2[0],
-        c2[1],
-        c2[2],
-        c2[3],
-        c3[0],
-        c3[1],
-        c3[2],
-        c3[3]
-      );
-    }
+    this.faceBuffer.appendData(
+      this.aColor,
+      ...c1.values(),
+      1.0,
+      ...c2.values(),
+      1.0,
+      ...c3.values(),
+      1.0
+    );
   }
 
-  draw(viewMatrix) {
+  draw(viewMatrix: AlphaRMatrix4) {
     if (!viewMatrix) {
       throw new Error("A viewMatrix must be provided");
     }
+
+    const gl = this.gl();
+    if (!this.faceProgram) {
+      this.faceProgram = compileProgram(
+        this._glProvider, "alpha-FacePainter",
+          alphaFacePainterVertexShader,
+          alphaFacePainterFragmentShader,
+      );
+
+      // Prepare attribute buffers.
+      this.faceBuffer = new PagingBuffer(gl, this.faceProgram);
+      this.aPosition = this.faceBuffer.defineAttrib("a_position", 3);
+      this.aColor = this.faceBuffer.defineAttrib("a_color", 4);
+
+      // Cache program locations.
+      this.uWorld = gl.getUniformLocation(this.faceProgram, "u_world");
+
+      this.faceBuffer.addPage();
+    }
+
     // Render faces.
-    this.gl.useProgram(this.faceProgram);
-    this.gl.uniformMatrix4fv(this.u_world, false, viewMatrix.toArray());
+    gl.useProgram(this.faceProgram);
+    gl.uniformMatrix4fv(this.uWorld, false, viewMatrix.toArray());
     this.faceBuffer.renderPages();
   }
 }
-
-/*
-const TestSuite = require('parsegraph-testsuite').default;
-
-alpha_FacePainter_Tests = new TestSuite('alpha_FacePainter');
-
-alpha_FacePainter_Tests.addTest('alpha_FacePainter', function(resultDom) {
-  const belt = new parsegraph_TimingBelt();
-  const window = new parsegraph_Window();
-  const widget = new alpha_GLWidget(belt, window);
-  const painter = new alpha_FacePainter(window.gl());
-});
-*/

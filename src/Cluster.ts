@@ -4,9 +4,12 @@
 // --------------------------------------------
 // --------------------------------------------
 
-import { alphaQUADS, alphaTRIANGLES, createBlock } from "./BlockStuff";
-import { AlphaVector } from "./Maths";
+import { DrawType } from "./Face";
+import { AlphaVector, AlphaRMatrix4 } from "parsegraph-physical"
 import FacePainter from "./FacePainter";
+import Block from './Block';
+import {GLProvider} from "parsegraph-compileprogram";
+import BlockTypes from './BlockTypes';
 
 /**
  * Cluster is where the information from blocks, blocktype, color and face
@@ -17,44 +20,36 @@ import FacePainter from "./FacePainter";
  * everytime a block was edited
  */
 export default class AlphaCluster {
-  constructor(widget) {
-    if (!widget) {
-      throw new Error("Cluster must be given a non-null alpha_GLWidget");
-    }
-    this.widget = widget;
+  _blocks: Block[];
+  _facePainter: FacePainter;
 
-    this.blocks = [];
+  constructor(glProvider: GLProvider) {
+    this._blocks = [];
 
     // Declare GL Painters; create them only when needed to delay GL context's creation.
-    this.facePainter = null;
+    this._facePainter = new FacePainter(glProvider);
   }
 
-  hasBlock(block) {
-    for (let i = 0; i < this.blocks.length; ++i) {
-      if (this.blocks[i] == block) {
+  hasBlock(block: Block) {
+    for (let i = 0; i < this._blocks.length; ++i) {
+      if (this._blocks[i] == block) {
         return i;
       }
     }
     return null;
   }
 
-  addBlock(...args) {
-    if (arguments.length > 1) {
-      // Create a new block.
-      this.blocks.push(createBlock(...args));
-      return;
-    }
-    const block = args[0];
+  addBlock(block: Block) {
     if (!this.hasBlock(block)) {
-      this.blocks.push(block);
+      this._blocks.push(block);
     }
     return block;
   }
 
-  RemoveBlock(block) {
+  RemoveBlock(block: Block) {
     const i = this.hasBlock(block);
     if (i != null) {
-      return this.blocks.splice(i, 1)[0];
+      this._blocks.splice(i, 1)[0];
     }
   }
 
@@ -74,22 +69,17 @@ export default class AlphaCluster {
   }
 
   ClearBlocks() {
-    this.blocks.splice(0, this.blocks.length);
+    this._blocks.splice(0, this._blocks.length);
   }
 
-  calculateVertices() {
-    if (!this.facePainter) {
-      this.facePainter = new FacePainter(this.widget.gl());
-    } else {
-      // delete what we had;
-      this.facePainter.clear();
-    }
+  calculateVertices(blockTypes: BlockTypes) {
+    this._facePainter.clear();
 
     const rv1 = new AlphaVector();
     const rv2 = new AlphaVector();
     const rv3 = new AlphaVector();
     const rv4 = new AlphaVector();
-    this.blocks.forEach(function (block) {
+    this._blocks.forEach((block)=>{
       const quat = block.getQuaternion(true);
       if (!quat) {
         // console.log(block);
@@ -97,71 +87,67 @@ export default class AlphaCluster {
       }
 
       // get the faces from the blocktype
-      const bType = this.widget.BlockTypes.get(block.id);
+      const bType = blockTypes.get(block.id);
       if (!bType) {
         return;
       }
       const shape = bType[0];
       const skin = bType[1];
 
-      for (let i = 0; i < shape.length; ++i) {
+      for (let i = 0; i < shape.length(); ++i) {
         // vertices is face!
-        const face = shape[i];
+        const face = shape.get(i);
         if (!face) {
           throw new Error("Shape must not contain any null faces");
         }
-        const colors = skin[i];
+        const colors = skin.get(i);
         if (!colors) {
           throw new Error("Shape must not contain any null colors");
         }
 
         // every face has its own drawType;
-        if (face.drawType == alphaTRIANGLES) {
+        if (face.drawType() == DrawType.TRIANGLES) {
           // Process every vertex of the face.
-          for (let j = 0; j < face.length; ++j) {
-            let vertex = face[j];
-            if (!vertex) {
-              throw new Error("Face must not contain any null vertices");
-            }
+          for (let j = 0; j < face.length(); j += 3) {
+            let v1 = face.get(j);
+            let v2 = face.get(j + 1);
+            let v3 = face.get(j + 2);
+
             // get the color for this vertex;
-            const color = colors[j];
-            if (!color) {
-              throw new Error("Colors must not contain any null color values");
-            }
+            const c1 = colors[j];
+            const c2 = colors[j + 1];
+            const c3 = colors[j + 2];
 
             // rotate it; if it's not the default
             if (block.orientation > 0) {
-              vertex = quat.rotatedVector(vertex);
+              v1 = quat.rotatedVector(v1);
+              v2 = quat.rotatedVector(v2);
+              v3 = quat.rotatedVector(v3);
             }
             // now translate it
-            vertex = vertex.dded(new AlphaVector(block[0], block[1], block[2]));
+            v1 = v1.added(new AlphaVector(...block.pos));
+            v2 = v2.added(new AlphaVector(...block.pos));
+            v3 = v3.added(new AlphaVector(...block.pos));
 
             // vector and cluster use the same indexes
-            this.facePainter.triangle(
-              vertex[0],
-              vertex[1],
-              vertex[2],
-              color[0],
-              color[1],
-              color[2]
-            );
+            this._facePainter.triangle(v1, v2, v3, c1, c2, c3);
           }
-        } else if (face.drawType == alphaQUADS) {
+        } else if (face.drawType() == DrawType.QUADS) {
           // Process every vertex of the face.
-          for (let j = 0; j < face.length; j += 4) {
-            const v1 = face[j];
+          for (let j = 0; j < face.length(); j += 4) {
+            const v1 = face.get(j);
             // if(!v1) {
             // throw new Error("Face must not contain any null vertices (v1)");
             // }
-            const v2 = face[j + 1];
+            const v2 = face.get(j + 1);
             // if(!v2) {
             // throw new Error("Face must not contain any null vertices (v2)");
             // }
-            const v3 = face[j + 2];
+            const v3 = face.get(j + 2);
             // if(!v3) {
             // throw new Error("Face must not contain any null vertices (v3)");
             // }
-            const v4 = face[j + 3];
+            const v4 = face.get(j + 3);
             // if(!v4) {
             // throw new Error("Face must not contain any null vertices (v4)");
             // }
@@ -201,13 +187,13 @@ export default class AlphaCluster {
             // console.log(block);
             // throw new Error("Block must contain numeric components.");
             // }
-            rv1.add(block[0], block[1], block[2]);
-            rv2.add(block[0], block[1], block[2]);
-            rv3.add(block[0], block[1], block[2]);
-            rv4.add(block[0], block[1], block[2]);
+            rv1.add(...block.pos);
+            rv2.add(...block.pos);
+            rv3.add(...block.pos);
+            rv4.add(...block.pos);
 
             // Translate quads to triangles
-            this.facePainter.quad(rv1, rv2, rv3, rv4, c1, c2, c3, c4);
+            this._facePainter.quad(rv1, rv2, rv3, rv4, c1, c2, c3, c4);
           }
         } else {
           throw new Error(
@@ -217,31 +203,13 @@ export default class AlphaCluster {
           );
         }
       }
-    }, this);
+    });
   }
 
-  draw(viewMatrix) {
-    if (!this.facePainter) {
+  draw(viewMatrix: AlphaRMatrix4) {
+    if (!this._facePainter) {
       return;
     }
-    this.facePainter.draw(viewMatrix);
+    this._facePainter.draw(viewMatrix);
   }
 }
-
-/*
-const TestSuite = require('parsegraph-testsuite').default;
-alpha_Cluster_Tests = new TestSuite('alpha_Cluster');
-
-alpha_Cluster_Tests.addTest('alpha_Cluster', function(resultDom) {
-  const belt = new parsegraph_TimingBelt();
-  const window = new parsegraph_Window();
-  const widget = new alpha_GLWidget(belt, window);
-
-  // test version 1.0
-  const Cubeman = widget.BlockTypes.get('blank', 'Cubeman');
-
-  const testCluster = new alpha_Cluster(widget);
-  testCluster.addBlock(Cubeman, 0, 5, 0, 1);
-  testCluster.calculateVertices();
-});
-*/

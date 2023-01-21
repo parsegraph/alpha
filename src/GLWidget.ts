@@ -1,22 +1,25 @@
 // TODO Blocks in foreground are rendered
 // improperly relative to the projection matrix.
 
-import { Color, Component } from "parsegraph-window";
-import { standardBlockTypes } from "./BlockIDs";
-import { AlphaBlockTypes } from "./BlockStuff";
-import Physical, { AlphaCamera } from 'parsegraph-physical';
-import AlphaCluster from "./Cluster";
-import CubeMan from "./CubeMan";
-import AlphaInput from "./Input";
+import Color from "parsegraph-color";
+import Block from './Block';
+import { Projector } from "parsegraph-projector";
+import {standardBlockTypes} from "./standardBlockTypes";
+import BlockTypes from "./BlockTypes";
 import {
   AlphaVector,
   AlphaQuaternion,
+  BasicPhysical,
+  AlphaCamera,
   quaternionFromAxisAndAngle,
   alphaRandom,
-} from "./Maths";
-import { elapsed } from "parsegraph-timing";
+} from "parsegraph-physical";
+import Cluster from "./Cluster";
+import CubeMan from "./CubeMan";
+import AlphaInput from "./Input";
 
-import { Renderable } from 'parsegraph-timingbelt';
+import { Renderable } from "parsegraph-timingbelt";
+import Method from "parsegraph-method";
 
 // TODO Mouse input appears to be... strangely interpreted.
 
@@ -28,27 +31,34 @@ export default class AlphaGLWidget implements Renderable {
   paintingDirty: boolean;
   _input: AlphaInput;
   _done: boolean;
-  BlockTypes: AlphaBlockTypes;
+  blockTypes: BlockTypes;
+  time: number;
+  _onUpdate: Method;
 
-  orbit: Physical;
-  playerAPhysical: Physical;
-  playerBPhysical: Physical;
-  offsetPlatformPhysical: Physical;
+  orbit: BasicPhysical;
+  playerAPhysical: BasicPhysical;
+  playerBPhysical: BasicPhysical;
+  offsetPlatformPhysical: BasicPhysical;
+  spherePhysical: BasicPhysical;
+  swarm: BasicPhysical[];
 
-  originCluster: AlphaCluster;
-  playerCluster: AlphaCluster;
-  worldCluster: AlphaCluster;
-  platformCluster: AlphaCluster;
-  evPlatformCluster: AlphaCluster;
-  testCluster: AlphaCluster;
-  sphereCluster: AlphaCluster;
+  originCluster: Cluster;
+  playerCluster: Cluster;
+  worldCluster: Cluster;
+  platformCluster: Cluster;
+  evPlatformCluster: Cluster;
+  testCluster: Cluster;
+  sphereCluster: Cluster;
 
+  _projector: Projector;
 
-  constructor() {
+  constructor(projector: Projector) {
+    this._projector = projector;
     this._backgroundColor = new Color(0, 47 / 255, 57 / 255);
 
     this.camera = new AlphaCamera();
     this._start = new Date();
+    this._onUpdate = new Method();
 
     // Set the field of view.
     this.camera.setFovX(60);
@@ -62,54 +72,58 @@ export default class AlphaGLWidget implements Renderable {
 
     // this.camera.pitchDown(40 * Math.PI / 180);
 
-    this._input = new AlphaInput(this, this.camera);
+    this._input = new AlphaInput(this.camera);
+    this._input.setOnScheduleUpdate(()=>{
+      this.scheduleRepaint();
+    });
     this._input.setMouseSensitivity(0.4);
+    this._input.mount(this.projector().container());
 
     this._done = false;
 
-    this.BlockTypes = new AlphaBlockTypes();
-    standardBlockTypes(this.BlockTypes);
-    CubeMan(this.BlockTypes);
+    this.blockTypes = new BlockTypes();
+    standardBlockTypes(this.blockTypes);
+    CubeMan(this.blockTypes);
 
-    const cubeman = this.BlockTypes.get("blank", "cubeman");
+    const cubeman = this.blockTypes.find("blank", "cubeman");
 
-    this.testCluster = new AlphaCluster(this);
-    this.testCluster.addBlock(cubeman, 0, 5, 0, 0);
+    this.testCluster = new Cluster(this.glProvider());
+    this.testCluster.addBlock(new Block(cubeman, 0, 5, 0, 0));
 
-    const stone = this.BlockTypes.get("stone", "cube");
-    const grass = this.BlockTypes.get("grass", "cube");
-    const dirt = this.BlockTypes.get("dirt", "cube");
+    const stone = this.blockTypes.find("stone", "cube");
+    const grass = this.blockTypes.find("grass", "cube");
+    const dirt = this.blockTypes.find("dirt", "cube");
 
-    this.originCluster = new AlphaCluster(this);
+    this.originCluster = new Cluster(this.glProvider());
     // this.originCluster.addBlock(stone,0,0,-50,0);
 
-    this.platformCluster = new AlphaCluster(this);
-    this.worldCluster = new AlphaCluster(this);
+    this.platformCluster = new Cluster(this.glProvider());
+    this.worldCluster = new Cluster(this.glProvider());
 
-    this.playerCluster = new AlphaCluster(this);
+    this.playerCluster = new Cluster(this.glProvider());
 
     for (let i = 0; i <= 2; ++i) {
-      this.playerCluster.addBlock(grass, 0, i, 0, 0);
+      this.playerCluster.addBlock(new Block(grass, 0, i, 0, 0));
     }
 
-    this.playerCluster.addBlock(grass, -1, 3, 0, 16); // left
+    this.playerCluster.addBlock(new Block(grass, -1, 3, 0, 16)); // left
 
-    this.playerCluster.addBlock(grass, 0, 4, 0, 12); // head
+    this.playerCluster.addBlock(new Block(grass, 0, 4, 0, 12)); // head
 
-    this.playerCluster.addBlock(grass, 1, 3, 0, 8); // right
+    this.playerCluster.addBlock(new Block(grass, 1, 3, 0, 8)); // right
 
     const WORLD_SIZE = 30;
     const MAX_TYPE = 23;
     for (let i = -WORLD_SIZE; i <= WORLD_SIZE; ++i) {
       for (let j = 1; j <= WORLD_SIZE * 2; ++j) {
         const r = alphaRandom(0, MAX_TYPE);
-        this.worldCluster.addBlock(
+        this.worldCluster.addBlock(new Block(
           [grass, stone][alphaRandom(0, 1)],
           i,
           -1,
           -j,
           r
-        );
+        ));
       }
     }
 
@@ -117,26 +131,26 @@ export default class AlphaGLWidget implements Renderable {
 
     for (let i = -3; i <= 3; ++i) {
       for (let j = -4; j <= 4; ++j) {
-        this.platformCluster.addBlock(grass, j, 0, -i, 0);
+        this.platformCluster.addBlock(new Block(grass, j, 0, -i, 0));
       }
     }
 
-    this.evPlatformCluster = new AlphaCluster(this);
+    this.evPlatformCluster = new Cluster(this.glProvider());
     for (let i = -2; i <= 2; ++i) {
       for (let j = 3; j <= 4; ++j) {
-        this.evPlatformCluster.addBlock(dirt, j, 1, i, 0);
+        this.evPlatformCluster.addBlock(new Block(dirt, j, 1, i, 0));
       }
     }
 
-    this.orbit = new Physical(this.camera);
+    this.orbit = new BasicPhysical(this.camera);
     this.orbit.setPosition(0, 0, 0);
-    const elevator = new Physical(this.camera);
+    const elevator = new BasicPhysical(this.camera);
     elevator.setPosition(0, 5, 0);
 
     this.camera.setParent(this.camera);
-    this.playerAPhysical = new Physical(this.camera);
-    this.playerBPhysical = new Physical(this.camera);
-    this.offsetPlatformPhysical = new Physical(this.camera);
+    this.playerAPhysical = new BasicPhysical(this.camera);
+    this.playerBPhysical = new BasicPhysical(this.camera);
+    this.offsetPlatformPhysical = new BasicPhysical(this.camera);
 
     this.offsetPlatformPhysical.setParent(this.camera);
     this.playerAPhysical.setParent(this.offsetPlatformPhysical);
@@ -152,11 +166,11 @@ export default class AlphaGLWidget implements Renderable {
     this.offsetPlatformPhysical.yawLeft(0);
     this.offsetPlatformPhysical.rollRight(0);
 
-    this.spherePhysical = new Physical(this.camera);
+    this.spherePhysical = new BasicPhysical(this.camera);
     this.spherePhysical.setPosition(45, 0, 0);
 
     const radius = 8;
-    this.sphereCluster = new AlphaCluster(this);
+    this.sphereCluster = new Cluster(this.glProvider());
 
     // first circle about the x-axis
     let rot = 0;
@@ -164,7 +178,7 @@ export default class AlphaGLWidget implements Renderable {
       const q = quaternionFromAxisAndAngle(1, 0, 0, (rot * Math.PI) / 180);
       rot += 15;
       const p = q.rotatedVector(0, 0, -radius);
-      this.sphereCluster.addBlock(stone, p, 0);
+      this.sphereCluster.addBlock(new Block(stone, p[0], p[1], p[2], 0));
     }
 
     rot = 0;
@@ -173,13 +187,13 @@ export default class AlphaGLWidget implements Renderable {
       rot += 15;
 
       const p = q.rotatedVector(0, 0, -radius);
-      this.sphereCluster.addBlock(stone, p, 0);
+      this.sphereCluster.addBlock(new Block(stone, p[0], p[1], p[2], 0));
     }
 
     const spot = new AlphaVector(0, 15, 35);
     this.swarm = [];
     for (let i = 0; i < 10; ++i) {
-      this.swarm.push(new Physical(this.camera));
+      this.swarm.push(new BasicPhysical(this.camera));
       let x = alphaRandom(1, 30);
       let y = alphaRandom(1, 30);
       let z = alphaRandom(1, 30);
@@ -197,17 +211,21 @@ export default class AlphaGLWidget implements Renderable {
     this.time = 0;
   } // AlphaGLWidget
 
+  glProvider() {
+    return this.projector().glProvider();
+  }
+
   paint() {
     if (!this.paintingDirty) {
       return false;
     }
-    this.evPlatformCluster.calculateVertices();
-    this.testCluster.calculateVertices();
-    this.originCluster.calculateVertices();
-    this.playerCluster.calculateVertices();
-    this.worldCluster.calculateVertices();
-    this.platformCluster.calculateVertices();
-    this.sphereCluster.calculateVertices();
+    this.evPlatformCluster.calculateVertices(blockTypes);
+    this.testCluster.calculateVertices(blockTypes);
+    this.originCluster.calculateVertices(blockTypes);
+    this.playerCluster.calculateVertices(blockTypes);
+    this.worldCluster.calculateVertices(blockTypes);
+    this.platformCluster.calculateVertices(blockTypes);
+    this.sphereCluster.calculateVertices(blockTypes);
     this.paintingDirty = false;
     return true;
   }
@@ -216,28 +234,32 @@ export default class AlphaGLWidget implements Renderable {
     return true;
   }
 
-  handleEvent(eventType, eventData) {
-    if (eventType === "tick") {
-      this.tick(elapsed(this._start));
-      this._start = new Date();
-      return true;
-    } else if (eventType === "wheel") {
-      return this._input.onWheel(eventData);
-    } else if (eventType === "mousemove") {
-      return this._input.onMousemove(eventData);
-    } else if (eventType === "mousedown") {
-      return this._input.onMousedown(eventData);
-    } else if (eventType === "mouseup") {
-      return this._input.onMouseup(eventData);
-    } else if (eventType === "keydown") {
-      return this._input.onKeydown(eventData);
-    } else if (eventType === "keyup") {
-      return this._input.onKeyup(eventData);
-    }
-    return false;
+  weetcubeHandleEvent(eventType: string, eventData?: any) {
+    const callListener = () => {
+      // this is from weetcubes
+      if (eventType === "wheel") {
+        return this._input.onWheel(eventData);
+      } else if (eventType === "mousemove") {
+        return this._input.onMousemove(eventData);
+      } else if (eventType === "mousedown") {
+        return this._input.onMousedown(eventData);
+      } else if (eventType === "mouseup") {
+        return this._input.onMouseup(eventData);
+      } else if (eventType === "keydown") {
+        return this._input.onKeydown(eventData);
+      } else if (eventType === "keyup") {
+        return this._input.onKeyup(eventData);
+      }
+    };
+    const rv = callListener();
+    this.scheduleRepaint();
+    // this is from weetcubes
+    return rv;
   }
 
-  tick(elapsed) {
+
+  tick(elapsed: number) {
+    this._start = new Date();
     elapsed /= 1000;
     this.time += elapsed;
     this._input.update(elapsed);
@@ -261,13 +283,16 @@ export default class AlphaGLWidget implements Renderable {
     // console.log(this.offsetPlatformPhysical.position.toString());
 
     // console.log("Cam: " + this.camera.getOrientation());
+    return false;
   }
 
-  setBackground(...args) {
-    if (args.length > 1) {
-      const c = new AlphaColor();
-      c.set.apply(c, ...args);
+  setBackground(...args: any[]): void {
+    if (args.length > 1 || typeof args[0] === "number") {
+      const c = new Color(args[0], args[1], args[2], args[3]);
       return this.setBackground(c);
+    }
+    if (!(args[0] instanceof Color)) {
+      throw new Error("setBackground takes a color");
     }
     this._backgroundColor = args[0];
 
@@ -281,7 +306,11 @@ export default class AlphaGLWidget implements Renderable {
    */
   scheduleRepaint() {
     this.paintingDirty = true;
-    this._belt.scheduleUpdate();
+    this._onUpdate.call();
+  }
+
+  setOnScheduleUpdate(cb: () => void, thisArg?: any) {
+    this._onUpdate.set(cb, thisArg);
   }
 
   /*
@@ -296,13 +325,23 @@ export default class AlphaGLWidget implements Renderable {
   }
 
   gl() {
-    return this._window.gl();
+    return this._projector.glProvider().gl();
   }
 
-  /*
+  projector() {
+    return this._projector;
+  }
+
+  unmount() {
+    this._input.unmount();
+  }
+
+  /**
    * Render painted memory buffers.
    */
-  render(width, height, avoidIfPossible) {
+  render() {
+    const width = this.projector().width();
+    const height = this.projector().height();
     const projection = this.camera.updateProjection(width, height);
 
     // local fullcam =
@@ -324,7 +363,7 @@ export default class AlphaGLWidget implements Renderable {
     //   projection:\n" +
     //   viewMatrix.toString());
     // console.log(this.camera.getViewMatrix().toString());
-    const viewMatrix = this.camera.getViewMatrix().multiplied(projection);
+    const viewMatrix = this.camera.getViewMatrix(null).multiplied(projection);
     this.worldCluster.draw(viewMatrix);
 
     for (let i = 0; i < this.swarm.length; ++i) {
