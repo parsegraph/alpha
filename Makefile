@@ -1,25 +1,26 @@
 DIST_NAME = alpha
 
 SCRIPT_FILES = \
-	src/BlockIDs.js \
+	src/FacePainter.ts \
+	src/standardBlockTypes.ts \
 	src/index.ts \
-	src/CubeMan.js \
-	src/GLWidget.js \
-	src/Physical.js \
-	src/Maths.js \
-	src/WeetPainter.js \
-	src/Cam.js \
+	src/BlockTypes.ts \
+	src/Face.ts \
+	src/Input.ts \
+	src/Color.ts \
+	src/GLWidget.ts \
 	src/glsl.d.ts \
-	src/Input.js \
-	src/Cluster.js \
-	src/BlockStuff.js \
-	src/WeetCubeWidget.js \
-	src/FacePainter.js \
+	src/Block.ts \
+	src/Shape.ts \
+	src/Skin.ts \
+	src/Cluster.ts \
+	src/CubeMan.ts \
 	src/demo.ts \
-	test/test.ts
+	test/Color.ts \
+	test/test.ts \
+	test/Skin.ts \
+	test/Cluster.ts
 
-EXTRA_SCRIPTS = \
-	src/WeetPainter_FragmentShader.glsl \
-	src/WeetPainter_VertexShader.glsl
+EXTRA_SCRIPTS =
 
 include ./Makefile.microproject
