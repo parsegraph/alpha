@@ -1,8 +1,8 @@
-import Face, {DrawType} from './Face';
-import Shape from './Shape';
-import Skin from './Skin';
-import BlockTypes from './BlockTypes';
-import Color from './Color';
+import Face, { DrawType } from "./Face";
+import Shape from "./Shape";
+import Skin from "./Skin";
+import BlockTypes from "./BlockTypes";
+import Color from "./Color";
 import { AlphaVector } from "parsegraph-physical";
 
 // CubeMan version 1.0

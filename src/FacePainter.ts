@@ -1,6 +1,6 @@
-import Color from './Color';
-import {AlphaVector, AlphaRMatrix4} from 'parsegraph-physical';
-import PagingBuffer from 'parsegraph-pagingbuffer';
+import Color from "./Color";
+import { AlphaVector, AlphaRMatrix4 } from "parsegraph-physical";
+import PagingBuffer from "parsegraph-pagingbuffer";
 
 import { compileProgram, GLProvider } from "parsegraph-compileprogram";
 
@@ -53,7 +53,16 @@ export default class FacePainter {
     this.faceBuffer.addPage();
   }
 
-  quad(v1: AlphaVector, v2: AlphaVector, v3: AlphaVector, v4: AlphaVector, c1: Color, c2: Color, c3: Color, c4: Color) {
+  quad(
+    v1: AlphaVector,
+    v2: AlphaVector,
+    v3: AlphaVector,
+    v4: AlphaVector,
+    c1: Color,
+    c2: Color,
+    c3: Color,
+    c4: Color
+  ) {
     this.triangle(v1, v2, v3, c1, c2, c3);
     this.triangle(v1, v3, v4, c1, c3, c4);
   }
@@ -62,7 +71,14 @@ export default class FacePainter {
    * painter.triangle(v1, v2, v3, c1, c2, c3);
    */
 
-  triangle(v1: AlphaVector, v2: AlphaVector, v3: AlphaVector, c1: Color, c2: Color, c3: Color) {
+  triangle(
+    v1: AlphaVector,
+    v2: AlphaVector,
+    v3: AlphaVector,
+    c1: Color,
+    c2: Color,
+    c3: Color
+  ) {
     if (!c2) {
       c2 = c1;
     }
@@ -101,9 +117,10 @@ export default class FacePainter {
     const gl = this.gl();
     if (!this.faceProgram) {
       this.faceProgram = compileProgram(
-        this._glProvider, "alpha-FacePainter",
-          alphaFacePainterVertexShader,
-          alphaFacePainterFragmentShader,
+        this._glProvider,
+        "alpha-FacePainter",
+        alphaFacePainterVertexShader,
+        alphaFacePainterFragmentShader
       );
 
       // Prepare attribute buffers.

@@ -63,4 +63,3 @@ AlphaSkinTests.addTest("alpha_Skin.forEach", function (resultDom) {
     return "Unexpected number of rows iterated: " + maxRow;
   }
 });
-

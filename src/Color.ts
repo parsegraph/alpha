@@ -21,9 +21,9 @@ export default class Color {
   }
 
   asRGB() {
-    return `rgb(${
-      this.values().map(val=>Math.round(val * 255)).join(', ')
-    })`;
+    return `rgb(${this.values()
+      .map((val) => Math.round(val * 255))
+      .join(", ")})`;
   }
 
   static fromHex(hex: string) {
@@ -49,7 +49,7 @@ export default class Color {
     return this.values().length;
   }
 
-  equals(...args:any[]) {
+  equals(...args: any[]) {
     if (args.length > 1) {
       // Direct color values
       for (let i = 0; i < this.length(); ++i) {

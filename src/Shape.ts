@@ -1,4 +1,4 @@
-import Face from './Face';
+import Face from "./Face";
 
 // --------------------------------------------
 // --------------------------------------------
@@ -21,7 +21,7 @@ export default class Shape {
   _faces: Face[];
 
   constructor(...faces: Face[]) {
-    this._faces = faces.map(face=>face.clone());
+    this._faces = faces.map((face) => face.clone());
   }
 
   get(i: number) {
@@ -36,4 +36,3 @@ export default class Shape {
     return this.faces().length;
   }
 }
-

@@ -5,11 +5,11 @@
 // --------------------------------------------
 
 import { DrawType } from "./Face";
-import { AlphaVector, AlphaRMatrix4 } from "parsegraph-physical"
+import { AlphaVector, AlphaRMatrix4 } from "parsegraph-physical";
 import FacePainter from "./FacePainter";
-import Block from './Block';
-import {GLProvider} from "parsegraph-compileprogram";
-import BlockTypes from './BlockTypes';
+import Block from "./Block";
+import { GLProvider } from "parsegraph-compileprogram";
+import BlockTypes from "./BlockTypes";
 
 /**
  * Cluster is where the information from blocks, blocktype, color and face
@@ -19,7 +19,7 @@ import BlockTypes from './BlockTypes';
  * single cluster as the cluster would have to be continuously updating
  * everytime a block was edited
  */
-export default class AlphaCluster {
+export default class Cluster {
   _blocks: Block[];
   _facePainter: FacePainter;
 
@@ -79,7 +79,7 @@ export default class AlphaCluster {
     const rv2 = new AlphaVector();
     const rv3 = new AlphaVector();
     const rv4 = new AlphaVector();
-    this._blocks.forEach((block)=>{
+    this._blocks.forEach((block) => {
       const quat = block.getQuaternion(true);
       if (!quat) {
         // console.log(block);

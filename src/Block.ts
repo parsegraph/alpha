@@ -1,6 +1,6 @@
 // Version 1.5
 
-import { AlphaQuaternion } from 'parsegraph-physical';
+import { AlphaQuaternion } from "parsegraph-physical";
 
 /*
 			[Vector]    [Color]
@@ -94,7 +94,13 @@ export default class Block {
   pos: [number, number, number];
   id: any;
 
-  constructor(id: any, x: number, y: number, z: number, orientation: number = 0) {
+  constructor(
+    id: any,
+    x: number,
+    y: number,
+    z: number,
+    orientation: number = 0
+  ) {
     this.id = id || 0;
     this.pos = [x, y, z];
     this.orientation = orientation;

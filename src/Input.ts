@@ -1,5 +1,5 @@
-import { AlphaCamera, Physical, BasicPhysical } from 'parsegraph-physical';
-import Method from 'parsegraph-method';
+import { AlphaCamera, Physical, BasicPhysical } from "parsegraph-physical";
+import Method from "parsegraph-method";
 import normalizeWheel from "parsegraph-normalizewheel";
 
 // Input Version 1.2.130825
@@ -49,8 +49,12 @@ export function alphaGetButtonName(buttonIndex: number) {
 }
 
 const DOM_EVENTS = [
-  "mousedown", "mouseup", "mousemove", "wheel",
-  "keydown", "keyup",
+  "mousedown",
+  "mouseup",
+  "mousemove",
+  "wheel",
+  "keydown",
+  "keyup",
 ];
 
 export default class AlphaInput {
@@ -73,7 +77,7 @@ export default class AlphaInput {
 
   _buttons: Map<string, number>;
 
-  _mounted: ()=>void;
+  _mounted: () => void;
 
   constructor(camera: AlphaCamera) {
     this.setMouseSensitivityX(0.005);
@@ -102,16 +106,22 @@ export default class AlphaInput {
   }
 
   handleEvent(eventType: string, eventData: Event) {
-    const callListener = ()=>{
+    const callListener = () => {
       switch (eventType) {
-        case "wheel": return this.onWheel(eventData as WheelEvent);
-        case "mousemove": return this.onMousemove(eventData as MouseEvent);
-        case "mousedown": return this.onMousedown(eventData as MouseEvent);
-        case "mouseup": return this.onMouseup(eventData as MouseEvent);
-        case "keydown": return this.onKeydown(eventData as KeyboardEvent);
-        case "keyup": return this.onKeyup(eventData as KeyboardEvent);
+        case "wheel":
+          return this.onWheel(eventData as WheelEvent);
+        case "mousemove":
+          return this.onMousemove(eventData as MouseEvent);
+        case "mousedown":
+          return this.onMousedown(eventData as MouseEvent);
+        case "mouseup":
+          return this.onMouseup(eventData as MouseEvent);
+        case "keydown":
+          return this.onKeydown(eventData as KeyboardEvent);
+        case "keyup":
+          return this.onKeyup(eventData as KeyboardEvent);
       }
-    }
+    };
     if (callListener()) {
       eventData.preventDefault();
       this.scheduleUpdate();
@@ -121,16 +131,16 @@ export default class AlphaInput {
   mount(cont: HTMLElement) {
     this.unmount();
 
-    const handler = (e: Event)=>{
+    const handler = (e: Event) => {
       this.handleEvent(e.type, e);
     };
 
-    this._mounted = ()=>{
-      DOM_EVENTS.forEach(eventType=>{
+    this._mounted = () => {
+      DOM_EVENTS.forEach((eventType) => {
         cont.removeEventListener(eventType, handler);
       });
     };
-    DOM_EVENTS.forEach(eventType=>{
+    DOM_EVENTS.forEach((eventType) => {
       cont.addEventListener(eventType, handler);
     });
   }
@@ -322,10 +332,18 @@ export default class AlphaInput {
     // console.log("LeftMouse: " + this.get("LeftMouseButton"));
     // console.log("turnLeft: " + this.mouseLeft() * elapsed);
     const camPhysical = this.camera().getParent() as BasicPhysical;
-    camPhysical.turnLeft(this.get("LeftMouseButton") * this.mouseLeft() * elapsed);
-    camPhysical.turnRight(this.get("LeftMouseButton") * this.mouseRight() * elapsed);
-    camPhysical.pitchUp(-this.get("LeftMouseButton") * this.mouseUp() * elapsed);
-    camPhysical.pitchDown(this.get("LeftMouseButton") * this.mouseDown() * elapsed);
+    camPhysical.turnLeft(
+      this.get("LeftMouseButton") * this.mouseLeft() * elapsed
+    );
+    camPhysical.turnRight(
+      this.get("LeftMouseButton") * this.mouseRight() * elapsed
+    );
+    camPhysical.pitchUp(
+      -this.get("LeftMouseButton") * this.mouseUp() * elapsed
+    );
+    camPhysical.pitchDown(
+      this.get("LeftMouseButton") * this.mouseDown() * elapsed
+    );
     camPhysical.moveForward(this.mouseWheelDegreesUp() * elapsed);
     camPhysical.moveBackward(this.mouseWheelDegreesDown() * elapsed);
     // this.camera().zoomIn(this.get("y"), elapsed);

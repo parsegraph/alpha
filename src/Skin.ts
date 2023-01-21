@@ -1,4 +1,4 @@
-import Color from './Color';
+import Color from "./Color";
 
 // --------------------------------------------
 // --------------------------------------------
@@ -36,8 +36,7 @@ export default class Skin {
     return this.colors().length;
   }
 
-  forEach(cb: (c: Color[], i: number)=>void) {
+  forEach(cb: (c: Color[], i: number) => void) {
     this.colors().forEach(cb);
   }
 }
-

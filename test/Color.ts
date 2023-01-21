@@ -1,4 +1,3 @@
-
 const alphaColorTests = new TestSuite("AlphaColor");
 
 alphaColorTests.addTest("alpha_Color.<constructor>", function (resultDom) {
@@ -56,4 +55,3 @@ alphaColorTests.addTest("alpha_Color.Equals", function () {
     return "Equals accepts single alpha_Color arguments.";
   }
 });
-

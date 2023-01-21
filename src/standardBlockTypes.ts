@@ -1,11 +1,11 @@
 // Version 1.3
 
-import BlockTypes from './BlockTypes';
+import BlockTypes from "./BlockTypes";
 
-import Face, {DrawType} from './Face';
-import Color from './Color';
-import Skin from './Skin';
-import Shape from './Shape';
+import Face, { DrawType } from "./Face";
+import Color from "./Color";
+import Skin from "./Skin";
+import Shape from "./Shape";
 import { AlphaVector } from "parsegraph-physical";
 
 // vertices!
@@ -318,13 +318,7 @@ export function standardBlockTypes(blockTypes: BlockTypes) {
   Front = new Face(DrawType.QUADS, v[3], v[2], v[7], v[6]);
   Left = new Face(DrawType.TRIANGLES, v[3], v[6], v[5]);
   Bottom = new Face(DrawType.QUADS, v[6], v[7], v[4], v[5]);
-  const SLAB_PYRAMID_CORNER = new Shape(
-    TopLeft,
-    TopRight,
-    Front,
-    Left,
-    Bottom
-  );
+  const SLAB_PYRAMID_CORNER = new Shape(TopLeft, TopRight, Front, Left, Bottom);
   blockTypes.load("stone", "slab_pyramid_corner", stone, SLAB_PYRAMID_CORNER);
 
   // inverted pyramid corner ( 3 top, 1 bottom )

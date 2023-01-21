@@ -1,5 +1,5 @@
-import Skin from './Skin';
-import Shape from './Shape';
+import Skin from "./Skin";
+import Shape from "./Shape";
 
 // --------------------------------------------
 // --------------------------------------------
@@ -12,7 +12,7 @@ import Shape from './Shape';
 // it is some sort of hybrid object / masterlist
 export default class BlockTypes {
   blockIDs: [Shape, Skin][];
-  descriptions: { [descSkin: string]: { [descShape: string]: number } }
+  descriptions: { [descSkin: string]: { [descShape: string]: number } };
 
   constructor() {
     this.blockIDs = [];
@@ -45,7 +45,7 @@ export default class BlockTypes {
       );
     }
 
-    const blockType:[Shape, Skin] = [shape, skin];
+    const blockType: [Shape, Skin] = [shape, skin];
     this.blockIDs.push(blockType);
     this.descriptions[descSkin][descShape] = this.blockIDs.length - 1;
     return this.descriptions[descSkin][descShape];

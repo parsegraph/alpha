@@ -1,7 +1,7 @@
 const assert = require("assert");
-import TestSuite from 'parsegraph-testsuite';
-import {AlphaVector, AlphaQuaternion} from 'parsegraph-physical';
-import {AlphaBlockTypes} from '../src/BlockStuff';
+import TestSuite from "parsegraph-testsuite";
+import { AlphaVector, AlphaQuaternion } from "parsegraph-physical";
+import { AlphaBlockTypes } from "../src/BlockStuff";
 
 describe("Alpha", function () {
   const AlphaBlockTypes_Tests = new TestSuite("AlphaBlockTypes");

@@ -2,9 +2,9 @@
 // improperly relative to the projection matrix.
 
 import Color from "parsegraph-color";
-import Block from './Block';
+import Block from "./Block";
 import { Projector } from "parsegraph-projector";
-import {standardBlockTypes} from "./standardBlockTypes";
+import { standardBlockTypes } from "./standardBlockTypes";
 import BlockTypes from "./BlockTypes";
 import {
   AlphaVector,
@@ -73,7 +73,7 @@ export default class AlphaGLWidget implements Renderable {
     // this.camera.pitchDown(40 * Math.PI / 180);
 
     this._input = new AlphaInput(this.camera);
-    this._input.setOnScheduleUpdate(()=>{
+    this._input.setOnScheduleUpdate(() => {
       this.scheduleRepaint();
     });
     this._input.setMouseSensitivity(0.4);
@@ -117,13 +117,9 @@ export default class AlphaGLWidget implements Renderable {
     for (let i = -WORLD_SIZE; i <= WORLD_SIZE; ++i) {
       for (let j = 1; j <= WORLD_SIZE * 2; ++j) {
         const r = alphaRandom(0, MAX_TYPE);
-        this.worldCluster.addBlock(new Block(
-          [grass, stone][alphaRandom(0, 1)],
-          i,
-          -1,
-          -j,
-          r
-        ));
+        this.worldCluster.addBlock(
+          new Block([grass, stone][alphaRandom(0, 1)], i, -1, -j, r)
+        );
       }
     }
 
@@ -219,6 +215,7 @@ export default class AlphaGLWidget implements Renderable {
     if (!this.paintingDirty) {
       return false;
     }
+    const blockTypes = this.blockTypes;
     this.evPlatformCluster.calculateVertices(blockTypes);
     this.testCluster.calculateVertices(blockTypes);
     this.originCluster.calculateVertices(blockTypes);
@@ -256,7 +253,6 @@ export default class AlphaGLWidget implements Renderable {
     // this is from weetcubes
     return rv;
   }
-
 
   tick(elapsed: number) {
     this._start = new Date();

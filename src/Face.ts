@@ -1,8 +1,8 @@
-import { AlphaVector } from 'parsegraph-physical';
+import { AlphaVector } from "parsegraph-physical";
 
 export const enum DrawType {
   TRIANGLES,
-  QUADS
+  QUADS,
 }
 
 // --------------------------------------------
@@ -49,7 +49,8 @@ export default class Face {
   }
 
   toString() {
-    return `Face[${this.positions().map(pos=>pos.toString()).join(", ")}]`;
+    return `Face[${this.positions()
+      .map((pos) => pos.toString())
+      .join(", ")}]`;
   }
 }
-
