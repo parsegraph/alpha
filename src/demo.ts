@@ -12,6 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
   widget.setOnScheduleUpdate(() => {
     belt.scheduleUpdate();
   });
-  document.body.appendChild(proj.container());
+  root.appendChild(proj.container());
   belt.addRenderable(widget);
 });

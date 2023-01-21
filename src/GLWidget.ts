@@ -215,6 +215,7 @@ export default class AlphaGLWidget implements Renderable {
     if (!this.paintingDirty) {
       return false;
     }
+    console.log("Painting");
     const blockTypes = this.blockTypes;
     this.evPlatformCluster.calculateVertices(blockTypes);
     this.testCluster.calculateVertices(blockTypes);
@@ -338,7 +339,10 @@ export default class AlphaGLWidget implements Renderable {
   render() {
     const width = this.projector().width();
     const height = this.projector().height();
+    console.log("RENDER", width, height);
     const projection = this.camera.updateProjection(width, height);
+
+    this.projector().render();
 
     // local fullcam =
     //   boat:inverse() *
@@ -347,6 +351,9 @@ export default class AlphaGLWidget implements Renderable {
     //   cam:inverse()
 
     const gl = this.gl();
+    gl.viewport(0, 0, width, height);
+    gl.clearColor(0, 0, 0, 1);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.enable(gl.DEPTH_TEST);
     gl.enable(gl.CULL_FACE);
 
@@ -387,6 +394,7 @@ export default class AlphaGLWidget implements Renderable {
     this.sphereCluster.draw(
       this.spherePhysical.getViewMatrix().multiplied(projection)
     );
-    return false;
+    // Render endlessly
+    return true;
   }
 }

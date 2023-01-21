@@ -1,21 +1,25 @@
-import Color from './Color';
-import Shape from './Shape';
-import Skin from './Skin';
-import Face, {DrawType} from './Face';
-import Block from './Block';
-import BlockTypes from './BlockTypes';
-import { buildCubeStructure, buildSlabStructure, standardBlockTypes } from './standardBlockTypes';
-import Cluster from './Cluster';
-import AlphaGLWidget from './GLWidget';
-import CubeMan from './CubeMan';
-import FacePainter from './FacePainter';
-import AlphaInput, {alphaGetButtonName} from './Input';
-
+import Color from "./Color";
+import Shape from "./Shape";
+import Skin from "./Skin";
+import Face, { DrawType } from "./Face";
+import Block from "./Block";
+import BlockTypes from "./BlockTypes";
+import {
+  buildCubeStructure,
+  buildSlabStructure,
+  standardBlockTypes,
+} from "./standardBlockTypes";
+import Cluster from "./Cluster";
+import AlphaGLWidget from "./GLWidget";
+import CubeMan from "./CubeMan";
+import FacePainter from "./FacePainter";
+import AlphaInput, { alphaGetButtonName } from "./Input";
 
 export default AlphaGLWidget;
 
 export {
-  AlphaInput, alphaGetButtonName,
+  AlphaInput,
+  alphaGetButtonName,
   FacePainter,
   CubeMan,
   Block,
@@ -23,7 +27,10 @@ export {
   Cluster,
   Shape,
   Skin,
-  Face, DrawType,
+  Face,
+  DrawType,
   BlockTypes,
-  buildCubeStructure, buildSlabStructure, standardBlockTypes,
-}
+  buildCubeStructure,
+  buildSlabStructure,
+  standardBlockTypes,
+};

@@ -147,6 +147,6 @@ export default class Block {
     if (actual) {
       return blockOrientations[this.orientation];
     }
-    return new AlphaQuaternion(blockOrientations[this.orientation]);
+    return blockOrientations[this.orientation].clone();
   }
 }

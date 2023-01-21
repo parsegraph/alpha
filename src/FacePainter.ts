@@ -33,8 +33,8 @@ const alphaFacePainterFragmentShader =
  */
 export default class FacePainter {
   _glProvider: GLProvider;
-  faceProgram: WebGLProgram;
-  faceBuffer: PagingBuffer;
+  _faceProgram: WebGLProgram;
+  _faceBuffer: PagingBuffer;
 
   aPosition: number;
   aColor: number;
@@ -48,9 +48,33 @@ export default class FacePainter {
     this._glProvider = glProvider;
   }
 
+  faceBuffer() {
+    if (!this._faceBuffer) {
+      this._faceProgram = compileProgram(
+        this._glProvider,
+        "alpha-FacePainter",
+        alphaFacePainterVertexShader,
+        alphaFacePainterFragmentShader
+      );
+
+      // Prepare attribute buffers.
+      const gl = this.gl();
+      this._faceBuffer = new PagingBuffer(gl, this._faceProgram);
+      this.aPosition = this.faceBuffer().defineAttrib("a_position", 3);
+      this.aColor = this.faceBuffer().defineAttrib("a_color", 4);
+
+      // Cache program locations.
+      this.uWorld = gl.getUniformLocation(this._faceProgram, "u_world");
+
+      this.clear();
+    }
+
+    return this._faceBuffer;
+  }
+
   clear() {
-    this.faceBuffer.clear();
-    this.faceBuffer.addPage();
+    this.faceBuffer().clear();
+    this.faceBuffer().addPage();
   }
 
   quad(
@@ -86,7 +110,7 @@ export default class FacePainter {
       c3 = c1;
     }
 
-    this.faceBuffer.appendData(
+    this.faceBuffer().appendData(
       this.aPosition,
       v1[0],
       v1[1],
@@ -98,7 +122,7 @@ export default class FacePainter {
       v3[1],
       v3[2]
     );
-    this.faceBuffer.appendData(
+    this.faceBuffer().appendData(
       this.aColor,
       ...c1.values(),
       1.0,
@@ -114,29 +138,16 @@ export default class FacePainter {
       throw new Error("A viewMatrix must be provided");
     }
 
-    const gl = this.gl();
-    if (!this.faceProgram) {
-      this.faceProgram = compileProgram(
-        this._glProvider,
-        "alpha-FacePainter",
-        alphaFacePainterVertexShader,
-        alphaFacePainterFragmentShader
-      );
-
-      // Prepare attribute buffers.
-      this.faceBuffer = new PagingBuffer(gl, this.faceProgram);
-      this.aPosition = this.faceBuffer.defineAttrib("a_position", 3);
-      this.aColor = this.faceBuffer.defineAttrib("a_color", 4);
-
-      // Cache program locations.
-      this.uWorld = gl.getUniformLocation(this.faceProgram, "u_world");
-
-      this.faceBuffer.addPage();
+    if (!this._faceBuffer) {
+      // Nothing drawn.
+      return;
     }
 
+    const gl = this.gl();
+
     // Render faces.
-    gl.useProgram(this.faceProgram);
+    gl.useProgram(this._faceProgram);
     gl.uniformMatrix4fv(this.uWorld, false, viewMatrix.toArray());
-    this.faceBuffer.renderPages();
+    this.faceBuffer().renderPages();
   }
 }

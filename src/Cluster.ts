@@ -89,7 +89,7 @@ export default class Cluster {
       // get the faces from the blocktype
       const bType = blockTypes.get(block.id);
       if (!bType) {
-        return;
+        throw new Error("Failed to get block type for: " + block.id);
       }
       const shape = bType[0];
       const skin = bType[1];

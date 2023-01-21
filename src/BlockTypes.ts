@@ -12,7 +12,7 @@ import Shape from "./Shape";
 // it is some sort of hybrid object / masterlist
 export default class BlockTypes {
   blockIDs: [Shape, Skin][];
-  descriptions: { [descSkin: string]: { [descShape: string]: number } };
+  descriptions: { [skin: string]: { [descShape: string]: [Shape, Skin] } };
 
   constructor() {
     this.blockIDs = [];
@@ -47,11 +47,15 @@ export default class BlockTypes {
 
     const blockType: [Shape, Skin] = [shape, skin];
     this.blockIDs.push(blockType);
-    this.descriptions[descSkin][descShape] = this.blockIDs.length - 1;
-    return this.descriptions[descSkin][descShape];
+    this.descriptions[descSkin][descShape] = blockType;
+    return this.blockIDs.length - 1;
   }
 
-  get(id: number) {
+  get(id: any) {
+    if (Array.isArray(id)) {
+      // Already a blockType
+      return id;
+    }
     return this.blockIDs[id];
   }
 
@@ -66,6 +70,6 @@ export default class BlockTypes {
         "No such shape description exists for '" + (descShape || "") + "'"
       );
     }
-    return this.blockIDs[this.descriptions[descSkin][descShape]];
+    return this.descriptions[descSkin][descShape];
   }
 }
