@@ -23,11 +23,13 @@ export default class Cluster {
   _blocks: Block[];
   _facePainter: FacePainter;
 
+  _needsRepaint: boolean;
+
   constructor(glProvider: GLProvider) {
     this._blocks = [];
 
-    // Declare GL Painters; create them only when needed to delay GL context's creation.
     this._facePainter = new FacePainter(glProvider);
+    this._needsRepaint = true;
   }
 
   hasBlock(block: Block) {
@@ -39,8 +41,13 @@ export default class Cluster {
     return null;
   }
 
+  invalidate() {
+    this._needsRepaint = true;
+  }
+
   addBlock(block: Block) {
     if (!this.hasBlock(block)) {
+      this.invalidate();
       this._blocks.push(block);
     }
     return block;
@@ -49,6 +56,7 @@ export default class Cluster {
   RemoveBlock(block: Block) {
     const i = this.hasBlock(block);
     if (i != null) {
+      this.invalidate();
       this._blocks.splice(i, 1)[0];
     }
   }
@@ -70,10 +78,53 @@ export default class Cluster {
 
   ClearBlocks() {
     this._blocks.splice(0, this._blocks.length);
+    this.invalidate();
+  }
+
+  countVertices(blockTypes: BlockTypes) {
+    return this._blocks.reduce((totalVerts, block) => {
+      // get the faces from the blocktype
+      const bType = blockTypes.get(block.id);
+      if (!bType) {
+        throw new Error("Failed to get block type for: " + block.id);
+      }
+      const shape = bType[0];
+      const skin = bType[1];
+
+      let numVerts = 0;
+      for (let i = 0; i < shape.length(); ++i) {
+        // vertices is face!
+        const face = shape.get(i);
+        if (!face) {
+          throw new Error("Shape must not contain any null faces");
+        }
+        const colors = skin.get(i);
+        if (!colors) {
+          throw new Error("Shape must not contain any null colors");
+        }
+
+        // every face has its own drawType;
+        if (face.drawType() == DrawType.TRIANGLES) {
+          numVerts += face.length() * 3;
+        } else if (face.drawType() == DrawType.QUADS) {
+          numVerts += face.length() * 4;
+        } else {
+          throw new Error(
+            "Face must have a valid drawType property to read of either alphaQUADS or alphaTRIANGLES. (Given " +
+              face.drawType +
+              ")"
+          );
+        }
+      }
+      return totalVerts + numVerts;
+    }, 0);
   }
 
   calculateVertices(blockTypes: BlockTypes) {
-    this._facePainter.clear();
+    if (!this._needsRepaint) {
+      return;
+    }
+    this._facePainter.initBuffer(this.countVertices(blockTypes));
 
     const rv1 = new AlphaVector();
     const rv2 = new AlphaVector();
@@ -204,6 +255,9 @@ export default class Cluster {
         }
       }
     });
+
+    this._facePainter.commit();
+    this._needsRepaint = false;
   }
 
   draw(viewMatrix: AlphaRMatrix4) {

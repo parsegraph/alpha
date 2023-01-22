@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   root.style.position = "relative";
 
   const belt = new TimingBelt();
+  belt.setAutorender(true);
   const proj = new BasicProjector();
   const widget = new AlphaGLWidget(proj);
   widget.setOnScheduleUpdate(() => {

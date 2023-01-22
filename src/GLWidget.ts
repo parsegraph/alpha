@@ -24,13 +24,19 @@ import Method from "parsegraph-method";
 
 // TODO Mouse input appears to be... strangely interpreted.
 
-class TimeRange {
+class TimeRange<T = any> {
   _startTime: number;
   _finishTime: number;
+  _val: T;
 
-  constructor() {
+  constructor(val?: T) {
     this._startTime = Date.now();
     this._finishTime = NaN;
+    this._val = val;
+  }
+
+  value() {
+    return this._val;
   }
 
   finish() {
@@ -42,88 +48,79 @@ class TimeRange {
   }
 }
 
-class Frame {
-  _paint: TimeRange;
-  _render: TimeRange;
-
-  constructor() {
-    this._render = null;
-    this._paint = null;
-  }
-
-  startPaint() {
-    this._paint = new TimeRange();
-  }
-
-  finishPaint() {
-    this._paint?.finish();
-  }
-
-  startRender() {
-    this._render = new TimeRange();
-  }
-
-  finishRender() {
-    this._render?.finish();
-  }
-
-  renderDuration() {
-    return this._render?.duration();
-  }
-
-  paintDuration() {
-    return this._paint?.duration();
-  }
-}
-
 class FramerateOverlay {
-  _frames: Frame[];
+  _frames: TimeRange[];
+  _currentPaint: TimeRange;
+  _currentRender: TimeRange;
 
   constructor() {
     this._frames = [];
+    this._currentRender = null;
+    this._currentPaint = null;
   }
 
-  private frame() {
-    return this._frames[this._frames.length - 1];
+  invalidated() {}
+
+  startPaint() {
+    this._currentPaint = new TimeRange("paint");
+    this._frames.push(this._currentPaint);
   }
 
-  invalidated() {
-    this._frames.push(new Frame());
+  finishPaint() {
+    this._currentPaint?.finish();
   }
 
-  startPaint() {}
+  startRender() {
+    this._currentRender = new TimeRange("render");
+    this._frames.push(this._currentRender);
+  }
 
-  finishPaint() {}
-
-  startRender() {}
-
-  finishRender() {}
+  finishRender() {
+    this._currentRender?.finish();
+  }
 
   draw(proj: Projector) {
-    if (!this.frame()) {
-      return;
+    while (this._frames.length > proj.width()) {
+      this._frames.shift();
     }
+    const lineHeight = 22;
     const width = proj.width();
     const height = proj.height();
-    const duration = this.frame().renderDuration();
     const ctx = proj.overlay();
-    ctx.clearRect(0, height - 50, width, 50);
+
+    ctx.clearRect(0, height - proj.height() / 3, width, proj.height() / 3);
     ctx.font = "18px monospace";
     ctx.fillStyle = "white";
     ctx.strokeStyle = "black";
 
-    let line = `${duration}ms`;
+    this._frames.forEach((range, i)=>{
+      ctx.fillStyle = range.value() === "paint" ? "green" : "blue";
+      const dur = Math.min(proj.height() / 3, range.duration());
+      ctx.fillRect(i, height - dur, 1, dur);
+    });
+
+    ctx.fillStyle = "blue";
     ctx.textBaseline = "bottom";
     ctx.textAlign = "right";
+    const renderDuration = this._currentRender?.duration();
+    let line = `Render: ${renderDuration}ms`;
     ctx.strokeText(line, width, height);
     ctx.fillText(line, width, height);
 
+    ctx.fillStyle = "green";
+    const paintDuration = this._currentPaint?.duration();
+    line = `Paint: ${paintDuration}ms`;
+    ctx.strokeText(line, width, height - lineHeight);
+    ctx.fillText(line, width, height - lineHeight);
+
+    ctx.fillStyle = "gray";
     ctx.textBaseline = "bottom";
     ctx.textAlign = "left";
     const d = Date.now();
     ctx.strokeText(d.toString(), 0, height);
     ctx.fillText(d.toString(), 0, height);
 
+    ctx.fillStyle = "white";
     ctx.textBaseline = "top";
     ctx.textAlign = "right";
     line = `${width}x${height}`;
@@ -328,7 +325,6 @@ export default class AlphaGLWidget implements Renderable {
       return false;
     }
     this._framerateOverlay.startPaint();
-    console.log("Painting");
     const blockTypes = this.blockTypes;
     this.evPlatformCluster.calculateVertices(blockTypes);
     this.testCluster.calculateVertices(blockTypes);
@@ -370,7 +366,6 @@ export default class AlphaGLWidget implements Renderable {
   }
 
   tick(elapsed: number) {
-    console.log("Tick", elapsed);
     this._start = new Date();
     elapsed /= 1000;
     this.time += elapsed;
@@ -455,7 +450,6 @@ export default class AlphaGLWidget implements Renderable {
     this._framerateOverlay.startRender();
     const width = this.projector().width();
     const height = this.projector().height();
-    console.log("RENDER", width, height);
     const projection = this.camera.updateProjection(width, height);
 
     this.projector().render();
@@ -468,7 +462,7 @@ export default class AlphaGLWidget implements Renderable {
 
     const gl = this.gl();
     gl.viewport(0, 0, width, height);
-    gl.clearColor(0, 0, 0, 1);
+    gl.clearColor(this._backgroundColor[0], this._backgroundColor[1], this._backgroundColor[2], 1);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.enable(gl.DEPTH_TEST);
     gl.enable(gl.CULL_FACE);
@@ -514,7 +508,6 @@ export default class AlphaGLWidget implements Renderable {
     this._framerateOverlay.finishRender();
     this._framerateOverlay.draw(this.projector());
 
-    // Render endlessly
-    return true;
+    return false;
   }
 }
