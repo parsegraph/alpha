@@ -1,6 +1,6 @@
 // TODO Blocks in foreground are rendered
 // improperly relative to the projection matrix.
-import { elapsed } from 'parsegraph-timing'
+import { elapsed } from "parsegraph-timing";
 
 import Color from "parsegraph-color";
 import Block from "./Block";
@@ -91,21 +91,13 @@ class FramerateOverlay {
     this._frames.push(new Frame());
   }
 
-  startPaint() {
+  startPaint() {}
 
-  }
+  finishPaint() {}
 
-  finishPaint() {
+  startRender() {}
 
-  }
-
-  startRender() {
-
-  }
-
-  finishRender() {
-
-  }
+  finishRender() {}
 
   draw(proj: Projector) {
     if (!this.frame()) {
