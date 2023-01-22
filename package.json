@@ -59,7 +59,7 @@
     "parsegraph-projector": "^1.14.6",
     "parsegraph-testsuite": "^1.6.3",
     "parsegraph-timing": "^1.4.17",
-    "parsegraph-timingbelt": "^1.7.15"
+    "parsegraph-timingbelt": "^1.8.0"
   },
   "types": "dist/src/index.d.ts",
   "peerDependencies": {

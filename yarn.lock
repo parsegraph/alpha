@@ -4026,6 +4026,14 @@ parsegraph-timingbelt@^1.7.15:
     parsegraph-method "^1.4.23"
     parsegraph-timing "^1.4.17"
 
+parsegraph-timingbelt@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/parsegraph-timingbelt/-/parsegraph-timingbelt-1.8.0.tgz#ace7d03f9388f71d2e3a73808eae3be51d1e433f"
+  integrity sha512-LMMTa1hHxMJIDz3JNh1WR6Tj7F0EifFYDAsK2VIw4pFhOraRx/FVg3sCOZmM/4zeya8MftZnOpSVrGunBL2CQw==
+  dependencies:
+    parsegraph-method "^1.4.23"
+    parsegraph-timing "^1.4.17"
+
 parsegraph-toradians@^1.4.10:
   version "1.4.10"
   resolved "https://registry.yarnpkg.com/parsegraph-toradians/-/parsegraph-toradians-1.4.10.tgz#e79797c2af66f47c0760c7ab8d8ae18ca35a4a9f"
