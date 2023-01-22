@@ -133,7 +133,7 @@ class FramerateOverlay {
 export default class AlphaGLWidget implements Renderable {
   _backgroundColor: Color;
   camera: AlphaCamera;
-  _start: Date;
+  _start: number;
   paintingDirty: boolean;
   _input: AlphaInput;
   _done: boolean;
@@ -166,7 +166,7 @@ export default class AlphaGLWidget implements Renderable {
     this._backgroundColor = new Color(0, 47 / 255, 57 / 255);
 
     this.camera = new AlphaCamera();
-    this._start = new Date();
+    this._start = NaN;
     this._onUpdate = new Method();
 
     // Set the field of view.
@@ -365,9 +365,13 @@ export default class AlphaGLWidget implements Renderable {
     return rv;
   }
 
-  tick(elapsed: number) {
-    this._start = new Date();
-    elapsed /= 1000;
+  tick(time: number) {
+    if (isNaN(this._start)) {
+      this._start = time;
+      return false;
+    }
+    const elapsed = (time - this._start) / 1000;
+    this._start = time;
     this.time += elapsed;
     this._input.update(elapsed);
 
@@ -460,6 +464,7 @@ export default class AlphaGLWidget implements Renderable {
     //   Bplayer:inverse() *
     //   cam:inverse()
 
+    this.projector().glProvider().canvas().style.pointerEvents = "none";
     const gl = this.gl();
     gl.viewport(0, 0, width, height);
     gl.clearColor(this._backgroundColor[0], this._backgroundColor[1], this._backgroundColor[2], 1);

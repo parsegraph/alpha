@@ -113,6 +113,7 @@ export default class AlphaInput {
         case "mousemove":
           return this.onMousemove(eventData as MouseEvent);
         case "mousedown":
+          (eventData.target as HTMLElement).focus();
           return this.onMousedown(eventData as MouseEvent);
         case "mouseup":
           return this.onMouseup(eventData as MouseEvent);
@@ -140,6 +141,7 @@ export default class AlphaInput {
         cont.removeEventListener(eventType, handler);
       });
     };
+    cont.tabIndex = -1;
     DOM_EVENTS.forEach((eventType) => {
       cont.addEventListener(eventType, handler);
     });
