@@ -325,6 +325,9 @@ export default class AlphaInput {
       elapsed = elapsed / 10;
     }
 
+    console.log(this.mouseDown());
+    console.log(elapsed);
+
     // console.log("LeftMouseButton: " + this.get("LeftMouseButton"));
     // console.log("mouseLeft: " + this.mouseLeft() * elapsed);
     // console.log("mouseLeft: " +

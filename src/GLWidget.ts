@@ -1,5 +1,6 @@
 // TODO Blocks in foreground are rendered
 // improperly relative to the projection matrix.
+import { elapsed } from 'parsegraph-timing'
 
 import Color from "parsegraph-color";
 import Block from "./Block";
@@ -22,6 +23,122 @@ import { Renderable } from "parsegraph-timingbelt";
 import Method from "parsegraph-method";
 
 // TODO Mouse input appears to be... strangely interpreted.
+
+class TimeRange {
+  _startTime: number;
+  _finishTime: number;
+
+  constructor() {
+    this._startTime = Date.now();
+    this._finishTime = NaN;
+  }
+
+  finish() {
+    this._finishTime = Date.now();
+  }
+
+  duration() {
+    return this._finishTime - this._startTime;
+  }
+}
+
+class Frame {
+  _paint: TimeRange;
+  _render: TimeRange;
+
+  constructor() {
+    this._render = null;
+    this._paint = null;
+  }
+
+  startPaint() {
+    this._paint = new TimeRange();
+  }
+
+  finishPaint() {
+    this._paint?.finish();
+  }
+
+  startRender() {
+    this._render = new TimeRange();
+  }
+
+  finishRender() {
+    this._render?.finish();
+  }
+
+  renderDuration() {
+    return this._render?.duration();
+  }
+
+  paintDuration() {
+    return this._paint?.duration();
+  }
+}
+
+class FramerateOverlay {
+  _frames: Frame[];
+
+  constructor() {
+    this._frames = [];
+  }
+
+  private frame() {
+    return this._frames[this._frames.length - 1];
+  }
+
+  invalidated() {
+    this._frames.push(new Frame());
+  }
+
+  startPaint() {
+
+  }
+
+  finishPaint() {
+
+  }
+
+  startRender() {
+
+  }
+
+  finishRender() {
+
+  }
+
+  draw(proj: Projector) {
+    if (!this.frame()) {
+      return;
+    }
+    const width = proj.width();
+    const height = proj.height();
+    const duration = this.frame().renderDuration();
+    const ctx = proj.overlay();
+    ctx.clearRect(0, height - 50, width, 50);
+    ctx.font = "18px monospace";
+    ctx.fillStyle = "white";
+    ctx.strokeStyle = "black";
+
+    let line = `${duration}ms`;
+    ctx.textBaseline = "bottom";
+    ctx.textAlign = "right";
+    ctx.strokeText(line, width, height);
+    ctx.fillText(line, width, height);
+
+    ctx.textBaseline = "bottom";
+    ctx.textAlign = "left";
+    const d = Date.now();
+    ctx.strokeText(d.toString(), 0, height);
+    ctx.fillText(d.toString(), 0, height);
+
+    ctx.textBaseline = "top";
+    ctx.textAlign = "right";
+    line = `${width}x${height}`;
+    ctx.strokeText(line, width, 0);
+    ctx.fillText(line, width, 0);
+  }
+}
 
 // test version 1.0
 export default class AlphaGLWidget implements Renderable {
@@ -52,7 +169,10 @@ export default class AlphaGLWidget implements Renderable {
 
   _projector: Projector;
 
+  _framerateOverlay: FramerateOverlay;
+
   constructor(projector: Projector) {
+    this._framerateOverlay = new FramerateOverlay();
     this._projector = projector;
     this._backgroundColor = new Color(0, 47 / 255, 57 / 255);
 
@@ -215,6 +335,7 @@ export default class AlphaGLWidget implements Renderable {
     if (!this.paintingDirty) {
       return false;
     }
+    this._framerateOverlay.startPaint();
     console.log("Painting");
     const blockTypes = this.blockTypes;
     this.evPlatformCluster.calculateVertices(blockTypes);
@@ -225,6 +346,7 @@ export default class AlphaGLWidget implements Renderable {
     this.platformCluster.calculateVertices(blockTypes);
     this.sphereCluster.calculateVertices(blockTypes);
     this.paintingDirty = false;
+    this._framerateOverlay.finishPaint();
     return true;
   }
 
@@ -256,6 +378,7 @@ export default class AlphaGLWidget implements Renderable {
   }
 
   tick(elapsed: number) {
+    console.log("Tick", elapsed);
     this._start = new Date();
     elapsed /= 1000;
     this.time += elapsed;
@@ -337,6 +460,7 @@ export default class AlphaGLWidget implements Renderable {
    * Render painted memory buffers.
    */
   render() {
+    this._framerateOverlay.startRender();
     const width = this.projector().width();
     const height = this.projector().height();
     console.log("RENDER", width, height);
@@ -394,6 +518,10 @@ export default class AlphaGLWidget implements Renderable {
     this.sphereCluster.draw(
       this.spherePhysical.getViewMatrix().multiplied(projection)
     );
+
+    this._framerateOverlay.finishRender();
+    this._framerateOverlay.draw(this.projector());
+
     // Render endlessly
     return true;
   }
