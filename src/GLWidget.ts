@@ -487,7 +487,6 @@ export default class AlphaGLWidget implements Renderable {
     for (let i = 0; i < this.swarm.length; ++i) {
       const v = this.swarm[i];
       this.testCluster.draw(v.getViewMatrix().multiplied(projection));
-      // this.worldCluster.draw(v.getViewMatrix().multiplied(projection));
     }
 
     // console.log(projection.toString());
