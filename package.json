@@ -52,14 +52,12 @@
   "dependencies": {
     "parsegraph-color": "^1.4.11",
     "parsegraph-compileprogram": "^2.2.18",
-    "parsegraph-method": "^1.4.24",
     "parsegraph-normalizewheel": "^1.4.8",
     "parsegraph-pagingbuffer": "^2.1.5",
     "parsegraph-physical": "^2.0.12",
     "parsegraph-projector": "^1.14.6",
     "parsegraph-testsuite": "^1.6.3",
-    "parsegraph-timing": "^1.4.17",
-    "parsegraph-timingbelt": "^1.8.0"
+    "parsegraph-timingbelt": "^1.8.1"
   },
   "types": "dist/src/index.d.ts",
   "peerDependencies": {
