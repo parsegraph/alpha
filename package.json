@@ -51,15 +51,10 @@
   },
   "dependencies": {
     "parsegraph-compileprogram": "^2.2.18",
-    "parsegraph-fuzzyequals": "^1.4.11",
-    "parsegraph-matrix": "^1.4.14",
     "parsegraph-pagingbuffer": "^2.1.5",
     "parsegraph-physical": "^2.0.12",
-    "parsegraph-shader": "^1.5.8",
     "parsegraph-timing": "^1.4.17",
-    "parsegraph-timingbelt": "^1.7.15",
-    "parsegraph-toradians": "^1.4.10",
-    "parsegraph-window": "^1.8.32"
+    "parsegraph-timingbelt": "^1.7.15"
   },
   "types": "dist/src/index.d.ts",
   "peerDependencies": {
