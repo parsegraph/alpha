@@ -467,7 +467,12 @@ export default class AlphaGLWidget implements Renderable {
     this.projector().glProvider().canvas().style.pointerEvents = "none";
     const gl = this.gl();
     gl.viewport(0, 0, width, height);
-    gl.clearColor(this._backgroundColor[0], this._backgroundColor[1], this._backgroundColor[2], 1);
+    gl.clearColor(
+      this._backgroundColor[0],
+      this._backgroundColor[1],
+      this._backgroundColor[2],
+      1
+    );
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.enable(gl.DEPTH_TEST);
     gl.enable(gl.CULL_FACE);
