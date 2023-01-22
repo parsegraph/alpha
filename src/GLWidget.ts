@@ -93,7 +93,7 @@ class FramerateOverlay {
     ctx.fillStyle = "white";
     ctx.strokeStyle = "black";
 
-    this._frames.forEach((range, i)=>{
+    this._frames.forEach((range, i) => {
       ctx.fillStyle = range.value() === "paint" ? "green" : "blue";
       const dur = Math.min(proj.height() / 3, range.duration());
       ctx.fillRect(i, height - dur, 1, dur);

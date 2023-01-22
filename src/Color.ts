@@ -36,7 +36,7 @@ export default class Color {
     const r = Number.parseInt(hex.substring(start, start + 2), 16);
     const g = Number.parseInt(hex.substring(start + 2, start + 4), 16);
     const b = Number.parseInt(hex.substring(start + 4, start + 6), 16);
-    return new Color(r/255, g/255, b/255);
+    return new Color(r / 255, g / 255, b / 255);
   }
 
   set(r: number, g: number, b: number) {
