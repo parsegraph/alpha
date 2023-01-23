@@ -1,26 +1,32 @@
 import TimingBelt from "parsegraph-timingbelt";
 import { Projector, BasicProjector } from "parsegraph-projector";
 import AlphaGLWidget from "./GLWidget";
-import SphereModel from './SphereModel';
-import SwarmModel from './SwarmModel';
+import SphereModel from "./SphereModel";
+import SwarmModel from "./SwarmModel";
 import {
   Physical,
   BasicPhysical,
   alphaRandom,
   AlphaQuaternion,
-  AlphaVector
+  AlphaVector,
 } from "parsegraph-physical";
-import {BasicModel, SharedModel} from './Model';
-import BlockTypes from './BlockTypes';
-import { standardBlockTypes } from './standardBlockTypes';
-import CubeMan from './CubeMan';
-import Cluster from './Cluster';
+import { BasicModel, SharedModel } from "./Model";
+import BlockTypes from "./BlockTypes";
+import { standardBlockTypes } from "./standardBlockTypes";
+import CubeMan from "./CubeMan";
+import Cluster from "./Cluster";
 import CubeManModel from "./CubeManModel";
-import WorldModel from './WorldModel';
-import PlatformModel from './PlatformModel';
-import PlayerModel from './PlayerModel';
+import WorldModel from "./WorldModel";
+import PlatformModel from "./PlatformModel";
+import PlayerModel from "./PlayerModel";
 
-const createSwarm = (widget: AlphaGLWidget, cluster: Cluster, spot: AlphaVector, parent?: Physical, numSwarm: number = 10)=>{
+const createSwarm = (
+  widget: AlphaGLWidget,
+  cluster: Cluster,
+  spot: AlphaVector,
+  parent?: Physical,
+  numSwarm: number = 10
+) => {
   let time = 0;
 
   for (let i = 0; i < numSwarm; ++i) {
@@ -69,17 +75,31 @@ const makeDemoWidget = (proj: Projector) => {
 
   const world = new WorldModel(glProvider, blockTypes, cam, 50);
   widget.addToScene(world);
-  const sphere = new SphereModel(proj.glProvider(), widget.blockTypes, widget.camera);
+  const sphere = new SphereModel(
+    proj.glProvider(),
+    widget.blockTypes,
+    widget.camera
+  );
   sphere.physical().setPosition(145, 0, 0);
   widget.addToScene(sphere);
 
-  const cubeMan = new CubeManModel(proj.glProvider(), widget.blockTypes, widget.camera);
+  const cubeMan = new CubeManModel(
+    proj.glProvider(),
+    widget.blockTypes,
+    widget.camera
+  );
   const playerB = new SharedModel(cubeMan.cluster(), cam);
   playerB.physical().setPosition(0, 0, -3);
   cam.setParent(playerB.physical());
   widget.addToScene(playerB);
 
-  createSwarm(widget, cubeMan.cluster(), new AlphaVector(0, 15, 35), widget.camera, 10);
+  createSwarm(
+    widget,
+    cubeMan.cluster(),
+    new AlphaVector(0, 15, 35),
+    widget.camera,
+    10
+  );
   const swarm = new SwarmModel(proj.glProvider(), widget.camera);
   widget.addToScene(swarm);
 
@@ -89,22 +109,30 @@ const makeDemoWidget = (proj: Projector) => {
   offsetPlatformPhysical.yawLeft(0);
   offsetPlatformPhysical.rollRight(0);
 
-  widget.addTick((elapsedMs: number)=>{
+  widget.addTick((elapsedMs: number) => {
     offsetPlatformPhysical.moveLeft(elapsedMs);
     offsetPlatformPhysical.yawLeft((0.1 * Math.PI) / 180);
     return false;
   });
 
-  const playerA = new PlayerModel(glProvider, blockTypes, offsetPlatformPhysical);
+  const playerA = new PlayerModel(
+    glProvider,
+    blockTypes,
+    offsetPlatformPhysical
+  );
   playerA.physical().setPosition(2, 1, 0);
-  playerA.physical().turnLeft(Math.PI/2);
+  playerA.physical().turnLeft(Math.PI / 2);
   widget.addToScene(playerA);
 
-  const platform = new PlatformModel(glProvider, blockTypes, offsetPlatformPhysical);
+  const platform = new PlatformModel(
+    glProvider,
+    blockTypes,
+    offsetPlatformPhysical
+  );
   widget.addToScene(platform);
 
   return widget;
-}
+};
 
 document.addEventListener("DOMContentLoaded", () => {
   const root = document.getElementById("demo");
@@ -115,7 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const belt = new TimingBelt();
   belt.setAutorender(true);
   const widget = makeDemoWidget(proj);
-  widget.setOnScheduleUpdate(()=>{
+  widget.setOnScheduleUpdate(() => {
     belt.scheduleUpdate();
   });
   belt.addRenderable(widget);

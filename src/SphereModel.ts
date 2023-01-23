@@ -1,14 +1,15 @@
 import BlockTypes from "./BlockTypes";
-import {GLProvider} from 'parsegraph-compileprogram';
-import {
-  Physical,
-  quaternionFromAxisAndAngle,
-} from "parsegraph-physical";
+import { GLProvider } from "parsegraph-compileprogram";
+import { Physical, quaternionFromAxisAndAngle } from "parsegraph-physical";
 import Block from "./Block";
-import {BasicModel} from './Model';
+import { BasicModel } from "./Model";
 
 export default class SphereModel extends BasicModel {
-  constructor(glProvider: GLProvider, blockTypes: BlockTypes, parent?: Physical) {
+  constructor(
+    glProvider: GLProvider,
+    blockTypes: BlockTypes,
+    parent?: Physical
+  ) {
     super(glProvider, parent);
 
     const stone = blockTypes.find("stone", "cube");
@@ -39,4 +40,3 @@ export default class SphereModel extends BasicModel {
     return false;
   }
 }
-

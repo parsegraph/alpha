@@ -1,15 +1,20 @@
 import BlockTypes from "./BlockTypes";
-import {GLProvider} from 'parsegraph-compileprogram';
+import { GLProvider } from "parsegraph-compileprogram";
 import {
   Physical,
   alphaRandom,
   quaternionFromAxisAndAngle,
 } from "parsegraph-physical";
 import Block from "./Block";
-import {BasicModel} from './Model';
+import { BasicModel } from "./Model";
 
 export default class WorldModel extends BasicModel {
-  constructor(glProvider: GLProvider, blockTypes: BlockTypes, parent?: Physical, worldSize: number = 30) {
+  constructor(
+    glProvider: GLProvider,
+    blockTypes: BlockTypes,
+    parent?: Physical,
+    worldSize: number = 30
+  ) {
     super(glProvider, parent);
 
     const MAX_TYPE = 23;

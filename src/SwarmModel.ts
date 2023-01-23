@@ -1,12 +1,12 @@
-import {GLProvider} from 'parsegraph-compileprogram';
+import { GLProvider } from "parsegraph-compileprogram";
 import {
   Physical,
   BasicPhysical,
   alphaRandom,
   AlphaQuaternion,
-  AlphaVector
+  AlphaVector,
 } from "parsegraph-physical";
-import {BasicModel} from './Model';
+import { BasicModel } from "./Model";
 
 export default class SwarmModel extends BasicModel {
   swarm: BasicPhysical[];
@@ -38,7 +38,7 @@ export default class SwarmModel extends BasicModel {
 
   tick(elapsedMs: number) {
     this.time += elapsedMs;
-    this.swarm.forEach(v=>{
+    this.swarm.forEach((v) => {
       if (this.time < 6) {
         v.moveForward(elapsedMs);
         v.yawRight((2 * Math.PI) / 180);
@@ -51,4 +51,3 @@ export default class SwarmModel extends BasicModel {
     return false;
   }
 }
-

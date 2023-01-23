@@ -1,9 +1,6 @@
-import Cluster from './Cluster';
-import {
-  Physical,
-  BasicPhysical,
-} from "parsegraph-physical";
-import {GLProvider} from 'parsegraph-compileprogram';
+import Cluster from "./Cluster";
+import { Physical, BasicPhysical } from "parsegraph-physical";
+import { GLProvider } from "parsegraph-compileprogram";
 
 export class SharedModel implements Model {
   _cluster: Cluster;

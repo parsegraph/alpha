@@ -111,4 +111,3 @@ export default class FramerateOverlay {
     ctx.fillText(line, width, 0);
   }
 }
-

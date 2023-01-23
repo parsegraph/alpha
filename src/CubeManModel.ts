@@ -1,18 +1,22 @@
 import BlockTypes from "./BlockTypes";
-import {GLProvider} from 'parsegraph-compileprogram';
+import { GLProvider } from "parsegraph-compileprogram";
 import {
   Physical,
   BasicPhysical,
   alphaRandom,
   AlphaQuaternion,
-  AlphaVector
+  AlphaVector,
 } from "parsegraph-physical";
-import {BasicModel, SharedModel} from './Model';
-import Block from './Block';
-import Cluster from './Cluster';
+import { BasicModel, SharedModel } from "./Model";
+import Block from "./Block";
+import Cluster from "./Cluster";
 
 export default class CubeManModel extends BasicModel {
-  constructor(glProvider: GLProvider, blockTypes: BlockTypes, parent?: Physical) {
+  constructor(
+    glProvider: GLProvider,
+    blockTypes: BlockTypes,
+    parent?: Physical
+  ) {
     super(glProvider, parent);
 
     const cubeman = blockTypes.find("blank", "cubeman");

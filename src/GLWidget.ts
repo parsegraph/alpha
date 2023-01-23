@@ -4,20 +4,18 @@
 import Color from "parsegraph-color";
 import { Projector } from "parsegraph-projector";
 import BlockTypes from "./BlockTypes";
-import {
-  AlphaCamera,
-} from "parsegraph-physical";
+import { AlphaCamera } from "parsegraph-physical";
 import AlphaInput from "./Input";
 
 import { Renderable } from "parsegraph-timingbelt";
 import Method from "parsegraph-method";
 
-import FramerateOverlay from './FramerateOverlay';
-import Model from './Model';
+import FramerateOverlay from "./FramerateOverlay";
+import Model from "./Model";
 
 // TODO Mouse input appears to be... strangely interpreted.
 
-export type TickFunc = (elapsedMs: number)=>boolean;
+export type TickFunc = (elapsedMs: number) => boolean;
 
 // test version 1.0
 export default class AlphaGLWidget implements Renderable {
@@ -91,7 +89,7 @@ export default class AlphaGLWidget implements Renderable {
     }
     this._framerateOverlay.startPaint();
     const blockTypes = this.blockTypes;
-    this._models.forEach(model=>{
+    this._models.forEach((model) => {
       model.cluster().calculateVertices(blockTypes);
     });
     this.paintingDirty = false;
@@ -108,11 +106,11 @@ export default class AlphaGLWidget implements Renderable {
     this._tickStart = time;
     this._input.update(elapsed);
 
-    let needsUpdate = this._updates.reduce((needsUpdate, func)=>{
+    let needsUpdate = this._updates.reduce((needsUpdate, func) => {
       return func(elapsed) || needsUpdate;
     }, false);
 
-    needsUpdate = this._models.reduce((needsUpdate, model)=>{
+    needsUpdate = this._models.reduce((needsUpdate, model) => {
       return model.tick(elapsed) || needsUpdate;
     }, needsUpdate);
 
@@ -208,10 +206,10 @@ export default class AlphaGLWidget implements Renderable {
 
     // console.log(projection.toString());
 
-    this._models.forEach(model=>{
-      model.cluster().draw(
-        model.physical().getViewMatrix(null).multiplied(projection)
-      )
+    this._models.forEach((model) => {
+      model
+        .cluster()
+        .draw(model.physical().getViewMatrix(null).multiplied(projection));
     });
 
     this._framerateOverlay.finishRender();

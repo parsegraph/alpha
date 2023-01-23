@@ -1,13 +1,15 @@
 import BlockTypes from "./BlockTypes";
-import {GLProvider} from 'parsegraph-compileprogram';
-import {
-  Physical,
-} from "parsegraph-physical";
+import { GLProvider } from "parsegraph-compileprogram";
+import { Physical } from "parsegraph-physical";
 import Block from "./Block";
-import {BasicModel} from './Model';
+import { BasicModel } from "./Model";
 
 export default class PlatformModel extends BasicModel {
-  constructor(glProvider: GLProvider, blockTypes: BlockTypes, parent?: Physical) {
+  constructor(
+    glProvider: GLProvider,
+    blockTypes: BlockTypes,
+    parent?: Physical
+  ) {
     super(glProvider, parent);
     const grass = blockTypes.find("grass", "cube");
     const dirt = blockTypes.find("dirt", "cube");
@@ -23,6 +25,5 @@ export default class PlatformModel extends BasicModel {
         this.cluster().addBlock(new Block(dirt, j, 1, i, 0));
       }
     }
-
   }
 }
