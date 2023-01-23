@@ -29,10 +29,14 @@ export default class FramerateOverlay {
   _currentPaint: TimeRange;
   _currentRender: TimeRange;
 
+  _startTime: number;
+
   constructor() {
     this._frames = [];
     this._currentRender = null;
     this._currentPaint = null;
+
+    this._startTime = NaN;
   }
 
   invalidated() {}
@@ -92,7 +96,10 @@ export default class FramerateOverlay {
     ctx.fillStyle = "gray";
     ctx.textBaseline = "bottom";
     ctx.textAlign = "left";
-    const d = Date.now();
+    if (isNaN(this._startTime)) {
+      this._startTime = Date.now();
+    }
+    const d = Date.now() - this._startTime;
     ctx.strokeText(d.toString(), 0, height);
     ctx.fillText(d.toString(), 0, height);
 
