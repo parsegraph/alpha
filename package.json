@@ -51,7 +51,7 @@
   },
   "dependencies": {
     "parsegraph-color": "^1.4.12",
-    "parsegraph-compileprogram": "^2.2.20",
+    "parsegraph-compileprogram": "^2.2.21",
     "parsegraph-method": "^1.4.25",
     "parsegraph-normalizewheel": "^1.4.9",
     "parsegraph-pagingbuffer": "^2.1.7",

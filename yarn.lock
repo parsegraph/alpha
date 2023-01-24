@@ -3921,15 +3921,15 @@ parsegraph-color@^1.4.12:
   resolved "https://registry.yarnpkg.com/parsegraph-color/-/parsegraph-color-1.4.12.tgz#f3a61f564dd4a38f083a761c94faf8d6dabf3e84"
   integrity sha512-IsKYmptSMjHejvHdD4/m85rG5oSRYJ2QwA49gbROwdbcuvK7Bdzu5qt4pUg0ed2ks+T1Lqg/0+HQjKgwTkVGQA==
 
-parsegraph-compileprogram@^2.2.20:
-  version "2.2.20"
-  resolved "https://registry.yarnpkg.com/parsegraph-compileprogram/-/parsegraph-compileprogram-2.2.20.tgz#ed824695c6df936c956c2164d4f60448df1f2e46"
-  integrity sha512-AWwpgnYkVpw37ppaNRqMxenoRz2G2tqKUgEr81HcKUjD3+P2EclN7BaNLAMsjbhfx64iBWpikVIH2MtRrY0AEg==
+parsegraph-compileprogram@^2.2.20, parsegraph-compileprogram@^2.2.21:
+  version "2.2.21"
+  resolved "https://registry.yarnpkg.com/parsegraph-compileprogram/-/parsegraph-compileprogram-2.2.21.tgz#9589baa6c6a9b3ba080ba6e1bf10f92dda92239c"
+  integrity sha512-mWdPcTNnF9Q4qid30xiB9t1ExzknR6S107JH3VtLbDCDP8c6ucSx60BHbqwjBQrYaumv+pOgyuF47S52gh0kdw==
   dependencies:
     parsegraph-color "^1.4.12"
     parsegraph-method "^1.4.25"
     parsegraph-rect "^1.5.4"
-    parsegraph-shader "^1.5.8"
+    parsegraph-shader "^1.5.10"
 
 parsegraph-fuzzyequals@^1.4.12:
   version "1.4.12"
@@ -3992,10 +3992,10 @@ parsegraph-rect@^1.5.4:
   resolved "https://registry.yarnpkg.com/parsegraph-rect/-/parsegraph-rect-1.5.4.tgz#2d6e75785133227cf7df5c8d4798dfd4e0bc91be"
   integrity sha512-zDQLb7w5iEUIZuBhfYzt7Zr61vtzGSdA3QSaT9wbnDhTJv1TkIsdPVYmLbyrIZywtPeB0yezT4FT8iP4xtojSg==
 
-parsegraph-shader@^1.5.8:
-  version "1.5.8"
-  resolved "https://registry.yarnpkg.com/parsegraph-shader/-/parsegraph-shader-1.5.8.tgz#6413de310e32392f904cc350c12dfe35707d0643"
-  integrity sha512-2SuWPjYuLyiJuUQUpVY2rCOaHUZ2yFs6TuMpNKvrc4zROg6xrRyyPQP2mNScbAWk8NA4vssg7j2MLvQsNFvK3w==
+parsegraph-shader@^1.5.10:
+  version "1.5.10"
+  resolved "https://registry.yarnpkg.com/parsegraph-shader/-/parsegraph-shader-1.5.10.tgz#326893459ac96490fc5d3bcd6806674b3175105c"
+  integrity sha512-b5kq/G0FZ7Osi1UAqTakjNW/KwEDeDpU9hSGwvifFk4wCIxPAJqdy/sEPbOLp2RVhPGBvD/NeBAgwWn50OIf7A==
 
 parsegraph-testsuite@^1.6.4:
   version "1.6.4"
