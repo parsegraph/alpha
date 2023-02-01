@@ -4030,15 +4030,7 @@ parsegraph-timing@^1.4.20:
     parsegraph-gettimeinmillis "^1.4.9"
     parsegraph-method "^1.4.25"
 
-parsegraph-timingbelt@^1.8.3:
-  version "1.8.3"
-  resolved "https://registry.yarnpkg.com/parsegraph-timingbelt/-/parsegraph-timingbelt-1.8.3.tgz#2c966b4e42f4d4545c574605a828ea94a2c1eda8"
-  integrity sha512-rWetuLTeBTS6zFZYWGPIUueKfCDhCu56ZFPEHC7vd7vrxcz0zMUUHJNoIQ4PYtHc9FoGvSmCPoOPxrzXXgNpaw==
-  dependencies:
-    parsegraph-method "^1.4.25"
-    parsegraph-timing "^1.4.19"
-
-parsegraph-timingbelt@^1.8.4:
+parsegraph-timingbelt@^1.8.3, parsegraph-timingbelt@^1.8.4:
   version "1.8.4"
   resolved "https://registry.yarnpkg.com/parsegraph-timingbelt/-/parsegraph-timingbelt-1.8.4.tgz#fe9e00a982a38c9ab7cebeb247099095dbe2bc62"
   integrity sha512-jz37TEPZ1gbnD/83tEdBnMUEFff2psvbbC4KDs/2KNRiy7JeKFaE4jD2suzTX9IYpqwXnGFGux1RJxzv/5r1Jg==
