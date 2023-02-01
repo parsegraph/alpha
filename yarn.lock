@@ -4009,7 +4009,7 @@ parsegraph-shader@^1.5.10:
   resolved "https://registry.yarnpkg.com/parsegraph-shader/-/parsegraph-shader-1.5.10.tgz#326893459ac96490fc5d3bcd6806674b3175105c"
   integrity sha512-b5kq/G0FZ7Osi1UAqTakjNW/KwEDeDpU9hSGwvifFk4wCIxPAJqdy/sEPbOLp2RVhPGBvD/NeBAgwWn50OIf7A==
 
-parsegraph-testsuite@^1.6.4:
+parsegraph-testsuite@^1.6.4, parsegraph-testsuite@^1.6.5:
   version "1.6.5"
   resolved "https://registry.yarnpkg.com/parsegraph-testsuite/-/parsegraph-testsuite-1.6.5.tgz#92c2e4b8b11f7e16b599e2eeff8beafb99ac4a94"
   integrity sha512-r4yyE6CBKVHmO2aQ4ulS1eHEx3ySUQ5lrubysuEkoiSj79u7kKNK5l7I2WCFxghrdfrMc/5rzlK0ZPkURVCWwA==
