@@ -189,9 +189,9 @@ export default class AlphaGLWidget implements Renderable {
     const gl = this.gl();
     gl.viewport(0, 0, width, height);
     gl.clearColor(
-      this._backgroundColor[0],
-      this._backgroundColor[1],
-      this._backgroundColor[2],
+      this._backgroundColor.r(),
+      this._backgroundColor.g(),
+      this._backgroundColor.b(),
       1
     );
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
