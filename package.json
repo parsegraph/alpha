@@ -57,7 +57,6 @@
     "parsegraph-pagingbuffer": "^2.1.7",
     "parsegraph-physical": "^2.0.16",
     "parsegraph-projector": "^1.14.10",
-    "parsegraph-testsuite": "^1.6.4",
     "parsegraph-timing": "^1.4.19",
     "parsegraph-timingbelt": "^1.8.3"
   },
