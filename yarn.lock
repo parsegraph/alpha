@@ -3913,10 +3913,10 @@ parse5@^7.0.0, parse5@^7.1.1:
   dependencies:
     entities "^4.4.0"
 
-parsegraph-checkglerror@^1.5.7:
-  version "1.5.7"
-  resolved "https://registry.yarnpkg.com/parsegraph-checkglerror/-/parsegraph-checkglerror-1.5.7.tgz#5c8f0d035b683130148eb3c41127700fca440e67"
-  integrity sha512-Tzf4i2fQU2fh/fBj/I+NOs+5S9UM876zFruGyTyWzFjIDJVBMPo3MbwjohTD7vj4FhjmxmFMorJaru2aSJinSQ==
+parsegraph-checkglerror@^1.5.8:
+  version "1.5.8"
+  resolved "https://registry.yarnpkg.com/parsegraph-checkglerror/-/parsegraph-checkglerror-1.5.8.tgz#2aedbd57d8b84b127a07781036263dfeb954ca36"
+  integrity sha512-UMQXzOLqz5zvqhiPtc7VTm82ly83+s0PO2r3CDnGDbou4PnItyL3px/YdOqRfR9VRkXDfJhHQvKux+c74YEn8A==
 
 parsegraph-color@^1.4.12:
   version "1.4.12"
@@ -3943,10 +3943,10 @@ parsegraph-gettimeinmillis@^1.4.9:
   resolved "https://registry.yarnpkg.com/parsegraph-gettimeinmillis/-/parsegraph-gettimeinmillis-1.4.9.tgz#2b921d515b1cf767d8a84447e8c7d0376b344d86"
   integrity sha512-az+nImOhRkRJDUyn/QgA5Pgb7aSIeXlHL3i+hBPFxCD9cVRFy99MxKrcqxaRCQqcg2vFtP1GhacbkWx598vwtw==
 
-parsegraph-log@^1.9.2:
-  version "1.9.2"
-  resolved "https://registry.yarnpkg.com/parsegraph-log/-/parsegraph-log-1.9.2.tgz#e024e1da4494ab107bb06bbfd61b5437a70f993f"
-  integrity sha512-QC7jhR6hxg6crjUb+l0djT+msE7ZB0uoKNIyv/tpUf/fuCuNctQUSEIZWBLPHTIeQxMue0f7YqSssjhnGDm0Bw==
+parsegraph-log@^1.9.3:
+  version "1.9.3"
+  resolved "https://registry.yarnpkg.com/parsegraph-log/-/parsegraph-log-1.9.3.tgz#11614e0f24b1070663e54e604250608fb6a13820"
+  integrity sha512-JXMnUKMMt25axAAxkhlKakLGdtFMd/m1JZ1jmXy3w1osz7CAM6Pa4qKsbBjNmDVOTFgICY2xWCdBqf1b68eqOg==
 
 parsegraph-matrix@^1.4.15:
   version "1.4.15"
@@ -4003,6 +4003,11 @@ parsegraph-testsuite@^1.6.4:
   version "1.6.4"
   resolved "https://registry.yarnpkg.com/parsegraph-testsuite/-/parsegraph-testsuite-1.6.4.tgz#e54c6d6c712da96ec52f84fdf5d57562fc067af7"
   integrity sha512-oqQY2LeAvgN3UOFQUHwR8H1TUNXRUeL0AlFZAugrPL0XY21MAK2Z9UmnQMElGJ8X+/9Hcsu/G92A7vkbxxglag==
+
+parsegraph-testsuite@^1.6.5:
+  version "1.6.5"
+  resolved "https://registry.yarnpkg.com/parsegraph-testsuite/-/parsegraph-testsuite-1.6.5.tgz#92c2e4b8b11f7e16b599e2eeff8beafb99ac4a94"
+  integrity sha512-r4yyE6CBKVHmO2aQ4ulS1eHEx3ySUQ5lrubysuEkoiSj79u7kKNK5l7I2WCFxghrdfrMc/5rzlK0ZPkURVCWwA==
 
 parsegraph-timing@^1.4.19:
   version "1.4.19"
