@@ -1,6 +1,6 @@
 {
   "name": "parsegraph-alpha",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "description": "TODO-DESCRIPTION",
   "main": "dist/src/index.js",
   "repository": {
