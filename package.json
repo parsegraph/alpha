@@ -50,16 +50,16 @@
     "webpack-cli": "^5.0.1"
   },
   "dependencies": {
-    "parsegraph-color": "^1.4.12",
-    "parsegraph-compileprogram": "^2.2.21",
-    "parsegraph-method": "^1.4.25",
-    "parsegraph-normalizewheel": "^1.4.9",
-    "parsegraph-pagingbuffer": "^2.1.7",
-    "parsegraph-physical": "^2.0.16",
-    "parsegraph-projector": "^1.14.10",
+    "parsegraph-color": "^1.4.13",
+    "parsegraph-compileprogram": "^2.2.22",
+    "parsegraph-method": "^1.4.26",
+    "parsegraph-normalizewheel": "^1.4.10",
+    "parsegraph-pagingbuffer": "^2.1.8",
+    "parsegraph-physical": "^2.0.17",
+    "parsegraph-projector": "^1.14.11",
     "parsegraph-testsuite": "^1.6.5",
-    "parsegraph-timing": "^1.4.19",
-    "parsegraph-timingbelt": "^1.8.3"
+    "parsegraph-timing": "^1.4.20",
+    "parsegraph-timingbelt": "^1.8.4"
   },
   "types": "dist/src/index.d.ts",
   "peerDependencies": {
